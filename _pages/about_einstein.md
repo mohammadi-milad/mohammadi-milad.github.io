@@ -1,5 +1,11 @@
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *University of Tehran* and an **AI Software Engineer** specializing in **Language Agents, Large Language Models (LLMs), and Digital Mental Health applications**.
+My research sits at the intersection of **AI Agents and cognitive psychology**, focusing on:
 
-Put your address / P.O. box / other info right below your picture. You can also disable any these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+* Building clinically responsible multi-agent systems for mental health assessment and diagnosis.
+* Applying psychological and cognitive theories to improve AI agent behavior, safety, and interpretability.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I have contributed to both **academic research** (e.g., benchmarking LLMs, multi-agent system design, cognitive modeling) and **industry-scale AI products**, including **customer service chatbots, intelligent retrieval systems, and automated knowledge ingestion pipelines**.
+
+Outside research and engineering, I have served as a **teaching assistant** for multiple graduate-level AI/NLP courses, organized large-scale workshops, and volunteered in academic and community initiatives such as **TEDx** and the **ACM Student Chapter**.
+
+If you are interested in collaboration or discussion, feel free to [contact me via email](mailto:mohammadi.milad.mim@gmail.com).

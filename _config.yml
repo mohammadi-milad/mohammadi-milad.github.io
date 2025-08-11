@@ -7,7 +7,7 @@ first_name: Milad
 middle_name:
 last_name: Mohammadi
 contact_note: >
-  Best way to reach me: email. Open to research/industry collaborations.
+  Best way to reach me: email. Open to research collaborations.
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   Language Agents Researcher & AI Software Engineer
 footer_text: >
@@ -249,9 +249,10 @@ jekyll-archives:
   books:
     enabled: [year, tags, categories] # enables year, tag and category archives (remove if you need to disable one of them).
 
-display_tags: ["formatting", "images", "links", "math", "code", "blockquotes"] # these tags will be displayed on the front page of your blog
-display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
-
+#display_tags: ["formatting", "images", "links", "math", "code", "blockquotes"] # these tags will be displayed on the front page of your blog
+display_tags: [] # these tags will be displayed on the front page of your blog
+#display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
+display_categories: []
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
 # -----------------------------------------------------------------------------
@@ -624,14 +625,15 @@ jekyll_get_json:
 
 jsonresume:
   - basics
-  - work
   - education
   - publications
+  - interests
+  - teaching
+  - work
   - projects
-  - volunteer
+  - skills
   - awards
   - certificates
-  - skills
   - languages
-  - interests
+  - volunteer
   - references

@@ -79,11 +79,11 @@
       "startDate": "2023-03-01",
       "endDate": "2023-09-01",
       "summary": "Product discovery and requirements for an LMS on thinking skills.",
-      "highlights": [
-        "Translated pedagogy into user stories, specs, and an MVP roadmap."
-      ]
-    },
+      "highlights": ["Translated pedagogy into user stories, specs, and an MVP roadmap."]
+    }
+  ],
 
+  "teaching": [
     {
       "name": "ECE, University of Tehran",
       "position": "Graduate Teaching Assistant — Large Language Models",

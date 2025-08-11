@@ -2,33 +2,39 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: M.Sc. Candidate in IT Engineering · Researcher in Language Agents & Digital Mental Health · AI Software Engineer · 
 
 profile:
   align: right
-  image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image: prof_pic_color.jpg
+  image_circular: false
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Department of Electrical and Computer Engineering</p>
+    <p>University of Tehran</p>
+    <p>Tehran, Iran</p>
+    <p><a href="mailto:mohammadi.milad.mim@gmail.com">mohammadi.milad.mim@gmail.com</a></p>
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+selected_papers: false
+social: true
 
 announcements:
-  enabled: true # includes a list of news items
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: 5 # leave blank to include all the news in the `_news` folder
+  enabled: false
+  scrollable: false
+  limit:
 
 latest_posts:
-  enabled: true
-  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+  enabled: false
+  scrollable: false
+  limit:
 ---
+I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *University of Tehran* and an **AI Software Engineer** specializing in **Language Agents, Large Language Models (LLMs), and Digital Mental Health applications**.
+My research sits at the intersection of **AI engineering and cognitive science**, focusing on:
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+* Building clinically responsible multi-agent systems for mental health assessment and diagnosis.
+* Applying psychological and cognitive theories to improve AI agent behavior, safety, and interpretability.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I have contributed to both **academic research** (e.g., benchmarking LLMs, multi-agent system design, cognitive modeling) and **industry-scale AI products**, including **banking chatbots, intelligent retrieval systems, and automated knowledge ingestion pipelines**.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Outside research and engineering, I have served as a **teaching assistant** for multiple graduate-level AI/NLP courses, organized large-scale workshops, and volunteered in academic and community initiatives such as **TEDx** and the **ACM Student Chapter**.
+
+If you are interested in collaboration or discussion, feel free to [contact me via email](mailto:mohammadi.milad.mim@gmail.com).

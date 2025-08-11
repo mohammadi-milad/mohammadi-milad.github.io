@@ -1,200 +1,339 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Milad Mohammadi",
+    "label": "AI Software Engineer & Researcher",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "mohammadi.milad.mim@gmail.com",
+    "phone": "",
+    "url": "https://mohammadi-milad.github.io",
+    "summary": "My work sits at the intersection of language agents and psychology: (1) building clinically responsible mental-health assistants and multi-agent systems with a focus on modeling human psychological traits, and (2) applying psychological and cognitive theory to analyze and improve agent behavior, safety, and human–AI interaction.",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "address": "",
+      "postalCode": "",
+      "city": "Tehran",
+      "countryCode": "IR",
+      "region": "Tehran"
     },
     "profiles": [
       {
-        "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "network": "Google Scholar",
+        "username": "RltQFhwAAAAJ",
+        "url": "https://scholar.google.com/citations?user=RltQFhwAAAAJ"
+      },
+      {
+        "network": "GitHub",
+        "username": "mohammadi-milad-mim",
+        "url": "https://github.com/mohammadi-milad-mim"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "mohammadi-milad-mim",
+        "url": "https://www.linkedin.com/in/mohammadi-milad-mim"
       }
     ]
   },
+
   "work": [
     {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity"]
-    }
-  ],
-  "volunteer": [
+      "name": "Adan AI",
+      "position": "AI Software Engineer (Part-time)",
+      "url": "",
+      "startDate": "2024-08-01",
+      "endDate": "2025-08-01",
+      "summary": "Agentic customer-service systems, RAG & tooling, and production observability.",
+      "highlights": [
+        "Architected a ReAct/Reflexion workflow with >15 tool steps for a national bank chatbot; defined production evaluation metrics.",
+        "Built a Persian PDF→chunking pipeline (table/chart-aware parsing, entity extraction), cutting processing cost ~50% and improving RAG accuracy ~8%.",
+        "Shipped an automatic FAQ-bot generator; onboarding time reduced from days to <1 hour.",
+        "Engineered reusable agent-infrastructure modules (session tokens, conversation summarization, entity/metadata enrichment) adopted across LangGraph projects.",
+        "Proposed and deployed LangFuse for observability (tracing, latency/error monitoring, evaluation dashboards)."
+      ]
+    },
     {
-      "organization": "People's Climate March",
-      "location": "Zurich, Switzerland",
-      "position": "Lead Organizer",
-      "url": "https://example.com",
-      "startDate": "2014-04-01",
-      "endDate": "2015-07-01",
-      "summary": "Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.",
-      "highlights": ["Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march.", "Men of the year 2014 by Time magazine"]
+      "name": "NLP Lab, University of Tehran",
+      "position": "Graduate Researcher (M.Sc.)",
+      "url": "",
+      "startDate": "2024-01-01",
+      "endDate": "",
+      "summary": "Language-agent research and lab collaboration under Prof. Hesham Faili.",
+      "highlights": [
+        "Contributed to weekly research meetings (discussion, paper critique, project planning) and collaborative development.",
+        "Led projects on agent architecture, tool integration, and planning; mentored incoming M.Sc. students on agentic-LLM topics."
+      ]
+    },
+    {
+      "name": "Computational Cognitive Psychology Lab, University of Tehran",
+      "position": "Graduate Researcher (M.Sc.)",
+      "url": "",
+      "startDate": "2024-01-01",
+      "endDate": "",
+      "summary": "LLMs for psychological applications with Prof. Hadi Moradi.",
+      "highlights": [
+        "Initiated a lab track on agentic modeling of mental states, complementing prior EEG and classical ML lines."
+      ]
+    },
+    {
+      "name": "Tizfekri",
+      "position": "Product Manager (Part-time)",
+      "url": "",
+      "startDate": "2023-03-01",
+      "endDate": "2023-09-01",
+      "summary": "Product discovery and requirements for an LMS on thinking skills.",
+      "highlights": [
+        "Translated pedagogy into user stories, specs, and an MVP roadmap."
+      ]
+    },
+
+    {
+      "name": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant — Large Language Models",
+      "url": "",
+      "startDate": "2025-02-01",
+      "endDate": "2025-07-31",
+      "summary": "Course project design and workshop delivery.",
+      "highlights": [
+        "Designed multi-stage assignment on language agents (prompt router → ReAct Text-to-SQL on BIRD); authored rubric; graded midterm/final.",
+        "Led a hands-on LangGraph workshop. GitHub/YouTube linked in course materials."
+      ]
+    },
+    {
+      "name": "University of Tehran",
+      "position": "Workshop Instructor — Artificial Intelligence & Digital Transformation",
+      "url": "",
+      "startDate": "2025-02-01",
+      "endDate": "2025-07-31",
+      "summary": "Two large-venue lectures (500+ students) on prompting, language-agent concepts, and n8n workflow agents for non-engineering cohorts.",
+      "highlights": []
+    },
+    {
+      "name": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant — Natural Language Processing",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-31",
+      "summary": "Final project and workshop authoring.",
+      "highlights": [
+        "Authored final project 'ChatFood' (agentic food-ordering bot with RAG + tools + Reflexion).",
+        "Ran a 4-hour workshop on LangGraph, LanceDB, and Chainlit."
+      ]
+    },
+    {
+      "name": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant — Intelligent Information Retrieval",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-31",
+      "summary": "Assignments and workshops on sparse/dense retrieval and RAG.",
+      "highlights": [
+        "Designed NanoSparseRetriever (from-scratch TF-IDF/BM25 assignment); taught OpenAI + RAG pipelines with LanceDB."
+      ]
+    },
+    {
+      "name": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant — Deep Learning & Neural Networks",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-31",
+      "summary": "LLM fine-tuning education.",
+      "highlights": [
+        "Designed Gemma-2 Persian chat fine-tuning project (Prefix-Tuning, LoRA, QLoRA); delivered HF Transformers workshop."
+      ]
+    },
+    {
+      "name": "INSA Lyon × University of Isfahan",
+      "position": "Course Assistant — Digital Transformation",
+      "url": "",
+      "startDate": "2021-07-01",
+      "endDate": "2021-09-30",
+      "summary": "Workshops and 1:1 technical support; cross-institution coordination.",
+      "highlights": []
     }
   ],
+
   "education": [
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "location": "Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Software Development",
-      "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "10",
-      "courses": ["Theory of Relativity"]
+      "institution": "University of Tehran",
+      "location": "Tehran, Iran",
+      "url": "",
+      "area": "IT Engineering",
+      "studyType": "M.Sc.",
+      "startDate": "2023-09-01",
+      "endDate": "",
+      "score": "GPA 19.14/20",
+      "courses": [
+        "Thesis: Design and Implementation of an Intelligent Assistant for Clinical Assessment and Diagnosis of Mental Disorders Using Large Language Models"
+      ]
+    },
+    {
+      "institution": "University of Isfahan",
+      "location": "Isfahan, Iran",
+      "url": "",
+      "area": "Computer Engineering (IT Major)",
+      "studyType": "B.Sc.",
+      "startDate": "2018-09-01",
+      "endDate": "2023-07-01",
+      "score": "Major GPA 15.72/20",
+      "courses": [
+        "Final Project: Structured feedback collection and evaluation system for TAs and RAs to enhance instructional and research support quality"
+      ]
     }
   ],
+
   "awards": [
     {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
+      "title": "Ranked 1st nationwide in IT Engineering — Graduate Entrance Exam (Konkur)",
+      "date": "2023-06-01",
+      "awarder": "Iran National Graduate Admissions",
+      "url": "",
+      "summary": "Top national rank in IT Engineering for the 2023 graduate entrance examination."
+    },
+    {
+      "title": "Youth Award",
+      "date": "2015-01-01",
+      "awarder": "TEDxKish",
+      "url": "",
+      "summary": "Outstanding young innovator."
     }
   ],
-  "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-location-dot"
-    },
-    {
-      "name": "Quantum Computing",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-tag"
-    },
-    {
-      "name": "Quantum Information",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-envelope"
-    },
-    {
-      "name": "Quantum Cryptography",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-hashtag"
-    },
-    {
-      "name": "Quantum Communication",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-calendar"
-    },
-    {
-      "name": "Quantum Teleportation",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-clipboard-check"
-    }
-  ],
+
   "publications": [
     {
-      "name": "Zur Elektrody/namik bewegter Körper",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-06-30",
-      "url": "https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies",
-      "summary": "It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source."
+      "name": "SchemaGraphSQL: Efficient Schema Linking with Pathfinding Graph Algorithms for Text-to-SQL on Large-Scale Databases",
+      "publisher": "Under review at EMNLP 2025",
+      "releaseDate": "2025-01-01",
+      "url": "",
+      "summary": "Safdarian, A., Mohammadi, M., Jahanbakhsh, E., Naderi, M. S., & Faili, H."
     },
     {
-      "name": "Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-03-18",
-      "url": "https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt",
-      "summary": "In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921."
+      "name": "PerMedCQA: Benchmarking Large Language Models on Medical Consumer Question Answering in Persian Language",
+      "publisher": "Under review at EMNLP 2025",
+      "releaseDate": "2025-01-01",
+      "url": "",
+      "summary": "Jamali, N., Mohammadi, M., Baledi, D., Rezvani, Z., & Faili, H."
     },
     {
-      "name": "Die Grundlage der allgemeinen Relativitätstheorie",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1916-03-20",
-      "url": "https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie",
-      "summary": "The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914)."
+      "name": "UT-NLP at SemEval-2025 Task 11: Evaluating Zero-Shot Capability of GPT-4o mini on Emotion Recognition via Role-Play and Contrastive Judging",
+      "publisher": "SemEval 2025",
+      "releaseDate": "2025-01-01",
+      "url": "",
+      "summary": "Mohammadi, M.*, Safdarian, A.*, & Faili, H. (*Equal contribution)"
     }
   ],
-  "skills": [
-    {
-      "name": "Physics",
-      "level": "Master",
-      "icon": "fa-solid fa-hashtag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
-      ]
-    }
-  ],
-  "languages": [
-    {
-      "language": "German",
-      "fluency": "Native speaker",
-      "icon": ""
-    },
-    {
-      "language": "English",
-      "fluency": "Fluent",
-      "icon": ""
-    }
-  ],
-  "interests": [
-    {
-      "name": "Physics",
-      "icon": "fa-solid fa-tag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
-      ]
-    }
-  ],
-  "references": [
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-laptop",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
-    },
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-thumbtack",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
-    }
-  ],
+
   "projects": [
     {
-      "name": "Quantum Computing",
-      "summary": "Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.",
-      "highlights": ["Quantum Teleportation", "Quantum Cryptography"],
-      "startDate": "2018-01-01",
-      "endDate": "2018-01-01",
-      "url": "https://example.com"
+      "name": "Text-to-Insight Data Analyst Agent (Text2SQL & Data Visualization)",
+      "summary": "NL→SQL over curated SQLite (BIRD), auto-generated Python analysis (tables/plots) and written report; LLM-as-judge for component and end-to-end evaluation.",
+      "highlights": [],
+      "startDate": "2025-01-01",
+      "endDate": "",
+      "url": "https://github.com/safdarian/llm-project"
+    },
+    {
+      "name": "MedYar — Health Reservation Agent (Triage & Booking)",
+      "summary": "Symptom intake → specialty routing → preference capture → availability check → booking on Paziresh24 via web automation; ReAct-style tool-use agent.",
+      "highlights": [],
+      "startDate": "2025-01-01",
+      "endDate": "",
+      "url": "https://github.com/Medi-Yar/FindDoctor"
+    }
+  ],
+
+  "skills": [
+    {
+      "name": "Software Engineering",
+      "level": "",
+      "icon": "",
+      "keywords": ["Python", "FastAPI", "Pydantic", "SQLite", "pytest"]
+    },
+    {
+      "name": "LLMs & Agents",
+      "level": "",
+      "icon": "",
+      "keywords": ["LangGraph", "OpenAI SDK", "LangFuse", "n8n", "Chainlit"]
+    },
+    {
+      "name": "Retrieval",
+      "level": "",
+      "icon": "",
+      "keywords": ["LanceDB", "Qdrant", "Elasticsearch", "RAG evaluation (RAGAS)"]
+    },
+    {
+      "name": "Deep Learning",
+      "level": "",
+      "icon": "",
+      "keywords": ["PyTorch", "Hugging Face Transformers", "Datasets", "PEFT"]
+    },
+    {
+      "name": "Machine Learning",
+      "level": "",
+      "icon": "",
+      "keywords": ["NumPy", "Pandas", "scikit-learn", "Matplotlib", "NLTK"]
+    },
+    {
+      "name": "Tools & DevOps",
+      "level": "",
+      "icon": "",
+      "keywords": ["Docker", "Docker Compose", "Git", "GitHub", "uv"]
+    }
+  ],
+
+  "languages": [
+    { "language": "Persian", "fluency": "Native" },
+    { "language": "English", "fluency": "Fluent" }
+  ],
+
+  "interests": [
+    {
+      "name": "Research Interests",
+      "icon": "",
+      "keywords": [
+        "Language Agents",
+        "Large Language Models (LLMs)",
+        "Multimodal Agents",
+        "Information Retrieval (IR)",
+        "Digital Mental Health",
+        "Human–Agent Interaction",
+        "Safety & Alignment",
+        "Agent Interpretability & Explanations",
+        "Agent-based Simulation",
+        "Cultural Studies & Bias in LLMs"
+      ]
+    }
+  ],
+
+  "volunteer": [
+    {
+      "organization": "Algorithmic Creativity & Python Programming Course",
+      "location": "Nationwide (Iran)",
+      "position": "Core Organizing Team & Mentor",
+      "url": "",
+      "startDate": "2023-06-01",
+      "endDate": "2023-09-01",
+      "summary": "10-week nationwide course led by Dr. Ali Sharifi-Zarchi, supporting 4,500+ high-school students.",
+      "highlights": [
+        "Coordinated mentoring and content across a 110-member team."
+      ]
+    },
+    {
+      "organization": "ACM Student Chapter, University of Isfahan",
+      "location": "Isfahan, Iran",
+      "position": "Committee Member",
+      "url": "",
+      "startDate": "2019-10-01",
+      "endDate": "2022-12-01",
+      "summary": "Organized contests and taught algorithm design; weekly ICPC trainings.",
+      "highlights": []
+    },
+    {
+      "organization": "TEDxUniversityOfIsfahan",
+      "location": "Isfahan, Iran",
+      "position": "Team Lead & Organizer",
+      "url": "",
+      "startDate": "2015-02-01",
+      "endDate": "2020-12-01",
+      "summary": "Founded and led the TEDx series (planning, sponsorship, marketing, speaker coaching).",
+      "highlights": []
     }
   ]
 }

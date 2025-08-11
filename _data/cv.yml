@@ -2,96 +2,189 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
+      value: Milad Mohammadi
+    - name: Email
+      value: <a href="mailto:mohammadi.milad.mim@gmail.com">mohammadi.milad.mim@gmail.com</a>
+    - name: Website
+      value: <a href="https://mohammadi-milad.github.io">mohammadi-milad.github.io</a>
+    - name: Google Scholar
+      value: <a href="https://scholar.google.com/citations?user=RltQFhwAAAAJ">RltQFhwAAAAJ</a>
+    - name: GitHub
+      value: <a href="https://github.com/mohammadi-milad-mim">mohammadi-milad-mim</a>
+    - name: LinkedIn
+      value: <a href="https://www.linkedin.com/in/mohammadi-milad-mim">/in/mohammadi-milad-mim</a>
     - name: Languages
-      value: English, German
+      value: Persian (native), English (fluent)
+
+- title: Research Interests
+  type: list
+  contents:
+    - Language Agents; Large Language Models (LLMs); Multimodal Agents; Information Retrieval (IR); Digital Mental Health; Human behavior modeling with LLMs; Machine Psychology; Safety & Alignment; Agent interpretability/explanations; Human–Agent Interaction; Agent-based Simulation; Cultural studies & bias in LLMs.
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: M.Sc. in IT Engineering (GPA 19.14/20)
+      institution: University of Tehran, Iran
+      year: Sep. 2023 – present
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
+        - <b>Thesis:</b> Design and Implementation of an Intelligent Assistant for Clinical Assessment and Diagnosis of Mental Disorders Using Large Language Models.
+    - title: B.Sc. in Computer Engineering (IT Major) (Major GPA 15.72/20)
+      institution: University of Isfahan, Iran
+      year: Sep. 2018 – Jul. 2023
       description:
-        - Description 1.
-        - Description 2.
+        - <b>Final Project:</b> Structured feedback collection and evaluation system for teaching and research assistants.
 
-- title: Experience
+- title: Publications & Preprints
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: "SchemaGraphSQL: Efficient Schema Linking with Pathfinding Graph Algorithms for Text-to-SQL on Large-Scale Databases"
+      institution: Under review at EMNLP 2025
+      year: 2025
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+        - Safdarian, A., <b>Mohammadi, M.</b>, Jahanbakhsh, E., Naderi, M. S., & Faili, H.
+    - title: "PerMedCQA: Benchmarking Large Language Models on Medical Consumer Question Answering in Persian Language"
+      institution: Under review at EMNLP 2025
+      year: 2025
       description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
+        - Jamali, N., <b>Mohammadi, M.</b>, Baledi, D., Rezvani, Z., & Faili, H.
+    - title: "UT-NLP at SemEval-2025 Task 11: Evaluating Zero-Shot Capability of GPT-4o mini on Emotion Recognition via Role-Play and Contrastive Judging"
+      institution: SemEval 2025
+      year: 2025
       description:
+        - <b>Mohammadi, M.</b><sup>*</sup>, Safdarian, A.<sup>*</sup>, & Faili, H. (*Equal contribution)
 
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
-
-- title: Open Source Projects
+- title: Research Experience
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: Graduate Researcher (M.Sc.), NLP Lab
+      institution: University of Tehran — Advisor <a href="https://scholar.google.com/citations?user=m5tCFEoAAAAJ">Prof. Hesham Faili</a>
+      year: Jan. 2024 – present
+      description:
+        - Contributed to weekly research meetings (discussion, paper critique, project planning) and collaborative development.
+        - Led language-agent projects on agent architecture, tool integration, and planning; mentored incoming lab M.Sc. students on agentic-LLM topics.
+    - title: Graduate Researcher (M.Sc.), Computational Cognitive Psychology Lab
+      institution: University of Tehran — Advisor <a href="https://scholar.google.com/citations?user=6-6ZdxMAAAAJ">Prof. Hadi Moradi</a>
+      year: Jan. 2024 – present
+      description:
+        - Initiated a lab track on LLMs for psychological applications, with emphasis on agentic modeling of mental states.
+
+- title: Work (Industry) Experience
+  type: time_table
+  contents:
+    - title: AI Software Engineer (Part-time)
+      institution: Adan AI
+      year: Aug. 2024 – Aug. 2025
+      description:
+        - Architected an agentic customer-service chatbot for a national bank (ReAct/Reflexion workflow with &gt;15 tool steps) and defined production eval metrics.
+        - Built a Persian PDF→chunking pipeline (table/chart-aware parsing, entity extraction), cutting processing cost by ~50% and improving RAG accuracy by ~8%.
+        - Shipped an automatic FAQ-bot generator; onboarding time reduced from days to &lt;1 hour.
+        - Engineered reusable agent-infrastructure modules (session tokens, conversation summarization, entity/metadata enrichment) adopted across LangGraph projects.
+        - Proposed and deployed <i>LangFuse</i> for observability—end-to-end tracing, latency/error monitoring, and evaluation dashboards.
+    - title: Product Manager (Part-time)
+      institution: Tizfekri
+      year: Mar. 2023 – Sep. 2023
+      description:
+        - Led discovery and requirements for an LMS on thinking skills; translated pedagogy into user stories/specs and an MVP roadmap.
+
+- title: Teaching Experience
+  type: time_table
+  contents:
+    - title: Graduate Teaching Assistant — Large Language Models
+      institution: ECE, University of Tehran
+      year: Feb. 2025 – Jul. 2025
+      description:
+        - Designed multi-stage assignment on language agents (prompt-router → ReAct Text-to-SQL on BIRD); authored rubric; graded midterm/final.
+        - Led hands-on LangGraph workshop. <a href="https://github.com/safdarian/text2sql-framework">[GitHub]</a> <a href="https://www.youtube.com/watch?v=sL5xup15w4U&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=1">[YouTube]</a>
+    - title: Workshop Instructor — Artificial Intelligence & Digital Transformation
+      institution: University of Tehran
+      year: Feb. 2025 – Jul. 2025
+      description:
+        - Delivered two large-venue lectures (500+ students) on prompting, language-agent concepts, and n8n workflow agents for non-engineering cohorts.
+    - title: Graduate Teaching Assistant — Natural Language Processing
+      institution: ECE, University of Tehran (Advisor Prof. Hesham Faili)
+      year: Sep. 2024 – Jan. 2025
+      description:
+        - Built final project “ChatFood” (agentic food-ordering bot with RAG + tools + Reflexion). <a href="https://github.com/mohammadi-milad-mim/ChatFood">[GitHub]</a>
+        - Ran 4-hour workshop on LangGraph, LanceDB, Chainlit. <a href="https://www.youtube.com/watch?v=r9BAdoi3l6Y&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=7">[YouTube]</a>
+    - title: Graduate Teaching Assistant — Intelligent Information Retrieval
+      institution: ECE, University of Tehran
+      year: Sep. 2024 – Jan. 2025
+      description:
+        - Designed NanoSparseRetriever (from-scratch TF-IDF/BM25 assignment) and taught OpenAI + RAG workflows. <a href="https://github.com/mohammadi-milad-mim/NanoSparseRetriever">[GitHub]</a> <a href="https://www.youtube.com/watch?v=ubnmFJ5Huhc&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=8">[YouTube]</a>
+    - title: Graduate Teaching Assistant — Deep Learning & Neural Networks
+      institution: ECE, University of Tehran
+      year: Sep. 2024 – Jan. 2025
+      description:
+        - Designed LLM fine-tuning project (Gemma-2 for Persian chat via Prefix-Tuning/LoRA/QLoRA); delivered architecture + HF Transformers workshop.
+    - title: Course Assistant — Digital Transformation
+      institution: INSA Lyon × University of Isfahan
+      year: Jul. 2021 – Sep. 2021
+      description:
+        - Supported workshops and 1:1 sessions; coordinated across institutions.
+    - title: Teaching Assistant (various courses)
+      institution: University of Isfahan
+      year: 2019 – 2023
+      description:
+        - Algorithm Design; Discrete Mathematics; Programming Foundations; IT Foundation; E-Commerce.
+
+- title: Technical Skills
+  type: map
+  contents:
+    - name: Software Engineering
+      value: Python; FastAPI; Pydantic; SQLite; pytest
+    - name: LLMs & Agents
+      value: LangGraph; OpenAI SDK; LangFuse; n8n; Chainlit
+    - name: Retrieval
+      value: LanceDB; Qdrant; Elasticsearch; evaluation (RAGAS)
+    - name: Deep Learning
+      value: PyTorch; Hugging Face (Transformers, Datasets, PEFT)
+    - name: Machine Learning
+      value: NumPy; Pandas; scikit-learn; Matplotlib; NLTK
+    - name: Tools & DevOps
+      value: Docker; Docker Compose; Git/GitHub; uv
+
+- title: Selected Projects
+  type: time_table
+  contents:
+    - title: Text-to-Insight Data Analyst Agent (Text2SQL & Data Visualization)
+      institution: LLMs course final project — Team of 3
+      year: 2025
+      description:
+        - NL→SQL over curated SQLite (BIRD); auto-generated Python analysis (tables/plots) and written report; included LLM-as-judge for component and end-to-end eval.
+        - <a href="https://github.com/safdarian/llm-project">[GitHub]</a>
+    - title: MedYar — Health Reservation Agent (Triage & Booking)
+      institution: 48-hour hackathon — Team of 3
+      year: 2025
+      description:
+        - Symptom intake → specialty routing → preference capture → availability check → booking on <i>Paziresh24</i> via web automation; ReAct-style tool-use agent.
+        - <a href="https://github.com/Medi-Yar/FindDoctor">[GitHub]</a>
 
 - title: Honors and Awards
   type: time_table
   contents:
-    - year: 1921
+    - year: 2023
       items:
-        - Nobel Prize in Physics
-        - Matteucci Medal
-    - year: 2029
+        - Ranked 1st nationwide in IT Engineering, Graduate Entrance Exam (Konkur), Iran
+    - year: 2015
       items:
-        - Max Planck Medal
+        - Youth Award, TEDxKish — Outstanding young innovator
 
-- title: Academic Interests
-  type: nested_list
+- title: Volunteering
+  type: time_table
   contents:
-    - title: Topic 1.
-      items:
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
-      items:
-        - Description 1.
-        - Description 2.
-
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+    - title: Core Organizing Team & Mentor — Algorithmic Creativity & Python Programming Course
+      institution: Nationwide (instructor Dr. Ali Sharifi-Zarchi)
+      year: Jun. 2023 – Sep. 2023
+      description:
+        - Supported a 10-week program for 4,500+ high-school students with a 110-member team; coordinated mentoring/content across sections.
+    - title: Committee Member — ACM Student Chapter
+      institution: University of Isfahan
+      year: Oct. 2019 – Dec. 2022
+      description:
+        - Organized programming contests; taught algorithm design; joined weekly ICPC trainings.
+    - title: Team Lead & Organizer — TEDxUniversityOfIsfahan
+      institution: University of Isfahan
+      year: Feb. 2015 – Dec. 2020
+      description:
+        - Founded and led the series (planning, budgeting, sponsorship, marketing, speaker coaching); talks now run annually with thousands of views.

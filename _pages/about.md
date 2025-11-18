@@ -31,7 +31,7 @@ I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *Unive
 My research sits at the intersection of **AI Agents and cognitive psychology**, focusing on:
 
 * Building clinically responsible multi-agent systems for mental health assessment and diagnosis.
-* Applying psychological and cognitive theories to improve AI agent behavior, safety, and interpretability.
+* Modeling and simulating user behavior with generative agents for personalization, user profiling, and deeper understanding of human–AI interaction.
 
 I have contributed to both **academic research** (e.g., benchmarking LLMs, multi-agent system design, cognitive modeling) and **industry-scale AI products**, including **customer service chatbots, intelligent retrieval systems, and automated knowledge ingestion pipelines**.
 

@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Milad Mohammadi",
-    "label": "AI Software Engineer & Researcher",
+    "label": "Senior AI Engineer & LLM Researcher",
     "image": "",
     "email": "mohammadi.milad.mim@gmail.com",
     "phone": "",
     "url": "https://mohammadi-milad.github.io",
-    "summary": "My work sits at the intersection of language agents and psychology: (1) building clinically responsible mental-health assistants and multi-agent systems with a focus on modeling human psychological traits, and (2) applying psychological and cognitive theory to analyze and improve agent behavior, safety, and human–AI interaction.",
+    "summary": "Senior AI Engineer and LLM researcher working on language agents, agentic RAG systems, multimodal and self-evolving agents, digital mental health, and modeling human behavior with generative agents. My work spans end-to-end AI microservice development, agent workflows, retrieval systems, backend services, and research on human-centered AI, human-agent interaction, and psychological applications of LLMs.",
     "location": {
       "address": "",
       "postalCode": "",
@@ -16,9 +16,9 @@
     },
     "profiles": [
       {
-        "network": "Google Scholar",
-        "username": "RltQFhwAAAAJ",
-        "url": "https://scholar.google.com/citations?user=RltQFhwAAAAJ"
+        "network": "Homepage",
+        "username": "mohammadi-milad.github.io",
+        "url": "https://mohammadi-milad.github.io"
       },
       {
         "network": "GitHub",
@@ -26,130 +26,37 @@
         "url": "https://github.com/mohammadi-milad-mim"
       },
       {
+        "network": "Google Scholar",
+        "username": "RltQFhwAAAAJ",
+        "url": "https://scholar.google.com/citations?user=RltQFhwAAAAJ"
+      },
+      {
         "network": "LinkedIn",
         "username": "mohammadi-milad-mim",
         "url": "https://www.linkedin.com/in/mohammadi-milad-mim"
       }
+    ],
+    "keywords": [
+      "Language Agents",
+      "Large Language Models",
+      "Multimodal Large Language Models",
+      "Self-evolving Agents",
+      "Digital Mental Health",
+      "Human Behavior Modeling",
+      "Machine Behavior",
+      "Agent Behavior",
+      "LLM Safety and Alignment",
+      "Interpretability",
+      "Explainability",
+      "Human-Agent Interaction",
+      "Agent-based Simulation",
+      "Personalization",
+      "Recommender Systems",
+      "User Profiling",
+      "Human-Centered AI",
+      "Cultural Studies and Biases in LLMs"
     ]
   },
-
-  "work": [
-    {
-      "name": "Adan AI",
-      "position": "AI Software Engineer (Part-time)",
-      "url": "",
-      "startDate": "2024-08-01",
-      "endDate": "2025-08-01",
-      "summary": "Agentic customer-service systems, RAG & tooling, and production observability.",
-      "highlights": [
-        "Architected a ReAct/Reflexion workflow with >15 tool steps for a national bank chatbot; defined production evaluation metrics.",
-        "Built a Persian PDF→chunking pipeline (table/chart-aware parsing, entity extraction), cutting processing cost ~50% and improving RAG accuracy ~8%.",
-        "Shipped an automatic FAQ-bot generator; onboarding time reduced from days to <1 hour.",
-        "Engineered reusable agent-infrastructure modules (session tokens, conversation summarization, entity/metadata enrichment) adopted across LangGraph projects.",
-        "Proposed and deployed LangFuse for observability (tracing, latency/error monitoring, evaluation dashboards)."
-      ]
-    },
-    {
-      "name": "NLP Lab, University of Tehran",
-      "position": "Graduate Researcher (M.Sc.)",
-      "url": "",
-      "startDate": "2024-01-01",
-      "endDate": "",
-      "summary": "Language-agent research and lab collaboration under Prof. Hesham Faili.",
-      "highlights": [
-        "Contributed to weekly research meetings (discussion, paper critique, project planning) and collaborative development.",
-        "Led projects on agent architecture, tool integration, and planning; mentored incoming M.Sc. students on agentic-LLM topics."
-      ]
-    },
-    {
-      "name": "Computational Cognitive Psychology Lab, University of Tehran",
-      "position": "Graduate Researcher (M.Sc.)",
-      "url": "",
-      "startDate": "2024-01-01",
-      "endDate": "",
-      "summary": "LLMs for psychological applications with Prof. Hadi Moradi.",
-      "highlights": [
-        "Initiated a lab track on agentic modeling of mental states, complementing prior EEG and classical ML lines."
-      ]
-    },
-    {
-      "name": "Tizfekri",
-      "position": "Product Manager (Part-time)",
-      "url": "",
-      "startDate": "2023-03-01",
-      "endDate": "2023-09-01",
-      "summary": "Product discovery and requirements for an LMS on thinking skills.",
-      "highlights": ["Translated pedagogy into user stories, specs, and an MVP roadmap."]
-    }
-  ],
-
-  "teaching": [
-    {
-      "name": "ECE, University of Tehran",
-      "position": "Graduate Teaching Assistant — Large Language Models",
-      "url": "",
-      "startDate": "2025-02-01",
-      "endDate": "2025-07-31",
-      "summary": "Course project design and workshop delivery.",
-      "highlights": [
-        "Designed multi-stage assignment on language agents (prompt router → ReAct Text-to-SQL on BIRD); authored rubric; graded midterm/final.",
-        "Led a hands-on LangGraph workshop. GitHub/YouTube linked in course materials."
-      ]
-    },
-    {
-      "name": "University of Tehran",
-      "position": "Workshop Instructor — Artificial Intelligence & Digital Transformation",
-      "url": "",
-      "startDate": "2025-02-01",
-      "endDate": "2025-07-31",
-      "summary": "Two large-venue lectures (500+ students) on prompting, language-agent concepts, and n8n workflow agents for non-engineering cohorts.",
-      "highlights": []
-    },
-    {
-      "name": "ECE, University of Tehran",
-      "position": "Graduate Teaching Assistant — Natural Language Processing",
-      "url": "",
-      "startDate": "2024-09-01",
-      "endDate": "2025-01-31",
-      "summary": "Final project and workshop authoring.",
-      "highlights": [
-        "Authored final project 'ChatFood' (agentic food-ordering bot with RAG + tools + Reflexion).",
-        "Ran a 4-hour workshop on LangGraph, LanceDB, and Chainlit."
-      ]
-    },
-    {
-      "name": "ECE, University of Tehran",
-      "position": "Graduate Teaching Assistant — Intelligent Information Retrieval",
-      "url": "",
-      "startDate": "2024-09-01",
-      "endDate": "2025-01-31",
-      "summary": "Assignments and workshops on sparse/dense retrieval and RAG.",
-      "highlights": [
-        "Designed NanoSparseRetriever (from-scratch TF-IDF/BM25 assignment); taught OpenAI + RAG pipelines with LanceDB."
-      ]
-    },
-    {
-      "name": "ECE, University of Tehran",
-      "position": "Graduate Teaching Assistant — Deep Learning & Neural Networks",
-      "url": "",
-      "startDate": "2024-09-01",
-      "endDate": "2025-01-31",
-      "summary": "LLM fine-tuning education.",
-      "highlights": [
-        "Designed Gemma-2 Persian chat fine-tuning project (Prefix-Tuning, LoRA, QLoRA); delivered HF Transformers workshop."
-      ]
-    },
-    {
-      "name": "INSA Lyon × University of Isfahan",
-      "position": "Course Assistant — Digital Transformation",
-      "url": "",
-      "startDate": "2021-07-01",
-      "endDate": "2021-09-30",
-      "summary": "Workshops and 1:1 technical support; cross-institution coordination.",
-      "highlights": []
-    }
-  ],
-
   "education": [
     {
       "institution": "University of Tehran",
@@ -168,46 +75,28 @@
       "institution": "University of Isfahan",
       "location": "Isfahan, Iran",
       "url": "",
-      "area": "Computer Engineering (IT Major)",
+      "area": "Computer Engineering, IT Major",
       "studyType": "B.Sc.",
       "startDate": "2018-09-01",
       "endDate": "2023-07-01",
       "score": "Major GPA 15.72/20",
       "courses": [
-        "Final Project: Structured feedback collection and evaluation system for TAs and RAs to enhance instructional and research support quality"
+        "Final Project: Design and Development of a Structured Feedback Collection and Evaluation System for University Teaching and Research Assistants to Enhance Instructional and Research Support Quality"
       ]
     }
   ],
-
-  "awards": [
-    {
-      "title": "Ranked 1st nationwide in IT Engineering — Graduate Entrance Exam (Konkur)",
-      "date": "2023-06-01",
-      "awarder": "Iran National Graduate Admissions",
-      "url": "",
-      "summary": "Top national rank in IT Engineering for the 2023 graduate entrance examination."
-    },
-    {
-      "title": "Youth Award",
-      "date": "2015-01-01",
-      "awarder": "TEDxKish",
-      "url": "",
-      "summary": "Outstanding young innovator."
-    }
-  ],
-
   "publications": [
     {
       "name": "SchemaGraphSQL: Efficient Schema Linking with Pathfinding Graph Algorithms for Text-to-SQL on Large-Scale Databases",
-      "publisher": "Under review at EMNLP 2025",
-      "releaseDate": "2025-01-01",
+      "publisher": "Accepted at EACL 2026",
+      "releaseDate": "2026-01-01",
       "url": "",
       "summary": "Safdarian, A., Mohammadi, M., Jahanbakhsh, E., Naderi, M. S., & Faili, H."
     },
     {
       "name": "PerMedCQA: Benchmarking Large Language Models on Medical Consumer Question Answering in Persian Language",
-      "publisher": "Under review at EMNLP 2025",
-      "releaseDate": "2025-01-01",
+      "publisher": "",
+      "releaseDate": "",
       "url": "",
       "summary": "Jamali, N., Mohammadi, M., Baledi, D., Rezvani, Z., & Faili, H."
     },
@@ -219,102 +108,384 @@
       "summary": "Mohammadi, M.*, Safdarian, A.*, & Faili, H. (*Equal contribution)"
     }
   ],
-
-  "projects": [
+  "awards": [
     {
-      "name": "Text-to-Insight Data Analyst Agent (Text2SQL & Data Visualization)",
-      "summary": "NL→SQL over curated SQLite (BIRD), auto-generated Python analysis (tables/plots) and written report; LLM-as-judge for component and end-to-end evaluation.",
-      "highlights": [],
-      "startDate": "2025-01-01",
-      "endDate": "",
-      "url": "https://github.com/safdarian/llm-project"
-    },
-    {
-      "name": "MedYar — Health Reservation Agent (Triage & Booking)",
-      "summary": "Symptom intake → specialty routing → preference capture → availability check → booking on Paziresh24 via web automation; ReAct-style tool-use agent.",
-      "highlights": [],
-      "startDate": "2025-01-01",
-      "endDate": "",
-      "url": "https://github.com/Medi-Yar/FindDoctor"
+      "title": "Ranked 1st nationwide in IT Engineering, Graduate Entrance Exam (Konkur)",
+      "date": "2023-06-01",
+      "awarder": "Iran National Graduate Admissions",
+      "url": "",
+      "summary": "Ranked first nationwide in IT Engineering in Iran's national graduate entrance examination."
     }
   ],
-
+  "research": [
+    {
+      "name": "NLP Lab, University of Tehran",
+      "position": "Research Assistant (M.Sc.)",
+      "url": "",
+      "startDate": "2024-01-01",
+      "endDate": "",
+      "advisor": {
+        "name": "Prof. Hesham Faili",
+        "url": "https://scholar.google.com/citations?user=m5tCFEoAAAAJ"
+      },
+      "summary": "Graduate research assistant working on NLP, language agents, and LLM-based research projects.",
+      "highlights": [
+        "Contributed regularly to weekly lab research meetings, including research discussion, paper critique, project planning, and collaborative development led by the supervisor.",
+        "Mentored incoming M.Sc. students on scoping research problems in language agents."
+      ]
+    },
+    {
+      "name": "Computational Cognitive Psychology Lab, University of Tehran",
+      "position": "Research Assistant (M.Sc.)",
+      "url": "",
+      "startDate": "2024-01-01",
+      "endDate": "",
+      "advisor": {
+        "name": "Prof. Hadi Moradi",
+        "url": "https://scholar.google.com/citations?user=6-6ZdxMAAAAJ"
+      },
+      "summary": "Graduate research assistant working on LLMs for psychological applications and computational modeling.",
+      "highlights": [
+        "Initiated a lab track on LLMs for psychological applications, especially agentic modeling of mental states and behaviour."
+      ]
+    }
+  ],
+  "work": [
+    {
+      "name": "IntRest",
+      "location": "Remote",
+      "position": "Senior AI Engineer (Part-time)",
+      "url": "",
+      "startDate": "2026-02-01",
+      "endDate": "",
+      "summary": "End-to-end ownership of an AI microservice for food analysis, covering agentic system design, retrieval, backend architecture, and production integration.",
+      "highlights": [
+        "Own the end-to-end AI microservice for food analysis: refactored the full codebase, built an agentic RAG system over food and ingredient data for accurate and efficient analysis, and lead the software layer from requirements and backend design to API endpoints and production integration."
+      ]
+    },
+    {
+      "name": "Lucid Axon",
+      "location": "Remote",
+      "position": "AI/ML Engineer (Part-time)",
+      "url": "",
+      "startDate": "2025-11-01",
+      "endDate": "2026-02-01",
+      "summary": "Document-AI and retrieval systems for ESG, legal, and compliance workflows.",
+      "highlights": [
+        "Built document-AI components for ESG workflows, including a local DeepSeek OCR pipeline and a hierarchical ingestion/retrieval microservice for high-stakes legal and compliance documents."
+      ]
+    },
+    {
+      "name": "Adan AI",
+      "location": "",
+      "position": "AI Software Engineer (Part-time)",
+      "url": "",
+      "startDate": "2024-08-01",
+      "endDate": "2025-10-01",
+      "summary": "Production-oriented LLM applications, agentic customer-service systems, Persian document RAG pipelines, FAQ-bot automation, and reusable LangGraph infrastructure.",
+      "highlights": [
+        "Led architecture and delivery of an agentic customer-service chatbot for a national bank: translated PM requirements into user stories; designed a ReAct/Reflexion workflow with more than 15 tool steps; implemented and reviewed LangGraph and OpenAI modules; defined and tracked evaluation metrics for production.",
+        "Built an end-to-end PDF-to-chunking pipeline for Persian documents, including table/chart-aware parsing and entity extraction; reduced processing cost by 50% and improved retrieval accuracy by 8% on a human-annotated RAG evaluation set.",
+        "Created an automatic FAQ-bot generator that ingests Excel FAQs, cleans and synthesizes data from seed examples, and deploys a ready-to-use chatbot, cutting onboarding time from days to less than one hour with no manual coding.",
+        "Engineered reusable agent-infrastructure modules for session-level user-token management, conversation summarization, entity enrichment, and metadata handling; these modules were adopted across LangGraph projects, eliminating duplicate code and accelerating new-bot delivery."
+      ]
+    }
+  ],
+  "teaching": [
+    {
+      "name": "Natural Language Processing",
+      "institution": "ECE, University of Tehran",
+      "position": "Chief Teaching Assistant",
+      "url": "",
+      "startDate": "2025-09-01",
+      "endDate": "",
+      "instructors": [
+        "Prof. Hesham Faili (Fall 2025)",
+        "Dr. Yadollah Yaghobzadeh (Spring 2026)"
+      ],
+      "summary": "Chief TA for the NLP course at the University of Tehran.",
+      "highlights": [
+        "Led a 12-member TA team and coordinated course planning, weekly schedules, quizzes, and exams."
+      ]
+    },
+    {
+      "name": "Large Language Models",
+      "institution": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant",
+      "url": "",
+      "startDate": "2025-02-01",
+      "endDate": "2025-07-01",
+      "instructors": [
+        "Dr. Yadollah Yaghobzadeh",
+        "Dr. Mohammad Javad Dousti"
+      ],
+      "summary": "Graduate TA for a course on large language models, language agents, and applied LLM systems.",
+      "highlights": [
+        "Designed a multi-stage course assignment on language agents, from prompt-router baselines to ReAct-style agents solving Text-to-SQL on the BIRD dataset.",
+        "Authored the assignment rubric and graded the assignment, midterm, and final.",
+        "Led a hands-on workshop on building agents with LangGraph.",
+        "Course assignment repository: https://github.com/safdarian/text2sql-framework",
+        "Workshop recording: https://www.youtube.com/watch?v=sL5xup15w4U&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=1"
+      ]
+    },
+    {
+      "name": "Artificial Intelligence & Digital Transformation",
+      "institution": "University of Tehran",
+      "position": "Workshop Instructor",
+      "url": "",
+      "startDate": "2025-02-01",
+      "endDate": "2025-07-01",
+      "instructors": [
+        "Prof. Majid Nili Ahmadabadi"
+      ],
+      "summary": "Workshop instructor for a university-wide course on AI and digital transformation.",
+      "highlights": [
+        "Delivered two large-venue lectures to more than 500 students in the course's inaugural university-wide offering open to all fields.",
+        "Covered prompting, language-agent concepts, and building simple workflow agents in n8n, tailored for non-engineering cohorts."
+      ]
+    },
+    {
+      "name": "Natural Language Processing",
+      "institution": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-01",
+      "instructors": [
+        "Prof. Hesham Faili"
+      ],
+      "summary": "Graduate TA for NLP, focused on agentic NLP systems, RAG, and chatbot project design.",
+      "highlights": [
+        "Authored the final project ChatFood: an agentic food-ordering chatbot with RAG over a food book, tool use for order/track/cancel operations, and a Reflexion-based recommender.",
+        "Provided runnable backend and database starter code for the final project.",
+        "Ran a 4-hour workshop on chatbots and agents with LangGraph, LanceDB, and Chainlit, covering design patterns and evaluation.",
+        "Project repository: https://github.com/mohammadi-milad-mim/ChatFood",
+        "Workshop recording: https://www.youtube.com/watch?v=r9BAdoi3l6Y&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=7"
+      ]
+    },
+    {
+      "name": "Intelligent Information Retrieval",
+      "institution": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-01",
+      "instructors": [
+        "Dr. Azadeh Shakeri"
+      ],
+      "summary": "Graduate TA for information retrieval, sparse retrieval, dense retrieval, and RAG pipelines.",
+      "highlights": [
+        "Designed NanoSparseRetriever, a from-scratch Python assignment covering indexing, query/document processing, and pluggable scoring.",
+        "Students implemented TF-IDF and BM25 and probed parameter effects.",
+        "Taught a project workshop on OpenAI API and RAG pipelines using LanceDB and open-source dense retrievers.",
+        "Assignment repository: https://github.com/mohammadi-milad-mim/NanoSparseRetriever",
+        "Workshop recording: https://www.youtube.com/watch?v=ubnmFJ5Huhc&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=8"
+      ]
+    },
+    {
+      "name": "Deep Learning & Neural Networks",
+      "institution": "ECE, University of Tehran",
+      "position": "Graduate Teaching Assistant",
+      "url": "",
+      "startDate": "2024-09-01",
+      "endDate": "2025-01-01",
+      "instructors": [
+        "Dr. Ahmad Kalhor"
+      ],
+      "summary": "Graduate TA for deep learning and neural networks, with emphasis on LLM architecture and fine-tuning.",
+      "highlights": [
+        "Designed the course project on LLM fine-tuning: Gemma 2 for Persian chat via Prefix-Tuning, LoRA, and QLoRA.",
+        "Delivered a workshop on LLM architecture and fine-tuning with Hugging Face Transformers."
+      ]
+    },
+    {
+      "name": "Undergraduate Computer Engineering Courses",
+      "institution": "University of Isfahan",
+      "position": "Teaching Assistant",
+      "url": "",
+      "startDate": "2019-01-01",
+      "endDate": "2023-12-01",
+      "summary": "Teaching assistant for multiple undergraduate computer engineering courses.",
+      "highlights": [
+        "Courses: Algorithm Design, Discrete Mathematics, Programming Foundations, IT Foundation, and E-Commerce."
+      ]
+    }
+  ],
   "skills": [
     {
       "name": "Software Engineering",
       "level": "",
       "icon": "",
-      "keywords": ["Python", "FastAPI", "Pydantic", "SQLite", "pytest"]
+      "keywords": [
+        "Python",
+        "FastAPI",
+        "Pydantic",
+        "pytest",
+        "uv",
+        "pip-tools",
+        "Code Refactoring",
+        "API Design",
+        "Backend Architecture"
+      ]
     },
     {
-      "name": "LLMs & Agents",
+      "name": "LLM Agents",
       "level": "",
       "icon": "",
-      "keywords": ["LangGraph", "OpenAI SDK", "LangFuse", "n8n", "Chainlit"]
+      "keywords": [
+        "LangGraph",
+        "OpenAI SDK",
+        "ReAct",
+        "Plan-and-Execute",
+        "Multi-Agent Systems",
+        "Memory",
+        "Tool Use",
+        "Agentic Workflows",
+        "LangFuse"
+      ]
     },
     {
-      "name": "Retrieval",
+      "name": "Inference & Fine-tuning",
       "level": "",
       "icon": "",
-      "keywords": ["LanceDB", "Qdrant", "Elasticsearch", "RAG evaluation (RAGAS)"]
+      "keywords": [
+        "vLLM",
+        "Hugging Face Transformers",
+        "PEFT",
+        "LoRA",
+        "QLoRA",
+        "TRL",
+        "Tokenizers",
+        "Model Serving",
+        "LLM Fine-tuning"
+      ]
     },
     {
-      "name": "Deep Learning",
+      "name": "Retrieval & RAG",
       "level": "",
       "icon": "",
-      "keywords": ["PyTorch", "Hugging Face Transformers", "Datasets", "PEFT"]
+      "keywords": [
+        "Milvus",
+        "LanceDB",
+        "Hybrid Search",
+        "Rerankers",
+        "Chunking",
+        "Retrieval Evaluation",
+        "LLM-as-Judge",
+        "Document Ingestion",
+        "Hierarchical Retrieval",
+        "Agentic RAG"
+      ]
     },
     {
       "name": "Machine Learning",
       "level": "",
       "icon": "",
-      "keywords": ["NumPy", "Pandas", "scikit-learn", "Matplotlib", "NLTK"]
+      "keywords": [
+        "PyTorch",
+        "scikit-learn",
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "Feature Engineering",
+        "Classical ML",
+        "Evaluation"
+      ]
     },
     {
-      "name": "Tools & DevOps",
+      "name": "Backend Development",
       "level": "",
       "icon": "",
-      "keywords": ["Docker", "Docker Compose", "Git", "GitHub", "uv"]
-    }
-  ],
-
-  "languages": [
-    { "language": "Persian", "fluency": "Native" },
-    { "language": "English", "fluency": "Fluent" }
-  ],
-
-  "interests": [
-    {
-      "name": "Research Interests",
-      "icon": "",
       "keywords": [
-        "Language Agents",
-        "Large Language Models (LLMs)",
-        "Multimodal Agents",
-        "Information Retrieval (IR)",
-        "Digital Mental Health",
-        "Human–Agent Interaction",
-        "Safety & Alignment",
-        "Agent Interpretability & Explanations",
-        "Agent-based Simulation",
-        "Cultural Studies & Bias in LLMs"
-      ]
-    }
-  ],
-
-  "volunteer": [
-    {
-      "organization": "Algorithmic Creativity & Python Programming Course",
-      "location": "Nationwide (Iran)",
-      "position": "Core Organizing Team & Mentor",
-      "url": "",
-      "startDate": "2023-06-01",
-      "endDate": "2023-09-01",
-      "summary": "10-week nationwide course led by Dr. Ali Sharifi-Zarchi, supporting 4,500+ high-school students.",
-      "highlights": [
-        "Coordinated mentoring and content across a 110-member team."
+        "PostgreSQL",
+        "SQLite",
+        "REST",
+        "gRPC",
+        "WebSockets",
+        "OAuth2/OIDC",
+        "JWT",
+        "Microservices"
       ]
     },
+    {
+      "name": "MLOps & DevOps",
+      "level": "",
+      "icon": "",
+      "keywords": [
+        "Docker",
+        "Docker Compose",
+        "CI/CD",
+        "Observability",
+        "Metrics",
+        "Logs",
+        "Traces",
+        "Production Monitoring"
+      ]
+    },
+    {
+      "name": "Product & Delivery",
+      "level": "",
+      "icon": "",
+      "keywords": [
+        "Agile",
+        "Requirements Analysis",
+        "Technical Documentation",
+        "Roadmaps",
+        "OKRs",
+        "KPIs",
+        "User Stories",
+        "Production Delivery"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Text-to-Insight Data Analyst Agent (Text2SQL & Data Visualization)",
+      "description": "LLMs course final project; team of 3.",
+      "summary": "End-to-end agent converting natural-language questions into SQL over a curated SQLite database from the BIRD dataset, then auto-generating Python analysis code for tables/plots and a written report.",
+      "highlights": [
+        "Built a natural-language-to-SQL workflow over a curated SQLite database.",
+        "Generated Python analysis code for tabular analysis and visualization.",
+        "Produced written analytical reports from query results.",
+        "Included an LLM-as-judge framework to evaluate component quality and end-to-end answers, including report accuracy and SQL exact match."
+      ],
+      "startDate": "",
+      "endDate": "",
+      "url": "https://github.com/safdarian/llm-project",
+      "keywords": [
+        "Text-to-SQL",
+        "Data Analysis Agent",
+        "LLM-as-Judge",
+        "BIRD Dataset",
+        "SQLite",
+        "Python"
+      ]
+    },
+    {
+      "name": "MedYar: Health Reservation Agent (Triage & Booking)",
+      "description": "48-hour hackathon; team of 3.",
+      "summary": "Doctor-visit assistant performing symptom intake and specialty routing, collecting user preferences, checking availability, and booking appointments on Paziresh24.",
+      "highlights": [
+        "Implemented symptom intake and specialty routing.",
+        "Collected user preferences such as physician and time.",
+        "Checked appointment availability and completed booking via web automation.",
+        "Implemented as a ReAct-style tool-use agent with a full booking flow.",
+        "Reported successful end-to-end demo execution."
+      ],
+      "startDate": "",
+      "endDate": "",
+      "url": "https://github.com/Medi-Yar/FindDoctor",
+      "keywords": [
+        "Health Agent",
+        "Triage",
+        "Booking Automation",
+        "ReAct",
+        "Tool Use",
+        "Web Automation"
+      ]
+    }
+  ],
+  "volunteer": [
     {
       "organization": "ACM Student Chapter, University of Isfahan",
       "location": "Isfahan, Iran",
@@ -322,8 +493,12 @@
       "url": "",
       "startDate": "2019-10-01",
       "endDate": "2022-12-01",
-      "summary": "Organized contests and taught algorithm design; weekly ICPC trainings.",
-      "highlights": []
+      "summary": "Organized programming contests, taught algorithm design, and participated in weekly ICPC trainings.",
+      "highlights": [
+        "Organized programming contests and educational sessions.",
+        "Taught algorithm design to student participants.",
+        "Participated in weekly ICPC training activities."
+      ]
     },
     {
       "organization": "TEDxUniversityOfIsfahan",
@@ -332,8 +507,53 @@
       "url": "",
       "startDate": "2015-02-01",
       "endDate": "2020-12-01",
-      "summary": "Founded and led the TEDx series (planning, sponsorship, marketing, speaker coaching).",
-      "highlights": []
+      "summary": "Founded TEDxUniversityOfIsfahan in 2019 and led end-to-end event organization.",
+      "highlights": [
+        "Founded TEDxUniversityOfIsfahan in 2019.",
+        "Led planning, budgeting, sponsorship, marketing, and speaker coaching.",
+        "Helped establish a student-led event series that now runs annually through the student community.",
+        "Supported talks that reached thousands of views."
+      ]
     }
-  ]
+  ],
+  "languages": [
+    {
+      "language": "Persian",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "Fluent"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Research Interests",
+      "icon": "",
+      "keywords": [
+        "Language Agents",
+        "Large Language Models (LLMs)",
+        "Multimodal Large Language Models (MLLMs)",
+        "Self-evolving Agents",
+        "Digital Mental Health",
+        "Modeling Human Behavior with LLMs",
+        "Machine Behavior",
+        "Agent Behavior",
+        "LLM Safety and Alignment",
+        "Interpretability and Explainability of Agents",
+        "Human-Agent Interaction",
+        "Agent-based Simulation",
+        "Personalization with LLMs",
+        "Recommender Systems using LLMs",
+        "User Profiling",
+        "Human-Centered AI",
+        "Cultural Studies and Biases in LLMs"
+      ]
+    }
+  ],
+  "meta": {
+    "canonical": "https://jsonresume.org/schema/",
+    "version": "v1.0.0",
+    "lastModified": "2026-05-18"
+  }
 }

@@ -2,11 +2,11 @@
 layout: about
 title: about
 permalink: /
-subtitle: M.Sc. Candidate in IT Engineering · Researcher in Language Agents & Digital Mental Health
+subtitle: M.Sc. Candidate in IT Engineering · Researcher in NLP and Deep Learning
 
 profile:
   align: right
-  image: prof_pic_color.jpg
+  image: prof_pic_cutout.png
   image_circular: false
   more_info: >
     <p>Department of Electrical and Computer Engineering</p>
@@ -27,14 +27,14 @@ latest_posts:
   scrollable: false
   limit:
 ---
-I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *University of Tehran* and an **AI Software Engineer** specializing in **Language Agents, Large Language Models (LLMs), and Digital Mental Health applications**.
-My research sits at the intersection of **AI Agents and cognitive psychology**, focusing on:
+I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *University of Tehran* and an **AI (Research) Engineer** specializing in **Natural Language Processing (NLP), Deep Learning, and Large Language Models (LLMs)**.
+My research focuses on **modeling and simulation with AI agents**, with an emphasis on:
 
-* Building clinically responsible multi-agent systems for mental health assessment and diagnosis.
-* Modeling and simulating user behavior with generative agents for personalization, user profiling, and deeper understanding of human–AI interaction.
+* Modeling and simulating human behavior with generative agents.
+* Designing agent-based simulations for personalization, user profiling, and a deeper understanding of human–AI interaction.
 
 I have contributed to both **academic research** (e.g., benchmarking LLMs, multi-agent system design, cognitive modeling) and **industry-scale AI products**, including **customer service chatbots, intelligent retrieval systems, and automated knowledge ingestion pipelines**.
 
-Outside research and engineering, I have served as a **teaching assistant** for multiple graduate-level AI/NLP courses, organized large-scale workshops, and volunteered in academic and community initiatives such as **TEDx** and the **ACM Student Chapter**.
+Outside research and engineering, I have served as a head teaching assistant and **teaching assistant** for multiple graduate-level Deep Learning and NLP courses, organized large-scale workshops, and volunteered in academic and community initiatives such as **TEDx** and the **ACM Student Chapter**.
 
 If you are interested in collaboration or discussion, feel free to [contact me via email](mailto:mohammadi.milad.mim@gmail.com).

@@ -154,7 +154,7 @@
     {
       "name": "IntRest",
       "location": "Remote",
-      "position": "Senior AI Engineer (Part-time)",
+      "position": "Senior AI (Research) Engineer (Part-time, Remote)",
       "url": "",
       "startDate": "2026-02-01",
       "endDate": "",
@@ -164,24 +164,12 @@
       ]
     },
     {
-      "name": "Lucid Axon",
-      "location": "Remote",
-      "position": "AI/ML Engineer (Part-time)",
-      "url": "",
-      "startDate": "2025-11-01",
-      "endDate": "2026-02-01",
-      "summary": "Document-AI and retrieval systems for ESG, legal, and compliance workflows.",
-      "highlights": [
-        "Built document-AI components for ESG workflows, including a local DeepSeek OCR pipeline and a hierarchical ingestion/retrieval microservice for high-stakes legal and compliance documents."
-      ]
-    },
-    {
       "name": "Adan AI",
       "location": "",
       "position": "AI Software Engineer (Part-time)",
       "url": "",
-      "startDate": "2024-08-01",
-      "endDate": "2025-10-01",
+      "startDate": "2024-06-01",
+      "endDate": "2025-11-01",
       "summary": "Production-oriented LLM applications, agentic customer-service systems, Persian document RAG pipelines, FAQ-bot automation, and reusable LangGraph infrastructure.",
       "highlights": [
         "Led architecture and delivery of an agentic customer-service chatbot for a national bank: translated PM requirements into user stories; designed a ReAct/Reflexion workflow with more than 15 tool steps; implemented and reviewed LangGraph and OpenAI modules; defined and tracked evaluation metrics for production.",
@@ -197,13 +185,27 @@
       "institution": "ECE, University of Tehran",
       "position": "Chief Teaching Assistant",
       "url": "",
-      "startDate": "2025-09-01",
-      "endDate": "",
+      "startDate": "2026-02-01",
+      "endDate": "2026-07-01",
       "instructors": [
-        "Prof. Hesham Faili (Fall 2025)",
-        "Dr. Yadollah Yaghobzadeh (Spring 2026)"
+        "Dr. Yadollah Yaghobzadeh"
       ],
-      "summary": "Chief TA for the NLP course at the University of Tehran.",
+      "summary": "Chief TA for the Spring 2026 NLP course at the University of Tehran.",
+      "highlights": [
+        "Managed the TA team in designing and grading course assignments, organized class quizzes, and coordinated and scored student paper presentations."
+      ]
+    },
+    {
+      "name": "Natural Language Processing",
+      "institution": "ECE, University of Tehran",
+      "position": "Chief Teaching Assistant",
+      "url": "",
+      "startDate": "2025-09-01",
+      "endDate": "2026-01-01",
+      "instructors": [
+        "Prof. Hesham Faili"
+      ],
+      "summary": "Chief TA for the Fall 2025 NLP course at the University of Tehran.",
       "highlights": [
         "Led a 12-member TA team and coordinated course planning, weekly schedules, quizzes, and exams."
       ]
@@ -223,9 +225,17 @@
       "highlights": [
         "Designed a multi-stage course assignment on language agents, from prompt-router baselines to ReAct-style agents solving Text-to-SQL on the BIRD dataset.",
         "Authored the assignment rubric and graded the assignment, midterm, and final.",
-        "Led a hands-on workshop on building agents with LangGraph.",
-        "Course assignment repository: https://github.com/safdarian/text2sql-framework",
-        "Workshop recording: https://www.youtube.com/watch?v=sL5xup15w4U&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=1"
+        "Led a hands-on workshop on building agents with LangGraph."
+      ],
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/safdarian/text2sql-framework"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=sL5xup15w4U&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=1"
+        }
       ]
     },
     {
@@ -258,9 +268,17 @@
       "highlights": [
         "Authored the final project ChatFood: an agentic food-ordering chatbot with RAG over a food book, tool use for order/track/cancel operations, and a Reflexion-based recommender.",
         "Provided runnable backend and database starter code for the final project.",
-        "Ran a 4-hour workshop on chatbots and agents with LangGraph, LanceDB, and Chainlit, covering design patterns and evaluation.",
-        "Project repository: https://github.com/mohammadi-milad-mim/ChatFood",
-        "Workshop recording: https://www.youtube.com/watch?v=r9BAdoi3l6Y&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=7"
+        "Ran a 4-hour workshop on chatbots and agents with LangGraph, LanceDB, and Chainlit, covering design patterns and evaluation."
+      ],
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/mohammadi-milad-mim/ChatFood"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=r9BAdoi3l6Y&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=7"
+        }
       ]
     },
     {
@@ -277,9 +295,17 @@
       "highlights": [
         "Designed NanoSparseRetriever, a from-scratch Python assignment covering indexing, query/document processing, and pluggable scoring.",
         "Students implemented TF-IDF and BM25 and probed parameter effects.",
-        "Taught a project workshop on OpenAI API and RAG pipelines using LanceDB and open-source dense retrievers.",
-        "Assignment repository: https://github.com/mohammadi-milad-mim/NanoSparseRetriever",
-        "Workshop recording: https://www.youtube.com/watch?v=ubnmFJ5Huhc&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=8"
+        "Taught a project workshop on OpenAI API and RAG pipelines using LanceDB and open-source dense retrievers."
+      ],
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/mohammadi-milad-mim/NanoSparseRetriever"
+        },
+        {
+          "name": "YouTube",
+          "url": "https://www.youtube.com/watch?v=ubnmFJ5Huhc&list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX&index=8"
+        }
       ]
     },
     {
@@ -309,6 +335,14 @@
       "highlights": [
         "Courses: Algorithm Design, Discrete Mathematics, Programming Foundations, IT Foundation, and E-Commerce."
       ]
+    }
+  ],
+  "certificates": [
+    {
+      "name": "TOEFL iBT (Test Center) — Overall 5.5 (110/120), C1",
+      "date": "2026-07-25",
+      "issuer": "Reading: 6.0/6; Listening: 6.0/6; Writing: 5.5/6; Speaking: 5.0/6",
+      "url": ""
     }
   ],
   "skills": [
@@ -554,6 +588,6 @@
   "meta": {
     "canonical": "https://jsonresume.org/schema/",
     "version": "v1.0.0",
-    "lastModified": "2026-05-18"
+    "lastModified": "2026-07-30"
   }
 }

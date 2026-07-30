@@ -50,6 +50,14 @@
               {% endfor %}
             </ul>
           {% endif %}
+          {% if content.links and content.links.size > 0 %}
+            <div class="ml-1 ml-md-4 mt-2">
+              {% for link in content.links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
+                {% unless forloop.last %}<span aria-hidden="true"> · </span>{% endunless %}
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </li>

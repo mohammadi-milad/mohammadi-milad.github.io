@@ -24,6 +24,16 @@ $pink-color: #f92080 !default;
 $pink-color-light: #ffdddd !default;
 $yellow-color: #efcc00 !default;
 
+// Loki-inspired site palette
+$loki-emerald: #0b4936 !default;
+$deep-asgardian-green: #062d24 !default;
+$timeline-green: #4fae70 !default;
+$yggdrasil-glow: #78d98b !default;
+$antique-gold: #b08a45 !default;
+$dark-bronze: #70532d !default;
+$void-black: #080d0b !default;
+$throne-stone: #303733 !default;
+
 $grey-color: #828282 !default;
 $grey-color-light: color.adjust($grey-color, $lightness: 40%);
 $grey-color-dark: #1c1c1d;
@@ -34,8 +44,8 @@ $black-color: #000000 !default;
 
 // Theme colors
 
-$code-bg-color-light: rgba($purple-color, 0.05);
-$code-bg-color-dark: #2c3237 !default;
+$code-bg-color-light: rgba($loki-emerald, 0.06);
+$code-bg-color-dark: $deep-asgardian-green;
 
 // Font awesome location
 $fa-font-path: "../webfonts";

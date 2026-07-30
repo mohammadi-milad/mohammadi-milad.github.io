@@ -46,7 +46,9 @@
           {% if content.highlights and content.highlights.size > 0 %}
             <ul class="items">
               {% for item in content.highlights %}
-                <li><span class="item">{{ item }}</span></li>
+                <li>
+                  <span class="item">{{ item }}</span>
+                </li>
               {% endfor %}
             </ul>
           {% endif %}
@@ -54,7 +56,9 @@
             <div class="ml-1 ml-md-4 mt-2">
               {% for link in content.links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
-                {% unless forloop.last %}<span aria-hidden="true"> · </span>{% endunless %}
+                {% unless forloop.last -%}
+                  <span aria-hidden="true"> · </span>
+                {%- endunless %}
               {% endfor %}
             </div>
           {% endif %}

@@ -27,11 +27,12 @@ latest_posts:
   scrollable: false
   limit:
 ---
-I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the *University of Tehran* and an **AI (Research) Engineer** specializing in **Natural Language Processing (NLP), Deep Learning, and Large Language Models (LLMs)**.
+
+I am **Milad Mohammadi**, an M.Sc. candidate in **IT Engineering** at the _University of Tehran_ and an **AI (Research) Engineer** specializing in **Natural Language Processing (NLP), Deep Learning, and Large Language Models (LLMs)**.
 My research focuses on **modeling and simulation with AI agents**, with an emphasis on:
 
-* Modeling and simulating human behavior with generative agents.
-* Designing agent-based simulations for personalization, user profiling, and a deeper understanding of human–AI interaction.
+- Modeling and simulating human behavior with generative agents.
+- Designing agent-based simulations for personalization, user profiling, and a deeper understanding of human–AI interaction.
 
 I have contributed to both **academic research** (e.g., benchmarking LLMs, multi-agent system design, cognitive modeling) and **industry-scale AI products**, including **customer service chatbots, intelligent retrieval systems, and automated knowledge ingestion pipelines**.
 

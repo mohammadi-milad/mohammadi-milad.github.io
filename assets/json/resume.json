@@ -145,9 +145,7 @@
         "url": "https://scholar.google.com/citations?user=6-6ZdxMAAAAJ"
       },
       "summary": "Graduate research assistant working on LLMs for psychological applications and computational modeling.",
-      "highlights": [
-        "Initiated a lab track on LLMs for psychological applications, especially agentic modeling of mental states and behaviour."
-      ]
+      "highlights": ["Initiated a lab track on LLMs for psychological applications, especially agentic modeling of mental states and behaviour."]
     }
   ],
   "work": [
@@ -187,9 +185,7 @@
       "url": "",
       "startDate": "2026-02-01",
       "endDate": "2026-07-01",
-      "instructors": [
-        "Dr. Yadollah Yaghobzadeh"
-      ],
+      "instructors": ["Dr. Yadollah Yaghobzadeh"],
       "summary": "Chief TA for the Spring 2026 NLP course at the University of Tehran.",
       "highlights": [
         "Managed the TA team in designing and grading course assignments, organized class quizzes, and coordinated and scored student paper presentations."
@@ -202,13 +198,9 @@
       "url": "",
       "startDate": "2025-09-01",
       "endDate": "2026-01-01",
-      "instructors": [
-        "Prof. Hesham Faili"
-      ],
+      "instructors": ["Prof. Hesham Faili"],
       "summary": "Chief TA for the Fall 2025 NLP course at the University of Tehran.",
-      "highlights": [
-        "Led a 12-member TA team and coordinated course planning, weekly schedules, quizzes, and exams."
-      ]
+      "highlights": ["Led a 12-member TA team and coordinated course planning, weekly schedules, quizzes, and exams."]
     },
     {
       "name": "Large Language Models",
@@ -217,10 +209,7 @@
       "url": "",
       "startDate": "2025-02-01",
       "endDate": "2025-07-01",
-      "instructors": [
-        "Dr. Yadollah Yaghobzadeh",
-        "Dr. Mohammad Javad Dousti"
-      ],
+      "instructors": ["Dr. Yadollah Yaghobzadeh", "Dr. Mohammad Javad Dousti"],
       "summary": "Graduate TA for a course on large language models, language agents, and applied LLM systems.",
       "highlights": [
         "Designed a multi-stage course assignment on language agents, from prompt-router baselines to ReAct-style agents solving Text-to-SQL on the BIRD dataset.",
@@ -245,9 +234,7 @@
       "url": "",
       "startDate": "2025-02-01",
       "endDate": "2025-07-01",
-      "instructors": [
-        "Prof. Majid Nili Ahmadabadi"
-      ],
+      "instructors": ["Prof. Majid Nili Ahmadabadi"],
       "summary": "Workshop instructor for a university-wide course on AI and digital transformation.",
       "highlights": [
         "Delivered two large-venue lectures to more than 500 students in the course's inaugural university-wide offering open to all fields.",
@@ -261,9 +248,7 @@
       "url": "",
       "startDate": "2024-09-01",
       "endDate": "2025-01-01",
-      "instructors": [
-        "Prof. Hesham Faili"
-      ],
+      "instructors": ["Prof. Hesham Faili"],
       "summary": "Graduate TA for NLP, focused on agentic NLP systems, RAG, and chatbot project design.",
       "highlights": [
         "Authored the final project ChatFood: an agentic food-ordering chatbot with RAG over a food book, tool use for order/track/cancel operations, and a Reflexion-based recommender.",
@@ -288,9 +273,7 @@
       "url": "",
       "startDate": "2024-09-01",
       "endDate": "2025-01-01",
-      "instructors": [
-        "Dr. Azadeh Shakeri"
-      ],
+      "instructors": ["Dr. Azadeh Shakeri"],
       "summary": "Graduate TA for information retrieval, sparse retrieval, dense retrieval, and RAG pipelines.",
       "highlights": [
         "Designed NanoSparseRetriever, a from-scratch Python assignment covering indexing, query/document processing, and pluggable scoring.",
@@ -315,9 +298,7 @@
       "url": "",
       "startDate": "2024-09-01",
       "endDate": "2025-01-01",
-      "instructors": [
-        "Dr. Ahmad Kalhor"
-      ],
+      "instructors": ["Dr. Ahmad Kalhor"],
       "summary": "Graduate TA for deep learning and neural networks, with emphasis on LLM architecture and fine-tuning.",
       "highlights": [
         "Designed the course project on LLM fine-tuning: Gemma 2 for Persian chat via Prefix-Tuning, LoRA, and QLoRA.",
@@ -332,9 +313,7 @@
       "startDate": "2019-01-01",
       "endDate": "2023-12-01",
       "summary": "Teaching assistant for multiple undergraduate computer engineering courses.",
-      "highlights": [
-        "Courses: Algorithm Design, Discrete Mathematics, Programming Foundations, IT Foundation, and E-Commerce."
-      ]
+      "highlights": ["Courses: Algorithm Design, Discrete Mathematics, Programming Foundations, IT Foundation, and E-Commerce."]
     }
   ],
   "certificates": [
@@ -350,17 +329,7 @@
       "name": "Software Engineering",
       "level": "",
       "icon": "",
-      "keywords": [
-        "Python",
-        "FastAPI",
-        "Pydantic",
-        "pytest",
-        "uv",
-        "pip-tools",
-        "Code Refactoring",
-        "API Design",
-        "Backend Architecture"
-      ]
+      "keywords": ["Python", "FastAPI", "Pydantic", "pytest", "uv", "pip-tools", "Code Refactoring", "API Design", "Backend Architecture"]
     },
     {
       "name": "LLM Agents",
@@ -382,17 +351,7 @@
       "name": "Inference & Fine-tuning",
       "level": "",
       "icon": "",
-      "keywords": [
-        "vLLM",
-        "Hugging Face Transformers",
-        "PEFT",
-        "LoRA",
-        "QLoRA",
-        "TRL",
-        "Tokenizers",
-        "Model Serving",
-        "LLM Fine-tuning"
-      ]
+      "keywords": ["vLLM", "Hugging Face Transformers", "PEFT", "LoRA", "QLoRA", "TRL", "Tokenizers", "Model Serving", "LLM Fine-tuning"]
     },
     {
       "name": "Retrieval & RAG",
@@ -415,61 +374,25 @@
       "name": "Machine Learning",
       "level": "",
       "icon": "",
-      "keywords": [
-        "PyTorch",
-        "scikit-learn",
-        "NumPy",
-        "Pandas",
-        "Matplotlib",
-        "Feature Engineering",
-        "Classical ML",
-        "Evaluation"
-      ]
+      "keywords": ["PyTorch", "scikit-learn", "NumPy", "Pandas", "Matplotlib", "Feature Engineering", "Classical ML", "Evaluation"]
     },
     {
       "name": "Backend Development",
       "level": "",
       "icon": "",
-      "keywords": [
-        "PostgreSQL",
-        "SQLite",
-        "REST",
-        "gRPC",
-        "WebSockets",
-        "OAuth2/OIDC",
-        "JWT",
-        "Microservices"
-      ]
+      "keywords": ["PostgreSQL", "SQLite", "REST", "gRPC", "WebSockets", "OAuth2/OIDC", "JWT", "Microservices"]
     },
     {
       "name": "MLOps & DevOps",
       "level": "",
       "icon": "",
-      "keywords": [
-        "Docker",
-        "Docker Compose",
-        "CI/CD",
-        "Observability",
-        "Metrics",
-        "Logs",
-        "Traces",
-        "Production Monitoring"
-      ]
+      "keywords": ["Docker", "Docker Compose", "CI/CD", "Observability", "Metrics", "Logs", "Traces", "Production Monitoring"]
     },
     {
       "name": "Product & Delivery",
       "level": "",
       "icon": "",
-      "keywords": [
-        "Agile",
-        "Requirements Analysis",
-        "Technical Documentation",
-        "Roadmaps",
-        "OKRs",
-        "KPIs",
-        "User Stories",
-        "Production Delivery"
-      ]
+      "keywords": ["Agile", "Requirements Analysis", "Technical Documentation", "Roadmaps", "OKRs", "KPIs", "User Stories", "Production Delivery"]
     }
   ],
   "projects": [
@@ -486,14 +409,7 @@
       "startDate": "",
       "endDate": "",
       "url": "https://github.com/safdarian/llm-project",
-      "keywords": [
-        "Text-to-SQL",
-        "Data Analysis Agent",
-        "LLM-as-Judge",
-        "BIRD Dataset",
-        "SQLite",
-        "Python"
-      ]
+      "keywords": ["Text-to-SQL", "Data Analysis Agent", "LLM-as-Judge", "BIRD Dataset", "SQLite", "Python"]
     },
     {
       "name": "MedYar: Health Reservation Agent (Triage & Booking)",
@@ -509,14 +425,7 @@
       "startDate": "",
       "endDate": "",
       "url": "https://github.com/Medi-Yar/FindDoctor",
-      "keywords": [
-        "Health Agent",
-        "Triage",
-        "Booking Automation",
-        "ReAct",
-        "Tool Use",
-        "Web Automation"
-      ]
+      "keywords": ["Health Agent", "Triage", "Booking Automation", "ReAct", "Tool Use", "Web Automation"]
     }
   ],
   "volunteer": [

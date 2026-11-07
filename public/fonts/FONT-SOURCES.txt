@@ -1,0 +1,57 @@
+Source Serif 4 — self-hosted web fonts
+
+Designer: Frank Grießhammer
+Copyright 2014 The Source Serif 4 Project Authors (https://github.com/adobe-fonts/source-serif)
+License: SIL Open Font License 1.1; full text in SourceSerif4-OFL.txt
+Official upstream: https://github.com/adobe-fonts/source-serif
+Google Fonts distribution metadata: https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/METADATA.pb
+License source: https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/OFL.txt
+CSS source (Chrome user agent, Latin subset): https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap
+
+Downloaded 6 November 2026. Files copied without modification.
+CSS exposes weights 400–700, normal and italic.
+Verified binary axes: wght 200–900 (default 400); opsz 8–60 (default 20).
+The Latin subset does not include the entire upstream character set.
+
+source-serif-4-latin-italic.woff2
+Source: https://fonts.gstatic.com/s/sourceserif4/v15/vEFK2_tTDB4M7-auWDN0ahZJW1gewtW_WpzEpMs.woff2
+Size: 129940 bytes
+SHA-256: 011e0ca2bd14c5dff94aa4c61121b8d057b95dbdbb2af621b175fed1059cfd5e
+
+source-serif-4-latin-normal.woff2
+Source: https://fonts.gstatic.com/s/sourceserif4/v15/vEFI2_tTDB4M7-auWDN0ahZJW1gb8te1Xb7G.woff2
+Size: 122168 bytes
+SHA-256: 2a24bad466f09b88b8e9cbc488bf774117c912e66374c57bf4716855849143f8
+
+
+Source Sans 3 — self-hosted variable Latin web fonts
+License: SIL Open Font License, source-sans-3-OFL.txt
+Upstream: https://github.com/adobe-fonts/source-sans
+Copied from the accepted local appearance preview.
+[
+  {
+    "family": "Source Sans 3",
+    "css_source": "https://fonts.googleapis.com/css2?family=Source+Sans+3%3Aital%2Cwght%400%2C400..600%3B1%2C400..600&display=swap",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourcesans3/OFL.txt",
+    "files": [
+      {
+        "family": "Source Sans 3",
+        "style": "italic",
+        "weight": "400 600",
+        "file": "fonts/source-sans-3-latin-italic.woff2",
+        "bytes": 28488,
+        "signature": "wOF2",
+        "source": "https://fonts.gstatic.com/s/sourcesans3/v20/nwpMtKy2OAdR1K-IwhWudF-R3woqZ-LYxnV18A.woff2"
+      },
+      {
+        "family": "Source Sans 3",
+        "style": "normal",
+        "weight": "400 600",
+        "file": "fonts/source-sans-3-latin-normal.woff2",
+        "bytes": 28804,
+        "signature": "wOF2",
+        "source": "https://fonts.gstatic.com/s/sourcesans3/v20/nwpStKy2OAdR1K-IwhWudF-R3w8aZejf5Hc.woff2"
+      }
+    ]
+  }
+]

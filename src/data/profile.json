@@ -211,9 +211,15 @@
       "url": "https://intrest.ca",
       "startDate": "2026-02-01",
       "endDate": "",
-      "summary": "Lead the end-to-end development of IntRest’s AI services, from architecture to production integration, in collaboration with the platform’s frontend and backend teams.",
+      "summary": "IntRest is a Canadian startup building food-analysis software and APIs for restaurants, packaged-food brands, and food platforms. Its tools turn menus and recipes into nutrition information, allergen and diet insights, and food labels. As Senior AI Engineer, I lead the architecture and development of its AI services, from product requirements and agent design through integration and production diagnostics, working with the frontend and backend teams.",
       "highlights": [
-        "Designed 7+ AI-native features for food analysis using LLM-based agents and workflows."
+        "Designed and delivered 7+ AI-powered capabilities covering ingredient identification, nutrition analysis, allergens, dietary classifications, recipes, portions, and labeling.",
+        "Built a modular Python platform with separate API, domain-logic, and food-data layers, exposing typed FastAPI/Pydantic interfaces for integration with the product.",
+        "Developed food retrieval using USDA and CNF reference data, combining keyword, semantic, and hybrid search through Milvus to ground ingredient matching.",
+        "Designed language-agent workflows with validated tool outputs and deterministic fallbacks, connecting flexible language interpretation with reproducible portion and nutrient calculations.",
+        "Implemented ingredient and portion editing with automatic recalculation, alongside serving-declaration and nutrition-claim workflows that make assumptions and assessment reasons reviewable.",
+        "Improved service reliability and efficiency through local and Redis caching, duplicate-request handling, bounded concurrency, deadlines, retries, and partial-success responses.",
+        "Established regression coverage, integration documentation, and Langfuse tracing to support team handoffs and diagnose model calls, token use, and pipeline behavior."
       ]
     },
     {
@@ -223,11 +229,12 @@
       "url": "",
       "startDate": "2024-06-01",
       "endDate": "2025-11-01",
-      "summary": "Production LLM applications, agentic customer-service systems, Persian document retrieval pipelines, and automated FAQ chatbots.",
+      "summary": "At Adan AI, I developed language-model applications for customer service and enterprise knowledge access. My work covered a banking assistant, Persian document retrieval, and tools that helped teams build and deploy FAQ chatbots.",
       "highlights": [
-        "Led the architecture and delivery of an agentic customer-service chatbot for a national bank: translated product requirements into user stories; designed a ReAct/Reflexion workflow with over 15 tool steps; implemented and reviewed LangGraph and OpenAI modules; defined and tracked production evaluation metrics.",
-        "Built a Persian PDF pipeline with table- and chart-aware parsing, chunking, and entity extraction; cut processing costs by 50% and improved retrieval accuracy by 8 percentage points on a human-annotated evaluation set.",
-        "Developed an automated FAQ chatbot generator that cleans Excel FAQs, expands seed data, and deploys chatbots without manual coding, reducing onboarding time from days to under one hour."
+        "Led architecture and delivery of a customer-service assistant for a national bank, translating product requirements into user stories and a ReAct/Reflexion workflow with more than 15 tool steps.",
+        "Implemented and reviewed LangGraph and OpenAI components and defined production evaluation metrics for the banking assistant.",
+        "Built a Persian PDF-to-RAG pipeline with table- and chart-aware parsing, chunking, and entity extraction, reducing processing costs by 50% and improving retrieval accuracy by 8 percentage points on a human-annotated evaluation set.",
+        "Developed an automated FAQ chatbot generator that cleaned Excel FAQs, expanded seed data, and deployed chatbots without manual coding, reducing onboarding from days to under one hour."
       ]
     }
   ],

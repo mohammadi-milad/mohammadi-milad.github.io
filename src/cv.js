@@ -1,7 +1,6 @@
-import { cvVisual } from './cv-visuals.js';
 import { renderCVAppendix } from './cv-appendix.js';
 import { cvSections } from './cv-sections.js';
-import { esc, url, icon, badge, date, range, list, external } from './components.js';
+import { esc, url, icon, badge, date, range, list, external, authorLine } from './components.js';
 
 const cvPDF = () => url('/documents/milad-mohammadi-cv.pdf');
 const categoryNames = Object.fromEntries(Object.entries(cvSections).map(([key, section]) => [key, section.title]));
@@ -34,14 +33,14 @@ function entryMark(entry) {
     : `<span class="cv-entry-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${entrySymbols[entry.category] || entrySymbols.research}</svg></span>`;
 }
 function detailEntry(entry, index) {
-  return `<details class="cv-entry" id="${entry.id}" data-cv-entry data-order="${index}" data-category="${entry.category}" data-date="${esc(entry.date || '')}" data-chapter="${entry.chapter}" data-stage="${entry.stage}" data-timeline-order="${entry.timelineOrder}">
+  return `<details class="cv-entry" id="${entry.id}" data-cv-entry data-order="${index}" data-theme-order="${entry.themeOrder ?? index}" data-category="${entry.category}" data-date="${esc(entry.date || '')}" data-chapter="${entry.chapter}" data-stage="${entry.stage}" data-timeline-order="${entry.timelineOrder}">
     <summary class="cv-summary">
       ${entryMark(entry)}
       <span class="cv-summary-main"><strong class="cv-entry-title">${esc(entry.title)}</strong><span class="cv-entry-subtitle">${esc(entry.subtitle)}</span></span>
       <span class="cv-entry-meta"><span class="cv-date">${esc(entry.dateLabel)}</span><span class="cv-theme-tag"><span class="sr-only">Theme: </span>${esc(cvSections[entry.category].label || categoryNames[entry.category])}</span></span>
       <span class="cv-expand" aria-hidden="true">+</span>
     </summary>
-    <div class="cv-entry-body"><p class="cv-detail-role">${esc(categoryNames[entry.category])}${entry.kicker ? ` <span aria-hidden="true">/</span> ${esc(entry.kicker)}` : ''}</p>${entry.body}${cvVisual(entry.id)}</div>
+    <div class="cv-entry-body">${entry.category === 'publications' ? '' : `<p class="cv-detail-role">${esc(categoryNames[entry.category])}${entry.kicker ? ` <span aria-hidden="true">/</span> ${esc(entry.kicker)}` : ''}</p>`}${entry.body}</div>
   </details>`;
 }
 
@@ -52,33 +51,47 @@ function futureEducation() {
       <span class="cv-summary-main"><strong class="cv-entry-title">Looking for a PhD position</strong><span class="cv-entry-subtitle">Next academic chapter</span></span>
       <span class="cv-entry-meta"><span class="cv-date">Start in 2027</span></span><span class="cv-expand" aria-hidden="true">+</span>
     </summary>
-    <div class="cv-entry-body"><p>I’m seeking a PhD position starting in 2027, focused on language agents, human behavior modeling, and human–AI interaction.</p><a class="cv-future-link" href="${url('/phd/')}">Research interests &amp; PhD plans ${icon('arrow')}</a></div>
+    <div class="cv-entry-body"><p>I’m seeking a PhD position in AI starting in 2027.</p><a class="cv-future-link" href="${url('/phd/')}">Research interests &amp; PhD plans ${icon('arrow')}</a></div>
   </details>`;
 }
 
-function researchContext(id) {
+function publicationContext(id) {
   const notes = {
-    psycidra: [
-      ['Approach', 'An interviewer gathers evidence through conversation; a second agent weighs supporting, contradicting, and missing evidence for expert review.'],
-      ['Evaluation', '81 held-out simulated profiles and a separate feasibility study with 101 adult volunteers. These studies assess different outcomes.'],
-      ['Scope', 'First-author M.Sc. thesis research. A preprint and feasibility study; clinical benefit has not been established.']
-    ],
-    schemagraphsql: [
-      ['Approach', 'Represent database tables and their relationships as a graph. Language-model guidance selects endpoints; pathfinding recovers relevant join paths.'],
-      ['Evaluation', 'Experiments on BIRD development and Spider 2.0 Lite. The method needs no task-specific fine-tuning; coverage and input cost remain a tradeoff.'],
-      ['Contribution', 'Second author of this collaborative work, published in Findings of EACL 2026.']
-    ],
-    'emotion-recognition-through-contrast': [
-      ['Approach', 'Role-play rewriting creates emotional variants of an utterance. Contrastive judging compares those variants with the original, without task-specific training.'],
-      ['Finding', 'Results were around the shared-task baseline, with substantial variation across languages. Rewriting can introduce or erase emotional cues.'],
-      ['Contribution', 'Co-first author, with equal contribution explicitly recorded in the paper.']
-    ],
-    permedcqa: [
-      ['Benchmark', '68,138 Persian consumer medical question–answer pairs, with an evaluation rubric checked against expert annotations.'],
-      ['Contribution', 'Second author. The benchmark examines answer quality in Persian; it does not establish clinical effectiveness.']
-    ]
+    psycidra: {
+      overview: 'PsyCIDRA separates psychiatric interviewing from diagnostic reasoning. One language agent gathers evidence through conversation, while a second reviews the transcript to identify supporting, contradicting, and missing evidence for expert review. The framework was evaluated through controlled simulations and a human feasibility study.',
+      contribution: 'I conceived the research idea, developed the framework, led the project, coordinated the team, and wrote the paper.'
+    },
+    schemagraphsql: {
+      overview: 'SchemaGraphSQL combines language-model guidance with graph pathfinding to identify the tables and join paths needed to answer natural-language database questions. It represents database schemas as graphs and extracts relevant sub-schemas without task-specific fine-tuning, with experiments on BIRD and Spider 2.0 Lite.',
+      contribution: 'I conducted the ablation study and contributed to writing the paper.'
+    },
+    'emotion-recognition-through-contrast': {
+      overview: 'This paper investigates multilingual emotion recognition with GPT-4o mini through a two-stage prompting approach. Role-play rewriting creates emotional variants of an utterance, and contrastive judging compares those variants with the original to predict emotion labels or intensity without task-specific training.',
+      contribution: 'I developed the idea, implemented the approach, and drafted the report.'
+    },
+    permedcqa: {
+      overview: 'PerMedCQA introduces a benchmark of 68,138 Persian consumer medical question–answer pairs for evaluating language-model responses. The work also introduces MedJudge, a rubric-based evaluation framework assessed against expert human annotations.',
+      contribution: 'I contributed to development and ran the experiments.'
+    }
   };
-  return notes[id] ? `<dl class="cv-research-notes">${notes[id].map(([label, text]) => `<div><dt>${label}</dt><dd>${text}</dd></div>`).join('')}</dl>` : '';
+  const note = notes[id];
+  return note ? `${paragraph(note.overview)}<p><strong>My contribution:</strong> ${esc(note.contribution)}</p>` : '';
+}
+
+function transcriptPreview(id) {
+  if (!['masters', 'bachelors'].includes(id)) return '';
+  const masters = id === 'masters';
+  const name = masters ? 'M.Sc.' : 'B.Sc.';
+  const pages = masters ? 1 : 2;
+  const title = `${name} transcript · English`;
+  return `<details class="cv-transcript" data-cv-transcript data-transcript-title="${esc(title)}">
+    <summary class="cv-transcript-trigger"><img src="${url(`/images/transcripts/${id}-english-1-thumb.jpg`)}" alt="" width="360" height="${masters ? 389 : 509}" loading="lazy"><span><strong>View English transcript</strong><span>${name} · ${pages} ${pages === 1 ? 'page' : 'pages'}${masters ? '' : ' · Unofficial translation'}</span></span><span class="cv-transcript-expand" aria-hidden="true">⤢</span></summary>
+    <div class="cv-transcript-pages">${Array.from({ length: pages }, (_, index) => `<figure><img src="${url(`/images/transcripts/${id}-english-${index + 1}.jpg`)}" alt="${name} English transcript, page ${index + 1} of ${pages}" width="1343" height="${masters ? 1450 : index === 0 ? 1900 : 1020}" loading="lazy"><figcaption>Page ${index + 1} of ${pages}</figcaption></figure>`).join('')}<p class="cv-note">Personal identifiers hidden in this public preview.</p></div>
+  </details>`;
+}
+
+function transcriptViewer() {
+  return `<dialog class="cv-transcript-viewer" id="cv-transcript-viewer" aria-labelledby="cv-transcript-title"><header class="cv-transcript-toolbar"><h2 id="cv-transcript-title">English transcript</h2><button type="button" data-transcript-close autofocus>Close <span aria-hidden="true">×</span></button></header><div class="cv-transcript-content" data-transcript-content></div></dialog>`;
 }
 
 function buildEntries(profile, researchEntries, projectEntries) {
@@ -93,26 +106,26 @@ function buildEntries(profile, researchEntries, projectEntries) {
       kicker: item.role || 'Publication',
       subtitle: `${item.publisher.includes('EACL') ? 'Findings of EACL 2026' : item.publisher.includes('arXiv') ? 'Preprint' : item.publisher}${item.status?.includes('under review') ? ' · under review' : ''} · ${item.role?.replace(' · equal contribution', '') || 'Publication'}`,
       search: research?.tags?.join(' '),
-      body: `<div class="cv-detail-section"><h3>${esc(item.name)}</h3>${researchContext(id) || paragraph(research?.description)}<p class="cv-authors">${esc(item.summary)}</p>${item.status ? paragraph(item.status) : ''}</div>${links([{ href: item.url, label: item.publisher.includes('arXiv') ? 'Read preprint' : 'Publisher record' }, ...(research ? [{ href: url(research.route), label: 'Research overview' }] : []), ...(research?.code ? [{ href: research.code, label: 'Code & materials' }] : [])])}`
+      body: `<div class="cv-detail-section"><h3>${esc(item.name)}</h3><p class="cv-authors">${authorLine(research?.authors || item.summary)}</p>${publicationContext(id) || paragraph(research?.description)}</div>${links([{ href: item.url, label: item.publisher.includes('arXiv') ? 'Read preprint' : 'Publisher record' }, ...(research ? [{ href: url(research.route), label: 'Research overview' }] : []), ...(research?.code ? [{ href: research.code, label: 'Code & materials' }] : [])])}`
     });
   }
-  for (const [index, item] of profile.research.entries()) {
+  for (const item of profile.research) {
+    const nlp = item.name.startsWith('NLP Lab');
     entries.push({
-      id: `cv-${index === 0 ? 'nlp-lab' : 'cognitive-psychology-lab'}`, category: 'research', date: item.startDate,
+      id: `cv-${nlp ? 'nlp-lab' : 'cognitive-psychology-lab'}`, category: 'research', date: item.startDate, themeOrder: nlp ? 0 : 1,
       dateLabel: range(item.startDate, item.endDate), title: item.name.replace(', University of Tehran', ''),
       kicker: item.position, subtitle: `University of Tehran · ${item.position}`,
-      body: `${paragraph(item.summary)}${list(item.highlights)}${links([{ href: item.advisor.url, label: item.advisor.name }, { href: url(index === 0 ? '/research/' : '/research/psycidra/'), label: index === 0 ? 'Related research' : 'PsyCIDRA · research overview' }])}`
+      body: `${paragraph(item.summary)}${list(item.highlights)}<p class="cv-lab-supervisor">Lab Supervisor: ${external(item.advisor.url, esc(item.advisor.name))}</p>`
     });
   }
   for (const item of profile.education) {
     const masters = item.id === 'masters';
-    const school = item.id === 'high-school';
     entries.push({
       id: `cv-${item.id}`, category: 'education', date: item.endDate, timelineDate: item.startDate,
       dateLabel: range(item.startDate, item.endDate), title: `${item.studyType} · ${item.area}`,
       kicker: masters ? 'Completed · Thesis: Excellent' : 'Completed',
       subtitle: `${item.institution} · ${item.score}${masters ? ' · Thesis: Excellent' : ''}`,
-      body: `${item.officialName ? paragraph(item.officialName) : ''}<div class="cv-evidence"><strong>${esc(item.score)}</strong><span>${masters ? 'Thesis graded Excellent, the highest qualitative grade.' : school ? 'High school · Mathematics · on a 20-point scale.' : 'Major GPA, on a 20-point scale.'}</span></div>${list(item.courses)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
+      body: `${item.officialName ? paragraph(item.officialName) : ''}<p class="cv-academic-score"><strong>${esc(item.score)}</strong>${masters ? ' · Thesis graded Excellent, the highest qualitative grade.' : ''}</p>${list(masters ? item.courses.filter(course => !course.startsWith('Thesis grade:')) : item.courses)}${transcriptPreview(item.id)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
     });
   }
   for (const item of profile.work) {
@@ -120,7 +133,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
       id: `cv-${slug(item.name)}`, category: 'industry', date: item.startDate,
       dateLabel: range(item.startDate, item.endDate), title: item.position,
       kicker: item.endDate ? 'Previous role' : 'Current role', subtitle: `${item.name} · ${item.location}`,
-      body: `${paragraph(item.summary)}${list(item.highlights)}${item.name === 'Adan AI' ? '<p class="cv-note">Retrieval improvement measured on a human-annotated evaluation set.</p>' : ''}${links([...publicLinks(item)])}`
+      body: `${paragraph(item.summary)}${list(item.highlights)}${links(publicLinks(item))}`
     });
   }
   for (const [index, item] of profile.teaching.entries()) {
@@ -131,7 +144,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
       dateLabel: semester, title: item.name,
       kicker: item.position, subtitle: `${item.institution} · ${item.position}`,
       search: item.instructors?.join(' '),
-      body: `${paragraph(item.summary)}${item.links?.some(link => link.name === 'YouTube') ? `<a class="cv-recording" href="${esc(item.links.find(link => link.name === 'YouTube').url)}"><span class="cv-recording-play" aria-hidden="true">▷</span><span><strong>Watch the workshop</strong><span>${esc(item.name)} · University of Tehran</span></span><span aria-hidden="true">↗</span></a>` : ''}${item.instructors?.length ? `<p class="cv-note">Course instructor${item.instructors.length > 1 ? 's' : ''}: ${esc(item.instructors.join(' · '))}</p>` : ''}${list(item.highlights)}${links([...materials, ...(materials.some(link => link.href.includes('youtube.com')) ? [] : item.institution.includes('Tehran') ? [{ href: 'https://www.youtube.com/playlist?list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX', label: 'Selected workshop recordings' }] : [])])}`
+      body: `${paragraph(item.summary)}${item.links?.some(link => link.name === 'YouTube') ? `<a class="cv-recording" href="${esc(item.links.find(link => link.name === 'YouTube').url)}"><span class="cv-recording-play" aria-hidden="true">▷</span><span><strong>Watch the workshop</strong><span>${esc(item.name)} · University of Tehran</span></span><span aria-hidden="true">↗</span></a>` : ''}${item.instructors?.length ? `<p class="cv-note">Course instructor${item.instructors.length > 1 ? 's' : ''}: ${esc(item.instructors.join(' · '))}</p>` : ''}${list(item.highlights)}${links(materials)}`
     });
   }
   for (const item of profile.projects.filter(project => project.showInCV !== false)) {
@@ -169,7 +182,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
     const season = value.length === 4 ? /^(Spring|Summer) /.exec(entry.dateLabel)?.[1] : null;
     return Number(value.slice(0, 4)) * 10000 + (season ? { Spring: 4, Summer: 8 }[season] * 100 : Number(value.slice(5, 7) || 0) * 100 + Number(value.slice(8, 10) || 0));
   };
-  [...entries].sort((a, b) => chronology(a) - chronology(b) || categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)).forEach((entry, index) => {
+  [...entries].sort((a, b) => chronology(a) - chronology(b) || categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category) || (a.category === 'research' ? b.themeOrder - a.themeOrder : 0)).forEach((entry, index) => {
     const value = entry.timelineDate || entry.date;
     entry.timelineOrder = index;
     entry.chapter = entry.id === 'cv-national-rank' ? 'transition' : value < '2018-09' ? 'before-bachelors' : value < '2023-09' ? 'bachelors' : 'masters';
@@ -202,7 +215,8 @@ export function renderCV(profile, researchEntries = [], projectEntries = []) {
       </div>
       <p class="sr-only" data-cv-view-status role="status" aria-live="polite"></p>
       <div class="cv-opportunity" data-cv-opportunity hidden><div class="cv-next-label">Next chapter<span class="cv-status-dot" aria-hidden="true"></span></div><div><h2>Looking for a PhD position</h2><p>Language agents · human behavior modeling · human–AI interaction</p></div><a href="${url('/phd/')}">Research interests ${icon('arrow')}</a></div>
-      <div class="cv-groups" id="cv-groups" data-cv-groups>${categories.map((category, index) => `<section class="cv-group" data-cv-group="${category}" aria-labelledby="cv-group-${category}"><header class="cv-group-header"><span class="cv-chapter-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h2 class="cv-group-heading" id="cv-group-${category}">${categoryNames[category]}</h2></header><div class="cv-entries">${cvSections[category].intro ? `<p class="cv-group-intro">${esc(cvSections[category].intro)}</p>` : ''}${category === 'education' ? futureEducation() : ''}${entries.filter(entry => entry.category === category).map(entry => detailEntry(entry, entryOrder.get(entry))).join('')}</div></section>`).join('')}</div>
+      <div class="cv-groups" id="cv-groups" data-cv-groups>${categories.map((category, index) => `<section class="cv-group" data-cv-group="${category}" aria-labelledby="cv-group-${category}"><header class="cv-group-header"><span class="cv-chapter-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h2 class="cv-group-heading" id="cv-group-${category}">${categoryNames[category]}</h2></header><div class="cv-entries">${cvSections[category].intro ? `<p class="cv-group-intro">${esc(cvSections[category].intro)}</p>` : ''}${category === 'education' ? futureEducation() : ''}${entries.filter(entry => entry.category === category).sort((a, b) => (a.themeOrder ?? entryOrder.get(a)) - (b.themeOrder ?? entryOrder.get(b))).map(entry => detailEntry(entry, entryOrder.get(entry))).join('')}</div></section>`).join('')}</div>
     </section>
+    ${transcriptViewer()}
     ${renderCVAppendix(profile)}`;
 }

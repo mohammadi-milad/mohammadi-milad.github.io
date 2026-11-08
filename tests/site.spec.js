@@ -224,8 +224,15 @@ test('theme chapters retain their reading order, numbering, and introductions af
     service: 'Volunteering during high school and my bachelor’s shaped my soft skills, especially leadership.'
   };
   const checkResearchContext = async () => {
+    await expect(page.locator('[data-cv-entry][data-category="research"]')).toHaveCount(2);
+    await expect.poll(() => page.locator('[data-cv-entry][data-category="research"]').evaluateAll(nodes => nodes.map(node => node.id))).toEqual(['cv-nlp-lab', 'cv-cognitive-psychology-lab']);
     for (const id of ['cv-nlp-lab', 'cv-cognitive-psychology-lab']) {
       await expect(page.locator(`#${id} .cv-entry-body`)).toContainText('as part of my master’s thesis');
+      const body = page.locator(`#${id} .cv-entry-body`);
+      await expect(body.locator('.cv-lab-supervisor')).toContainText('Lab Supervisor:');
+      await expect(body.locator('a')).toHaveCount(1);
+      await expect(body.locator('.cv-lab-supervisor a')).toHaveAttribute('href', /scholar\.google\.com\/citations\?user=/);
+      await expect(body.locator('.cv-lab-supervisor a')).toHaveText(id === 'cv-nlp-lab' ? 'Prof. Heshaam Faili' : 'Prof. Hadi Moradi');
     }
   };
   const checkTheme = async () => {
@@ -445,7 +452,7 @@ test('the future PhD row opens within Education and preserves its state through 
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
 });
 
-test('CV summaries remain compact in both views and reveal figures only on expansion', async ({ page }) => {
+test('CV summaries remain compact in both views and reveal publication text on expansion', async ({ page }) => {
   for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: 960 });
     await page.goto('/cv/');
@@ -462,7 +469,138 @@ test('CV summaries remain compact in both views and reveal figures only on expan
     }
   }
   await page.locator('#cv-psycidra summary').click();
-  await expect(page.locator('#cv-psycidra .cv-entry-body .cv-visual')).toBeVisible();
+  await expect(page.locator('#cv-psycidra .cv-entry-body')).toBeVisible();
+  await expect(page.locator('[data-category="publications"] .cv-entry-body .cv-visual')).toHaveCount(0);
+});
+
+test('expanded publications show full titles, authors, descriptions, and personal contributions', async ({ page }) => {
+  await page.goto('/cv/');
+  const papers = [
+    {
+      id: 'cv-psycidra',
+      title: 'PsyCIDRA: A Dual-Agent Framework for Psychiatric Interviewing and Diagnostic Reasoning',
+      authors: 'Milad Mohammadi, Fatemeh Akrami Shamsabadi, Zahra Mohseni, Amirhossein Safdarian, Malekfarhad Malek, Hadi Moradi, and Hesham Faili',
+      overview: /PsyCIDRA separates psychiatric interviewing from diagnostic reasoning/,
+      contribution: 'I conceived the research idea, developed the framework, led the project, coordinated the team, and wrote the paper.'
+    },
+    {
+      id: 'cv-schemagraphsql',
+      title: 'SchemaGraphSQL: Efficient Schema Linking with Pathfinding Graph Algorithms for Text-to-SQL on Large-Scale Databases',
+      authors: 'AmirHossein Safdarian, Milad Mohammadi, Ehsan Jahanbakhsh Bashirloo, Mona Shahamat Naderi, and Heshaam Faili',
+      overview: /SchemaGraphSQL combines language-model guidance with graph pathfinding/,
+      contribution: 'I conducted the ablation study and contributed to writing the paper.'
+    },
+    {
+      id: 'cv-emotion-recognition-through-contrast',
+      title: 'UT-NLP at SemEval-2025 Task 11: Evaluating Zero-Shot Capability of GPT-4o mini on Emotion Recognition via Role-Play and Contrastive Judging',
+      authors: 'Amirhossein Safdarian*, Milad Mohammadi*, and Heshaam Faili · * Equal contribution',
+      overview: /multilingual emotion recognition with GPT-4o mini/,
+      contribution: 'I developed the idea, implemented the approach, and drafted the report.'
+    },
+    {
+      id: 'cv-permedcqa',
+      title: 'PerMedCQA: Benchmarking Large Language Models on Medical Consumer Question Answering in Persian Language',
+      authors: 'Naghmeh Jamali, Milad Mohammadi, Danial Baledi, Zahra Rezvani, and Hesham Faili',
+      overview: /68,138 Persian consumer medical question–answer pairs/,
+      contribution: 'I contributed to development and ran the experiments.'
+    }
+  ];
+  for (const paper of papers) {
+    const entry = page.locator(`#${paper.id}`);
+    await entry.locator(':scope > summary').click();
+    const body = entry.locator('.cv-entry-body');
+    await expect(body).toBeVisible();
+    await expect(body.locator('h3')).toHaveText(paper.title);
+    await expect(body.locator('.cv-authors')).toHaveText(paper.authors);
+    await expect(body.locator('.cv-authors strong')).toHaveCount(1);
+    await expect(body.locator('.cv-authors strong')).toHaveText('Milad Mohammadi');
+    await expect(body).toContainText(paper.overview);
+    await expect(body).toContainText(`My contribution: ${paper.contribution}`);
+    await expect(body.locator('figure, svg, .cv-visual, .cv-research-notes')).toHaveCount(0);
+  }
+  await expect(page.getByRole('link', { name: 'Selected workshop recordings', exact: true })).toHaveCount(0);
+});
+
+for (const width of [1440, 390]) {
+  for (const [degree, label, count] of [['masters', 'M.Sc.', 1], ['bachelors', 'B.Sc.', 2]]) {
+    test(`${label} English transcript opens in a same-page dialog at ${width}px and restores focus on dismissal`, async ({ page, context }) => {
+      await page.setViewportSize({ width, height: 960 });
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('/cv/');
+      const initialURL = page.url();
+      const initialPages = context.pages().length;
+      const popups = [];
+      page.on('popup', popup => popups.push(popup.url()));
+      const entry = page.locator(`#cv-${degree}`);
+      await entry.locator(':scope > summary').click();
+      const transcript = entry.locator('[data-cv-transcript]');
+      const trigger = transcript.locator(':scope > summary');
+      const viewer = page.getByRole('dialog', { name: `${label} transcript · English`, exact: true });
+      const previousOverflow = await page.evaluate(() => document.documentElement.style.overflow);
+      await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+      await expect(trigger).toHaveAttribute('aria-controls', 'cv-transcript-viewer');
+      await expect(trigger).toContainText('View English transcript');
+      if (degree === 'bachelors') await expect(trigger).toContainText('Unofficial translation');
+      const thumbnailWidth = (await trigger.locator('img').boundingBox()).width;
+
+      for (const dismissal of ['close button', 'Escape', 'backdrop']) {
+        await trigger.focus();
+        await page.keyboard.press('Enter');
+        await expect(viewer).toBeVisible();
+        await expect(viewer).toHaveAttribute('open', '');
+        expect(await viewer.evaluate(dialog => dialog.matches(':modal'))).toBe(true);
+        await expect(viewer.getByRole('button', { name: 'Close', exact: true })).toBeFocused();
+        await expect(viewer.locator('figure img')).toHaveCount(count);
+        for (let index = 1; index <= count; index++) {
+          const image = viewer.getByRole('img', { name: `${label} English transcript, page ${index} of ${count}`, exact: true });
+          await expect(image).toBeVisible();
+          await expect(image).toHaveAttribute('src', new RegExp(`/images/transcripts/${degree}-english-${index}\\.jpg$`));
+          await expect.poll(() => image.evaluate(node => node.complete && node.naturalWidth > 0)).toBe(true);
+        }
+        expect((await viewer.locator('figure img').first().boundingBox()).width).toBeGreaterThan(thumbnailWidth);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+        expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe('hidden');
+        expect(page.url()).toBe(initialURL);
+        expect(context.pages()).toHaveLength(initialPages);
+        expect(popups).toEqual([]);
+        if (dismissal === 'close button') await viewer.getByRole('button', { name: 'Close', exact: true }).click();
+        else if (dismissal === 'Escape') await page.keyboard.press('Escape');
+        else await page.mouse.click(1, 1);
+        await expect(viewer).not.toBeVisible();
+        await expect(trigger).toBeFocused();
+        expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe(previousOverflow);
+        await expect(page.locator('#cv-transcript-viewer [data-transcript-content] img')).toHaveCount(0);
+      }
+    });
+  }
+}
+
+test('English transcript images remain available inline without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  try {
+    const page = await context.newPage();
+    await page.goto('/cv/');
+    const initialURL = page.url();
+    for (const [degree, label, count] of [['masters', 'M.Sc.', 1], ['bachelors', 'B.Sc.', 2]]) {
+      const entry = page.locator(`#cv-${degree}`);
+      await entry.locator(':scope > summary').click();
+      const transcript = entry.locator('[data-cv-transcript]');
+      await transcript.locator(':scope > summary').click();
+      await expect(transcript).toHaveAttribute('open', '');
+      await expect(transcript.locator('.cv-transcript-pages img')).toHaveCount(count);
+      for (let index = 1; index <= count; index++) {
+        const image = transcript.getByRole('img', { name: `${label} English transcript, page ${index} of ${count}`, exact: true });
+        await expect(image).toBeVisible();
+        await image.scrollIntoViewIfNeeded();
+        await expect.poll(() => image.evaluate(node => node.complete && node.naturalWidth > 0)).toBe(true);
+      }
+      expect(page.url()).toBe(initialURL);
+      expect(context.pages()).toHaveLength(1);
+      await expect(page.locator('#cv-transcript-viewer')).not.toBeVisible();
+    }
+  } finally {
+    await context.close();
+  }
 });
 
 test('CV disclosures support the keyboard and keep reading context through rapid view changes', async ({ page }) => {
@@ -563,7 +701,7 @@ test('the compact CV opening has one PDF download and highlights navigate to the
   expect((await (await request.get(href)).body()).subarray(0, 5).toString()).toBe('%PDF-');
   await page.locator('.cv-highlights a[href="#cv-masters"]').click();
   await expect(page.locator('#cv-masters')).toHaveAttribute('open', '');
-  await expect(page.locator('#cv-masters summary')).toBeFocused();
+  await expect(page.locator('#cv-masters > summary')).toBeFocused();
   await page.locator('[data-cv-view="timeline"]').click();
   await page.locator('.cv-highlights [data-cv-jump="publications"]').click();
   await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
@@ -819,7 +957,7 @@ test('the compact CV ending stays readable and accessible across screen sizes', 
 test('printing expands the complete CV and restores the reader’s view and disclosures', async ({ page }) => {
   await page.goto('/cv/');
   await page.locator('[data-cv-view="timeline"]').click();
-  await page.locator('#cv-masters summary').click();
+  await page.locator('#cv-masters > summary').click();
   await expect(page.locator('#cv-masters')).toHaveAttribute('open', '');
   await expect.poll(() => page.locator('#cv-masters').evaluate(node => node.style.height)).toBe('');
   const beforePrint = await page.locator('details').evaluateAll(nodes => nodes.map(node => node.open));
@@ -869,7 +1007,7 @@ test('all content, mobile navigation, and expandable CV remain available without
   await expect(future).toHaveAttribute('open', '');
   await expect(future.locator('.cv-entry-body a[href="/phd/"]')).toBeVisible();
   const first = page.locator('[data-cv-entry]').first();
-  await first.locator('summary').click();
+  await first.locator(':scope > summary').click();
   await expect(first).toHaveAttribute('open', '');
   await expect(first.locator('.cv-entry-body')).toBeVisible();
   const skill = page.locator('#cv-skills .cv-skill-card').first();

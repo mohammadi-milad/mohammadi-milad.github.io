@@ -1,5 +1,6 @@
 /** Keep one set of semantic entries; reorganize it without losing open state. */
 import { cvSections as categories, cvChapters } from './cv-sections.js';
+import './cv-transcripts.js';
 
 function initializeCV(root) {
   if (root.dataset.cvReady) return;
@@ -155,7 +156,7 @@ function initializeCV(root) {
           container.append(intro);
         }
         if (key === 'education') container.append(future);
-        const members = entries.filter(entry => entry.dataset.category === key);
+        const members = entries.filter(entry => entry.dataset.category === key).sort((a, b) => Number(a.dataset.themeOrder) - Number(b.dataset.themeOrder));
         members.forEach(entry => container.append(entry));
         if (!members.length) continue;
         fragment.append(section);

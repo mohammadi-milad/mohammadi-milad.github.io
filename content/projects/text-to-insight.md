@@ -4,7 +4,7 @@ shortTitle: "Text-to-Insight"
 description: "A course prototype that turns natural-language questions into database queries, Python analyses, plots, and reports."
 kind: "Project"
 role: "Co-developer · team of three"
-status: "Large Language Models course · final project"
+status: "Large Language Models course · Spring 2024"
 tags: ["Text-to-SQL", "Language agents", "Data analysis"]
 featured: false
 diagram: "schema"
@@ -15,7 +15,7 @@ code: "https://github.com/safdarian/llm-project"
 
 A natural-language data question often needs more than SQL. After retrieving the right rows, an analyst may need to calculate a summary, visualize a pattern, and explain what the results mean.
 
-For a Large Language Models course final project, I worked in a team of three to build an agent that connects these stages.
+In **Spring 2024**, the second semester of my master’s, I worked in a team of three on a Large Language Models course final project to build an agent that connects these stages.
 
 ## The workflow
 

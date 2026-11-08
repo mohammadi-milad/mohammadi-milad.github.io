@@ -261,6 +261,8 @@ export function colophon() {
 
       <p>Source Sans 3 is an open-source typeface by Adobe, distributed under the <a href="${url('/fonts/source-sans-3-OFL.txt')}">SIL Open Font License</a>. Its normal and italic fonts are hosted with the site. Code examples use the system monospace font.</p>
 
+      <p>The SAMPAD emblem is by <a href="https://commons.wikimedia.org/wiki/User:Oganesson007">Ali Zifan</a>, from <a href="https://commons.wikimedia.org/wiki/File:Sampad.svg">Wikimedia Commons</a>, under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Its shape and color are unchanged.</p>
+
       <h2>Implementation</h2>
       <p>This is a custom static website made with semantic HTML, CSS, and JavaScript, for GitHub Pages. Every page is generated as a complete HTML document. Research and project write-ups are authored in Markdown; the interactive CV is generated from structured data.</p>
 

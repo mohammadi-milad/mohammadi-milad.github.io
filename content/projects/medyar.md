@@ -4,7 +4,7 @@ shortTitle: "MedYar"
 description: "A 48-hour hackathon prototype for navigating doctor search and appointment booking through conversation."
 kind: "Project"
 role: "Co-developer · team of three"
-status: "Hackathon prototype"
+status: "Hackathon prototype · Summer 2025"
 tags: ["Language agents", "Web automation", "Healthcare access"]
 featured: false
 diagram: "agent"
@@ -15,7 +15,7 @@ code: "https://github.com/Medi-Yar/FindDoctor"
 
 Finding an appointment involves several steps: understanding a user's needs, identifying an appropriate specialty, checking availability, and completing a booking flow.
 
-In a **48-hour hackathon**, I worked in a team of three to prototype a conversational assistant for this process.
+In a **48-hour hackathon in Summer 2025**, the summer of my second master’s year, I worked in a team of three to prototype a conversational assistant for this process.
 
 ## The approach
 

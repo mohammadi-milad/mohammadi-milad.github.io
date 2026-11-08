@@ -33,8 +33,11 @@ for (const colorScheme of ['light', 'dark']) {
         await loaded(page);
         const dimensions = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
         expect(dimensions.content, `${route} horizontal overflow at ${width}px`).toBeLessThanOrEqual(dimensions.width + 1);
-        const brokenImages = await page.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src));
-        expect(brokenImages, `${route} image loading`).toEqual([]);
+        await page.locator('img').evaluateAll(images => images.forEach(image => { image.loading = 'eager'; }));
+        await expect.poll(
+          () => page.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src)),
+          { message: `${route} image loading` }
+        ).toEqual([]);
         await expect(page.locator('main')).toBeVisible();
         await expect(page.locator('#appearance')).toHaveValue('system');
         if ([1440, 390].includes(width) && ['/', '/cv/', '/phd/', '/research/', '/research/psycidra/', '/blog/', '/blog/a-place-for-unfinished-thoughts/'].includes(route)) {
@@ -152,9 +155,13 @@ test('CV opens with the complete record organized by theme and only essential co
   await page.goto('/cv/');
   const workspace = page.locator('[data-cv]');
   const entries = page.locator('[data-cv-entry]');
+  const removedProjects = page.locator('#cv-text-to-insight, #cv-medyar, [data-cv-entry][data-category=projects], [data-cv-group=projects]');
   await expect(workspace).toHaveAttribute('data-view', 'theme');
+  await expect(removedProjects).toHaveCount(0);
   await expect(entries).toHaveCount(23);
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  await expect(entries.locator('.cv-theme-tag')).toHaveCount(23);
+  await expect(page.locator('.cv-theme-tag:visible')).toHaveCount(0);
   await expect(page.locator('[data-cv-group="education"] #cv-masters')).toBeVisible();
   await expect(page.locator('#cv-masters .cv-date')).toHaveText('Sept 2023 – Sept 2026');
   await expect(page.locator('#cv-permedcqa')).toBeVisible();
@@ -182,35 +189,224 @@ test('CV opens with the complete record organized by theme and only essential co
 
   await page.locator('[data-cv-view="timeline"]').click();
   await expect(workspace).toHaveAttribute('data-view', 'timeline');
+  await expect(removedProjects).toHaveCount(0);
   await expect(page.locator('[data-cv-opportunity]')).toBeVisible();
   await expect(page.locator('[data-cv-opportunity]')).toContainText(/PhD/);
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  await expect(page.locator('[data-cv-entry] .cv-theme-tag:visible')).toHaveCount(23);
+  const themeLabels = {
+    '#cv-psycidra': 'Publication',
+    '#cv-masters': 'Education',
+    '#cv-tedx-kish': 'Award',
+    '#cv-nlp-lab': 'Research role',
+    '#cv-intrest': 'Industry',
+    '#cv-teaching-natural-language-processing-2026-1': 'Teaching',
+    '#cv-tedx': 'Volunteering'
+  };
+  for (const [selector, label] of Object.entries(themeLabels)) {
+    await expect(page.locator(`${selector} .cv-theme-tag`)).toContainText(label);
+  }
+  await expect(page.locator('.cv-theme-tag:is(a, button, [role="button"], [role="link"]), .cv-theme-tag a, .cv-theme-tag button')).toHaveCount(0);
   const opportunityBeforeEntries = await page.evaluate(() => {
     const opportunity = document.querySelector('[data-cv-opportunity]');
-    const firstEntry = document.querySelector('[data-cv-entry]');
-    return Boolean(opportunity.compareDocumentPosition(firstEntry) & Node.DOCUMENT_POSITION_FOLLOWING);
+    const entries = [...document.querySelectorAll('[data-cv-entry]')];
+    return entries.every(entry => Boolean(opportunity.compareDocumentPosition(entry) & Node.DOCUMENT_POSITION_FOLLOWING));
   });
-  expect(opportunityBeforeEntries, 'PhD availability is the next step at the top of the timeline').toBe(true);
+  expect(opportunityBeforeEntries, 'PhD availability precedes the timeline’s newest chapter').toBe(true);
 });
 
 test('theme chapters retain their reading order, numbering, and introductions after view switches', async ({ page }) => {
   await page.goto('/cv/');
-  const order = ['education', 'publications', 'awards', 'research', 'industry', 'teaching', 'projects', 'service'];
+  const order = ['education', 'publications', 'awards', 'research', 'industry', 'teaching', 'service'];
+  const introductions = {
+    industry: 'Alongside my master’s, I worked part-time as an AI Engineer.',
+    teaching: 'I volunteered as a teaching assistant to gain experience and pursue my passion for teaching.',
+    service: 'Volunteering during high school and my bachelor’s shaped my soft skills, especially leadership.'
+  };
+  const checkResearchContext = async () => {
+    for (const id of ['cv-nlp-lab', 'cv-cognitive-psychology-lab']) {
+      await expect(page.locator(`#${id} .cv-entry-body`)).toContainText('as part of my master’s thesis');
+    }
+  };
   const checkTheme = async () => {
     await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
+    await expect(page.locator('.cv-theme-tag:visible')).toHaveCount(0);
     expect(await page.locator('[data-cv-group]').evaluateAll(nodes => nodes.map(node => node.dataset.cvGroup))).toEqual(order);
-    await expect(page.locator('.cv-chapter-number')).toHaveText(['01', '02', '03', '04', '05', '06', '07', '08']);
-    await expect(page.locator('.cv-group-intro')).toHaveCount(5);
-    for (const category of order.slice(0, 3)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toHaveCount(0);
-    for (const category of order.slice(3)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toContainText(/\S/);
+    await expect(page.locator('.cv-chapter-number')).toHaveText(['01', '02', '03', '04', '05', '06', '07']);
+    await expect(page.locator('.cv-group-intro')).toHaveCount(3);
+    for (const category of order.slice(0, 4)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toHaveCount(0);
+    for (const [category, intro] of Object.entries(introductions)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toHaveText(intro);
+    await checkResearchContext();
   };
   await checkTheme();
   await page.locator('[data-cv-view="timeline"]').click();
   await expect(page.locator('.cv-group-intro')).toHaveCount(0);
-  await expect(page.locator('.cv-chapter-number')).toHaveCount(0);
+  await expect(page.locator('.cv-chapter-number')).toHaveText(['01', '02', '03']);
+  await expect(page.locator('[data-cv-entry] .cv-theme-tag:visible')).toHaveCount(23);
+  await checkResearchContext();
   await page.locator('[data-cv-view="theme"]').click();
   await checkTheme();
 });
+
+test('the complete CV includes school, the youth award, and the corrected TEDx role in both views', async ({ page }) => {
+  await page.goto('/cv/');
+  for (const view of ['theme', 'timeline', 'theme']) {
+    await page.locator(`[data-cv-view="${view}"]`).click();
+    const school = page.locator('#cv-high-school');
+    await expect(school).toBeVisible();
+    await expect(school).toContainText(/National Organization for Development of Exceptional Talents/);
+    await expect(school.locator('.cv-entry-subtitle')).toContainText('SAMPAD — Schools for Gifted Students');
+    await expect(school).toContainText(/Mathematics/);
+    await expect(school).toContainText(/19\.63\s*\/\s*20/);
+    await expect(school.locator('.cv-date')).toHaveText(/2011\s*–\s*2018/);
+    const schoolLogo = school.locator('summary img');
+    await expect(schoolLogo).toBeVisible();
+    await expect(schoolLogo).toHaveAttribute('src', /\/images\/organizations\/sampad\.(?:svg|png)$/);
+    await expect.poll(() => schoolLogo.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
+    const award = page.locator('#cv-tedx-kish');
+    await expect(award).toBeVisible();
+    await expect(award).toContainText('TEDxKish Prize 2015');
+    await expect(award).toContainText('TEDxKish Youth Innovator Award');
+    await expect(award.locator('.cv-date')).toHaveText('May 2015');
+    const tedx = page.locator('#cv-tedx');
+    await expect(tedx.locator('.cv-entry-title')).toHaveText('TEDx Organizer');
+    await expect(tedx).toContainText('TED Conferences');
+    await expect(tedx.locator('.cv-date')).toHaveText(/Feb 2015\s*–\s*Dec 2020/);
+    await expect(tedx).toContainText('TEDxYouth@SAMPADYazd 2016');
+    await expect(tedx).toContainText('TEDxUniversityOfIsfahan 2019');
+    await expect(tedx.locator('a[href="https://www.ted.com/profiles/11425273/about"]')).toHaveCount(1);
+    expect(await page.locator('[data-cv-entry]').evaluateAll(nodes => new Set(nodes.map(node => node.id)).size)).toBe(23);
+    await expect(page.locator('a[href*="/edit/forms/"]')).toHaveCount(0);
+  }
+  await expect(page.locator('[data-cv-group="education"] #cv-high-school')).toBeVisible();
+  await expect(page.locator('[data-cv-group="awards"] #cv-tedx-kish')).toBeVisible();
+  await expect(page.locator('[data-cv-group="service"] #cv-tedx')).toBeVisible();
+});
+
+test('the timeline shows academic chapters and master’s year stages from newest to oldest', async ({ page }) => {
+  await page.goto('/cv/');
+  await page.locator('[data-cv-view="timeline"]').click();
+  expect(await page.locator('[data-cv-group]').evaluateAll(nodes => nodes.map(node => node.dataset.cvGroup))).toEqual(['masters', 'bachelors', 'before-bachelors']);
+  await expect(page.locator('.cv-chapter-number')).toHaveText(['01', '02', '03']);
+  expect(await page.locator('[data-cv-stage]').evaluateAll(nodes => nodes.map(node => node.dataset.cvStage))).toEqual(['year-three', 'year-two', 'year-one']);
+  await expect(page.locator('[data-cv-stage="thesis"], #cv-stage-thesis')).toHaveCount(0);
+  for (const id of ['cv-high-school', 'cv-tedx', 'cv-tedx-kish']) await expect(page.locator(`[data-cv-group="before-bachelors"] #${id}`)).toBeVisible();
+  for (const id of ['cv-bachelors', 'cv-acm', 'cv-teaching-undergraduate-computer-engineering-courses-2019-8']) await expect(page.locator(`[data-cv-group="bachelors"] #${id}`)).toBeVisible();
+  await expect(page.locator('[data-cv-transition] #cv-national-rank')).toBeVisible();
+  await expect(page.locator('[data-cv-group="masters"] #cv-masters')).toBeVisible();
+  const placements = {
+    'year-one': ['cv-nlp-lab', 'cv-cognitive-psychology-lab', 'cv-adan-ai'],
+    'year-two': ['cv-permedcqa', 'cv-emotion-recognition-through-contrast'],
+    'year-three': ['cv-psycidra', 'cv-schemagraphsql', 'cv-intrest', 'cv-teaching-natural-language-processing-2025-2', 'cv-teaching-natural-language-processing-2026-1']
+  };
+  for (const [stage, ids] of Object.entries(placements)) {
+    for (const id of ids) await expect(page.locator(`[data-cv-stage="${stage}"] #${id}`)).toBeVisible();
+  }
+  const finalYearOrder = await page.locator('[data-cv-stage="year-three"] [data-cv-entry]').evaluateAll(nodes => nodes.map(node => node.id));
+  expect(finalYearOrder[0], 'PsyCIDRA is the newest record within Year three').toBe('cv-psycidra');
+  for (const id of ['cv-intrest', 'cv-teaching-natural-language-processing-2026-1']) {
+    expect(finalYearOrder.indexOf(id), `${id} begins in February and follows the newer March SchemaGraphSQL publication`).toBeGreaterThan(finalYearOrder.indexOf('cv-schemagraphsql'));
+  }
+  await expect(page.locator('#cv-psycidra .cv-date')).toHaveText(/Oct 2026/);
+  await expect(page.locator('[data-cv-stage="year-three"] #cv-psycidra .cv-theme-tag')).toContainText('Publication');
+  const readingOrder = await page.evaluate(() => {
+    const selectors = ['[data-cv-opportunity]', '#cv-masters', '[data-cv-stage="year-three"]', '[data-cv-stage="year-two"]', '[data-cv-stage="year-one"]', '[data-cv-transition]', '[data-cv-group="bachelors"]', '[data-cv-group="before-bachelors"]'];
+    return selectors.map(selector => document.querySelector(selector)).every((node, index, nodes) => node && (!index || Boolean(nodes[index - 1].compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING)));
+  });
+  expect(readingOrder, 'The next opportunity, master’s overview and stages, exam bridge, bachelor’s, and school read newest first').toBe(true);
+  for (const stage of ['year-three', 'year-two', 'year-one']) {
+    const order = await page.locator(`[data-cv-stage="${stage}"] [data-cv-entry]`).evaluateAll(nodes => nodes.map(node => Number(node.dataset.timelineOrder)));
+    expect(order, `${stage} records read newest first`).toEqual([...order].sort((a, b) => b - a));
+  }
+  expect(await page.locator('[data-cv-group="bachelors"] [data-cv-entry]').evaluateAll(nodes => nodes.map(node => node.id))).toEqual(['cv-acm', 'cv-teaching-undergraduate-computer-engineering-courses-2019-8', 'cv-bachelors']);
+  expect(await page.locator('[data-cv-group="before-bachelors"] [data-cv-entry]').evaluateAll(nodes => nodes.map(node => node.id))).toEqual(['cv-tedx-kish', 'cv-tedx', 'cv-high-school']);
+  await expect(page.locator('[data-cv-group="before-bachelors"] .cv-group-header .cv-chapter-period')).toHaveCount(0);
+  await expect(page.locator('#cv-high-school .cv-date')).toHaveText('2011 – 2018');
+  await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  expect((await page.locator('.cv-group-heading').allTextContents()).some(text => /^\d{4}$/.test(text.trim()))).toBe(false);
+});
+
+test('TEDx remains a single entry in its original chapter and preserves its disclosure across views', async ({ page }) => {
+  await page.goto('/cv/');
+  const tedx = page.locator('#cv-tedx');
+  const original = await tedx.elementHandle();
+  await page.locator('#cv-psycidra summary').click();
+  await page.locator('[data-cv-view="timeline"]').click();
+  await expect(page.locator('[data-cv-group="before-bachelors"] #cv-tedx')).toBeVisible();
+  await expect(page.locator('[data-cv-continuation]')).toHaveCount(0);
+  await expect(page.locator('[data-cv-group="bachelors"] #cv-tedx, [data-cv-group="bachelors"] a[href="#cv-tedx"]')).toHaveCount(0);
+  await expect(page.locator('[data-cv-group="bachelors"]')).not.toContainText('TEDx');
+  await tedx.locator('summary').click();
+  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'timeline');
+  await expect(tedx).toHaveAttribute('open', '');
+  await expect(tedx.locator('summary')).toBeFocused();
+  await expect(tedx.locator('summary')).toBeInViewport();
+  for (const view of ['theme', 'timeline', 'theme']) {
+    await page.locator(`[data-cv-view="${view}"]`).click();
+    await expect(tedx).toHaveAttribute('open', '');
+    await expect(page.locator('#cv-psycidra')).toHaveAttribute('open', '');
+    expect(await original.evaluate(node => node.isConnected && node === document.querySelector('#cv-tedx'))).toBe(true);
+    await expect(page.locator('#cv-tedx[data-cv-entry]')).toHaveCount(1);
+    await expect(page.locator('[data-cv-entry]')).toHaveCount(23);
+    const group = view === 'timeline' ? 'before-bachelors' : 'service';
+    await expect(page.locator(`[data-cv-group="${group}"] #cv-tedx`)).toBeVisible();
+  }
+  await expect(page.locator('[data-cv-continuation]')).toHaveCount(0);
+});
+
+for (const colorScheme of ['light', 'dark']) {
+  test(`chapter timeline stays readable and accessible in ${colorScheme} mode`, async ({ page }) => {
+    await fs.mkdir(screenshotDirectory, { recursive: true });
+    await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+    for (const width of [1440, 768, 390, 320]) {
+      await page.setViewportSize({ width, height: 960 });
+      await page.goto('/cv/');
+      await loaded(page);
+      await page.locator('[data-cv-view="timeline"]').click();
+      await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+      if (width === 1440) {
+        const palette = () => page.locator('[data-cv-entry] .cv-theme-tag').evaluateAll(tags => tags.map(tag => {
+          const style = getComputedStyle(tag);
+          return { category: tag.closest('[data-cv-entry]').dataset.category, color: style.color, background: style.backgroundColor };
+        }));
+        const systemPalette = await palette();
+        const categoryColors = new Map();
+        for (const tag of systemPalette) {
+          if (categoryColors.has(tag.category)) expect(tag.color, `${tag.category} tags keep one color`).toBe(categoryColors.get(tag.category));
+          else categoryColors.set(tag.category, tag.color);
+          expect(['transparent', 'rgba(0, 0, 0, 0)']).not.toContain(tag.background);
+        }
+        expect(categoryColors.size).toBe(7);
+        expect(new Set(categoryColors.values()).size, 'Each theme has its own muted color').toBe(7);
+        const oppositeScheme = colorScheme === 'light' ? 'dark' : 'light';
+        await page.emulateMedia({ colorScheme: oppositeScheme });
+        await expect.poll(palette).not.toEqual(systemPalette);
+        await page.locator('#appearance').selectOption(colorScheme);
+        await expect.poll(palette, { message: 'An explicit appearance overrides the opposite device palette' }).toEqual(systemPalette);
+        await page.emulateMedia({ colorScheme });
+        await page.locator('#appearance').selectOption('system');
+        await expect.poll(palette).toEqual(systemPalette);
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Timeline overflow at ${width}px in ${colorScheme}`).toBe(true);
+      for (const heading of await page.locator('.cv-group-heading').all()) {
+        expect(await heading.evaluate(node => node.scrollWidth <= node.clientWidth + 1), `Chapter title fits at ${width}px`).toBe(true);
+      }
+      if ([1440, 390].includes(width)) await page.screenshot({ path: `${screenshotDirectory}/cv-chapter-timeline-${width}-${colorScheme}.png`, fullPage: true });
+      if (width === 1440) {
+        await page.locator('[data-cv-group="masters"] .cv-group-heading').evaluate(node => node.scrollIntoView({ block: 'start', behavior: 'instant' }));
+        await page.screenshot({ path: `${screenshotDirectory}/cv-chapter-timeline-preview${colorScheme === 'dark' ? '-dark' : ''}.png` });
+        if (colorScheme === 'light') {
+          await page.locator('[data-cv-group="bachelors"] .cv-group-heading').evaluate(node => node.scrollIntoView({ block: 'start', behavior: 'instant' }));
+          await page.screenshot({ path: `${screenshotDirectory}/cv-chapter-timeline-early-chapters.png` });
+        }
+      }
+      if ([1440, 320].includes(width)) {
+        const results = await new AxeBuilder({ page }).include('[data-cv]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+        expect(results.violations, `Timeline at ${width}px in ${colorScheme}`).toEqual([]);
+      }
+    }
+  });
+}
 
 test('the future PhD row opens within Education and preserves its state through CV controls', async ({ page }) => {
   await page.goto('/cv/');
@@ -326,18 +522,26 @@ test('CV preserves expanded entries through reorganization, bulk controls, and d
   await expect(page.locator('#cv-intrest summary')).toBeInViewport();
 });
 
-test('CV highlights navigate to their evidence and the compact two-page PDF has one clear action', async ({ page, request }) => {
+test('the compact CV opening has one PDF download and highlights navigate to their evidence', async ({ page, request }) => {
   await page.setViewportSize({ width: 1440, height: 960 });
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/cv/');
   await loaded(page);
   await fs.mkdir(screenshotDirectory, { recursive: true });
   await page.screenshot({ path: `${screenshotDirectory}/cv-overview-1440-light.png` });
+  const heading = page.locator('.cv-heading');
+  await expect(heading.getByRole('heading', { level: 1, name: 'Curriculum vitae', exact: true })).toBeVisible();
+  const readingNote = heading.locator('.cv-reading-note');
+  await expect(readingNote).toHaveText('I prepared this page as an in-depth, detailed CV that can be viewed by theme or as a timeline. For a compact, conventional 2-page CV, please view the PDF version.');
+  await expect(readingNote.locator('strong')).toHaveText(['by theme', 'as a timeline']);
+  await expect(readingNote.locator('a')).toHaveCount(0);
+  await expect(heading.locator('.cv-heading-top, .cv-edition, .cv-introduction, .cv-pdf-note, .cv-document-symbol')).toHaveCount(0);
+  await expect(heading).not.toContainText('I’m an AI researcher and engineer working on language agents');
+  await expect(heading).not.toContainText('Open an entry for the full story');
+  await expect(heading).not.toContainText('Compact 2-page CV');
+  await expect(heading).not.toContainText('The conventional CV format.');
   await expect(page.locator('.cv-highlights > a')).toHaveCount(4);
-  await expect(page.locator('.cv-pdf-title')).toHaveText('Compact 2-page CV');
-  await expect(page.locator('.cv-pdf-note p')).toHaveText('The conventional CV format.');
-  await expect(page.locator('.cv-pdf-note a')).toHaveCount(1);
-  await expect(page.locator('.cv-pdf-note a[download]')).toHaveCount(0);
+  await expect(heading.locator('a[href$="/documents/milad-mohammadi-cv.pdf"]')).toHaveCount(1);
   const publicationHighlight = page.locator('.cv-highlights [data-cv-jump="publications"]');
   await expect(publicationHighlight.locator('strong')).toHaveText('4 papers');
   await expect(publicationHighlight).toContainText('2 published');
@@ -347,9 +551,15 @@ test('CV highlights navigate to their evidence and the compact two-page PDF has 
   await expect(industryHighlight).toContainText(/3\+\s*years/i);
   await expect(industryHighlight).toContainText(/Senior AI Engineer/i);
   await expect(industryHighlight).not.toContainText(/Adan|IntRest/);
-  const openPDF = page.locator('.cv-pdf-note a[target="_blank"]');
-  await expect(openPDF).toHaveAccessibleName(/Open PDF/);
-  const href = await openPDF.getAttribute('href');
+  const downloadPDF = heading.locator('a.cv-download');
+  await expect(downloadPDF).toHaveCount(1);
+  await expect(downloadPDF).toHaveAccessibleName('Download compact CV as PDF');
+  await expect(downloadPDF.locator('.cv-pdf-icon')).toHaveAttribute('aria-hidden', 'true');
+  await expect(downloadPDF.locator('.cv-pdf-icon svg')).toHaveCount(1);
+  await expect(downloadPDF.locator('.cv-download-copy strong')).toHaveText('Download PDF');
+  await expect(downloadPDF.locator('.cv-download-copy > span')).toHaveText('Compact, conventional CV');
+  await expect(downloadPDF).toHaveAttribute('download', /.+/);
+  const href = await downloadPDF.getAttribute('href');
   expect((await (await request.get(href)).body()).subarray(0, 5).toString()).toBe('%PDF-');
   await page.locator('.cv-highlights a[href="#cv-masters"]').click();
   await expect(page.locator('#cv-masters')).toHaveAttribute('open', '');

@@ -156,6 +156,12 @@ The CV reads its content from `src/data/profile.json`; `src/cv.js` turns those f
 
 The CV renderer generates entry IDs and deep links from record fields, short titles, and category-specific rules. After renaming or adding entries, check existing links to `#cv-…` in `src/pages.js`, then test both timeline and theme views. Keep dates and source links accurate; an empty end date indicates a current role.
 
+The school entry uses a concise descriptive institution label and retains the established English organization name in `officialName`, shown in its expanded details. Education, award, and service records have stable `id` fields, such as `high-school` or `tedx-kish`, used to form their `#cv-…` links. Theme headings, short timeline labels (`label`, falling back to `title`), and timeline chapters live in `src/cv-sections.js`. Timeline entries show one theme label alongside their date, using the matching `--category-*` color in `src/site.css` with a soft tinted fill and border. Keep category colors in sync across the light, explicit dark, and system dark palette blocks. Theme view hides those labels because the section heading supplies the category. Timeline view reads newest first: PhD availability, master’s, the entrance-exam bridge, bachelor’s, and school. Chapter headers omit a date subtitle before the bachelor’s; individual entries retain their dates. Within the master’s, the degree overview precedes year three, year two, and year one. Academic years use September boundaries and records within stages run newest first. Roles appear when they start and retain their full date ranges; papers use their publication dates. PsyCIDRA is grouped into **Year three** as the master’s thesis publication, preserving its October 2026 preprint date after September graduation. TEDx appears once in the pre-bachelor’s chapter.
+
+Set `showInCV: false` on a project record to exclude it from both CV views while retaining its data and standalone write-up. Text-to-Insight and MedYar currently use this setting. Empty themes are omitted and remaining theme headings are numbered consecutively.
+
+For a project known only by season, use year-only `startDate` / `endDate` and a `dateLabel` such as `Spring 2024` or `Summer 2025`. The renderer preserves that precision and uses the season for reading order. Avoid inventing exact dates.
+
 The downloadable PDF is a **separate document**. Replace `public/documents/milad-mohammadi-cv.pdf` with your updated PDF and update `src/data/profile.json` to match. This site does not generate the PDF from its data. The build also copies it to the legacy `/assets/pdf/MiladMohammadi_CV.pdf` address so existing links remain useful.
 
 Site-wide email, public-profile links, the PhD availability flag, canonical domain, and review date live in `src/config.js`. Some page introductions and evidence summaries are authored in `src/pages.js`; review them when the underlying facts change.
@@ -168,6 +174,6 @@ npm run check
 npm test
 ```
 
-Review the pages locally in light and dark mode and at a narrow screen width. For CV changes, check search, both grouping views, individual entry expansion, and PDF download. For articles, verify the title, authorship, venue/status, links, and image descriptions.
+Review the pages locally in light and dark mode and at a narrow screen width. For CV changes, check both grouping views, chapter placement, individual entry expansion, and PDF download. For articles, verify the title, authorship, venue/status, links, and image descriptions.
 
 The build writes only to `dist/`; edit source files rather than generated HTML. Publishing is a separate GitHub push and Actions workflow, described in the [project README](../README.md).

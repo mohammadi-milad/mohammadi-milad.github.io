@@ -1,5 +1,5 @@
 /** Keep one set of semantic entries; reorganize it without losing open state. */
-import { cvSections as categories } from './cv-sections.js';
+import { cvSections as categories, cvChapters } from './cv-sections.js';
 
 function initializeCV(root) {
   if (root.dataset.cvReady) return;
@@ -57,6 +57,81 @@ function initializeCV(root) {
     movementAnimations.clear();
   }
 
+  function makeGroup(key, title, number, period, transition = false) {
+    const section = document.createElement('section');
+    section.className = transition ? 'cv-transition' : 'cv-group';
+    if (transition) section.dataset.cvTransition = '';
+    else section.dataset.cvGroup = key;
+    const header = document.createElement('header');
+    header.className = 'cv-group-header';
+    if (number) {
+      const label = document.createElement('span');
+      label.className = 'cv-chapter-number';
+      label.setAttribute('aria-hidden', 'true');
+      label.textContent = String(number).padStart(2, '0');
+      header.append(label);
+    }
+    const heading = document.createElement('h2');
+    heading.className = 'cv-group-heading';
+    // Degree entries already use cv-masters and cv-bachelors as their IDs.
+    heading.id = `cv-group-${key}`;
+    heading.textContent = title;
+    section.setAttribute('aria-labelledby', heading.id);
+    header.append(heading);
+    if (period) {
+      const dates = document.createElement('p');
+      dates.className = 'cv-chapter-period';
+      dates.textContent = period;
+      header.append(dates);
+    }
+    const container = document.createElement('div');
+    container.className = 'cv-entries';
+    section.append(header, container);
+    return { section, container };
+  }
+
+  function timelineGroups() {
+    const fragment = document.createDocumentFragment();
+    const chronological = [...entries].sort((a, b) => Number(b.dataset.timelineOrder) - Number(a.dataset.timelineOrder));
+    cvChapters.forEach((chapter, index) => {
+      const { section, container } = makeGroup(chapter.id, chapter.title, index + 1, chapter.period);
+      const members = chronological.filter(entry => entry.dataset.chapter === chapter.id);
+      if (chapter.stages) {
+        members.filter(entry => entry.dataset.stage === 'degree').forEach(entry => container.append(entry));
+        chapter.stages.forEach(stage => {
+          const stageEntries = members.filter(entry => entry.dataset.stage === stage.id);
+          if (!stageEntries.length) return;
+          const group = document.createElement('section');
+          group.className = 'cv-timeline-stage';
+          group.dataset.cvStage = stage.id;
+          const header = document.createElement('header');
+          header.className = 'cv-stage-header';
+          const heading = document.createElement('h3');
+          heading.id = `cv-stage-${stage.id}`;
+          heading.textContent = stage.title;
+          group.setAttribute('aria-labelledby', heading.id);
+          header.append(heading);
+          if (stage.period) {
+            const period = document.createElement('p');
+            period.textContent = stage.period;
+            header.append(period);
+          }
+          group.append(header, ...stageEntries);
+          container.append(group);
+        });
+      } else {
+        members.forEach(entry => container.append(entry));
+      }
+      fragment.append(section);
+      if (chapter.id === 'masters') {
+        const bridge = makeGroup('transition', 'Into graduate study', null, '2023', true);
+        chronological.filter(entry => entry.dataset.chapter === 'transition').forEach(entry => bridge.container.append(entry));
+        fragment.append(bridge.section);
+      }
+    });
+    return fragment;
+  }
+
   function update(animate = false) {
     cancelMovement();
     experienceDisclosures.forEach(finishDisclosure);
@@ -66,30 +141,13 @@ function initializeCV(root) {
     // Keep the prospective degree separate from the dated historical record.
     future.hidden = view !== 'theme';
     if (future.hidden) root.append(future);
-    const keys = view === 'theme' ? Object.keys(categories) : [...new Set(entries.map(entry => entry.dataset.year))];
     const fragment = document.createDocumentFragment();
-    for (const [index, key] of keys.entries()) {
-      const section = document.createElement('section');
-      section.className = 'cv-group';
-      section.dataset.cvGroup = key;
-      const header = document.createElement('header');
-      header.className = 'cv-group-header';
-      if (view === 'theme') {
-        const number = document.createElement('span');
-        number.className = 'cv-chapter-number';
-        number.setAttribute('aria-hidden', 'true');
-        number.textContent = String(index + 1).padStart(2, '0');
-        header.append(number);
-      }
-      const heading = document.createElement('h2');
-      heading.className = 'cv-group-heading';
-      heading.id = `cv-group-${key}`;
-      heading.textContent = view === 'theme' ? categories[key].title : key === 'undated' ? 'Projects' : key;
-      section.setAttribute('aria-labelledby', heading.id);
-      header.append(heading);
-      const container = document.createElement('div');
-      container.className = 'cv-entries';
-      if (view === 'theme') {
+    if (view === 'timeline') {
+      fragment.append(timelineGroups());
+    } else {
+      const themeKeys = Object.keys(categories).filter(key => entries.some(entry => entry.dataset.category === key));
+      for (const [index, key] of themeKeys.entries()) {
+        const { section, container } = makeGroup(key, categories[key].title, index + 1);
         if (categories[key].intro) {
           const intro = document.createElement('p');
           intro.className = 'cv-group-intro';
@@ -97,18 +155,17 @@ function initializeCV(root) {
           container.append(intro);
         }
         if (key === 'education') container.append(future);
+        const members = entries.filter(entry => entry.dataset.category === key);
+        members.forEach(entry => container.append(entry));
+        if (!members.length) continue;
+        fragment.append(section);
       }
-      const members = entries.filter(entry => view === 'theme' ? entry.dataset.category === key : entry.dataset.year === key);
-      members.forEach(entry => container.append(entry));
-      if (!members.length) continue;
-      section.append(header, container);
-      fragment.append(section);
     }
     groups.replaceChildren(fragment);
     root.dataset.view = view;
     opportunity.hidden = view !== 'timeline';
     viewButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.cvView === view)));
-    if (animate) status.textContent = view === 'theme' ? 'CV arranged by theme.' : 'CV arranged as a timeline, most recent first.';
+    if (animate) status.textContent = view === 'theme' ? 'CV arranged by theme.' : 'CV arranged in academic chapters, newest first.';
     if (restoreFocus && active.isConnected && !active.closest('[hidden]')) active.focus({ preventScroll: true });
     if (previous && Element.prototype.animate) {
       for (const entry of entries) {

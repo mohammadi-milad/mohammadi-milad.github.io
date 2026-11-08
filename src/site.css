@@ -27,10 +27,16 @@
   --type-section: 20px; --type-title: 27px; --type-display: 36px;
   --leading-body: 1.65;
   --font: 'Source Sans 3', Arial, sans-serif;
+  /* Muted category accents sit alongside the site's forest-green palette. */
+  --category-education: #2E6348;
+  --category-publications: #535B87;
+  --category-awards: #805D21;
+  --category-research: #2B6A68;
   --category-industry: #3D6080;
   --category-teaching: #705079;
-  --category-projects: #6C5D31;
-  --category-service: #47644D;
+  --category-projects: #855B4B;
+  --category-service: #646C3F;
+  --category-tint: 7%;
   color-scheme: light;
 }
 :root[data-theme=dark] {
@@ -39,10 +45,15 @@
   --green: #A3D0AE; --hover: #C1DFC6; --gold: #D6BC83;
   --phd-accent: #F0BE73;
   --line: #46534B; --outline: #8BA393; --code: #1B211D;
+  --category-education: #A3D0AE;
+  --category-publications: #B9C0E2;
+  --category-awards: #D6BC83;
+  --category-research: #9CCFC9;
   --category-industry: #A4BED4;
   --category-teaching: #C8B1D4;
-  --category-projects: #CABB91;
-  --category-service: #B4CCB8;
+  --category-projects: #D7B1A0;
+  --category-service: #C3CCA0;
+  --category-tint: 10%;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -52,10 +63,15 @@
     --green: #A3D0AE; --hover: #C1DFC6; --gold: #D6BC83;
     --phd-accent: #F0BE73;
     --line: #46534B; --outline: #8BA393; --code: #1B211D;
+    --category-education: #A3D0AE;
+    --category-publications: #B9C0E2;
+    --category-awards: #D6BC83;
+    --category-research: #9CCFC9;
     --category-industry: #A4BED4;
     --category-teaching: #C8B1D4;
-    --category-projects: #CABB91;
-    --category-service: #B4CCB8;
+    --category-projects: #D7B1A0;
+    --category-service: #C3CCA0;
+    --category-tint: 10%;
     color-scheme: dark;
   }
 }

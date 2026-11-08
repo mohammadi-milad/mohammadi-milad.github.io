@@ -5,7 +5,8 @@ description: "Separating clinical interviewing from diagnostic reasoning, with c
 date: "2026-10-05"
 kind: "Research preprint"
 role: "First author"
-status: "Preprint · arXiv 2026"
+status: "Preprint · under review"
+homeStatus: "Under review"
 tags: ["Language agents", "Human evaluation", "Digital mental health"]
 featured: true
 diagram: "psycidra"

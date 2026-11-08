@@ -594,14 +594,20 @@
       "position": "Professor",
       "institution": "University of Tehran",
       "department": "School of Electrical and Computer Engineering",
-      "email": "hfaili@ut.ac.ir"
+      "email": "hfaili@ut.ac.ir",
+      "relationship": "Thesis Supervisor",
+      "scholar": "https://scholar.google.com/citations?user=m5tCFEoAAAAJ",
+      "universityPage": "https://ece.ut.ac.ir/en/~hfaili"
     },
     {
       "name": "Dr. Yadollah Yaghoobzadeh",
       "position": "Assistant Professor",
       "institution": "University of Tehran",
       "department": "School of Electrical and Computer Engineering",
-      "email": "y.yaghoobzadeh@ut.ac.ir"
+      "email": "y.yaghoobzadeh@ut.ac.ir",
+      "scholar": "https://scholar.google.com/citations?user=TvGqaqAAAAAJ",
+      "universityPage": "https://ece.ut.ac.ir/en/~y.yaghoobzadeh",
+      "personalPage": "https://yyaghoobzadeh.github.io/"
     }
   ],
   "positioning": {

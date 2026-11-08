@@ -1,8 +1,10 @@
 import { cvVisual } from './cv-visuals.js';
+import { renderCVAppendix } from './cv-appendix.js';
+import { cvSections } from './cv-sections.js';
 import { esc, url, icon, badge, date, range, list, external } from './components.js';
 
 const cvPDF = () => url('/documents/milad-mohammadi-cv.pdf');
-const categoryNames = { research: 'Research', education: 'Education', industry: 'Industry', teaching: 'Teaching', projects: 'Projects', service: 'Service', awards: 'Awards' };
+const categoryNames = Object.fromEntries(Object.entries(cvSections).map(([key, section]) => [key, section.title]));
 const categoryOrder = Object.keys(categoryNames);
 const slug = text => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const paragraph = text => text ? `<p>${esc(text)}</p>` : '';
@@ -16,39 +18,40 @@ const publicLinks = (item, projects = []) => {
   return result;
 };
 
-const chapterNotes = { '2026': 'Research into practice', '2025': 'Publishing, building, teaching', '2024': 'Two labs. A wider perspective.', '2023': 'A new academic chapter', '2019': 'Learning through teaching', '2018': 'The foundations', undated: 'Projects without a specified date' };
-const entryStories = {
-  'cv-psycidra': ['From a conversation to structured clinical evidence.', 'A dual-agent framework for psychiatric interviewing and diagnostic reasoning.', true],
-  'cv-schemagraphsql': ['Finding the right path through a database.', 'Graph algorithms for efficient schema linking in Text-to-SQL.', true],
-  'cv-emotion-recognition-through-contrast': ['Reading emotion across languages.', 'Role-play and contrastive judging for multilingual emotion recognition.', true],
-  'cv-permedcqa': ['Evaluating AI in the language people use.', 'Persian medical question answering and rubric-based evaluation.', false],
-  'cv-masters': ['Where language agents meet cognitive psychology.', 'An interdisciplinary thesis, graded Excellent.', true],
-  'cv-bachelors': ['The foundations in computer engineering.', 'University of Isfahan · IT major.', true],
-  'cv-intrest': ['Taking language agents into daily life.', 'Leading AI services from architecture to production integration.', true],
-  'cv-adan-ai': ['Making agentic systems work in production.', 'Banking assistants, Persian document retrieval, and evaluation.', true],
-  'cv-cognitive-psychology-lab': ['A bridge between two disciplines.', 'Initiated a research track on language models for digital mental health.', true],
-  'cv-nlp-lab': ['Research as a collaborative practice.', 'Language-agent research and mentoring incoming M.Sc. students.', false],
-  'cv-national-rank': ['A new chapter at the University of Tehran.', 'Ranked first among 4,696 candidates in the national master’s exam.', true],
-  'cv-tedx': ['Creating a place for ideas to meet.', 'Founded TEDxUniversityOfIsfahan.', true],
-  'cv-text-to-insight': ['From a question to an analysis.', 'A team-built course prototype connecting SQL, Python, plots, and reports.', true],
-  'cv-medyar': ['From a conversation to an appointment.', 'A ReAct-style prototype for specialty matching and appointment booking.', false],
-  'cv-teaching-large-language-models-2025-3': ['Teaching agents by building them.', 'From prompt-router baselines to ReAct agents, with a hands-on LangGraph workshop.', true],
-  'cv-teaching-natural-language-processing-2026-1': ['From teaching to leading a teaching team.', 'Co-chief TA for graduate natural language processing.', true],
-  'cv-teaching-artificial-intelligence-digital-transformation-2025-4': ['Making AI accessible across disciplines.', 'Two large-venue lectures for more than 500 students.', false]
+const entrySymbols = {
+  research: '<path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6m-6 4h6"/>',
+  projects: '<path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16"/>',
+  industry: '<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V3h8v4M3 12h18m-12 0v3h6v-3"/>',
+  awards: '<circle cx="12" cy="9" r="6"/><path d="m8 14-2 8 6-3 6 3-2-8m-4-9 1 3h3l-2.5 2 1 3-2.5-2-2.5 2 1-3L8 8h3z"/>',
+  service: '<circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/>'
 };
+function entryMark(entry) {
+  const identity = [entry.title, entry.subtitle].join(' ');
+  const organization = entry.id === 'cv-acm' ? 'acm.svg' : entry.id === 'cv-tedx' ? 'tedx.png' : /University of Tehran/.test(identity) ? 'university-of-tehran.png' : /University of Isfahan/.test(identity) ? 'university-of-isfahan.png' : entry.id === 'cv-intrest' ? 'intrest.svg' : entry.id === 'cv-adan-ai' ? 'adan-ai.png' : null;
+  return organization
+    ? `<span class="cv-entry-mark cv-organization${entry.id === 'cv-tedx' ? ' cv-organization-wide' : ''}"><img src="${url(`/images/organizations/${organization}`)}" alt="" width="32" height="32"></span>`
+    : `<span class="cv-entry-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${entrySymbols[entry.category] || entrySymbols.research}</svg></span>`;
+}
 function detailEntry(entry, index) {
-  const story = entryStories[entry.id];
-  const featured = !!story?.[2];
-  const plainBody = entry.body.replace(/<[^>]*>/g, ' ').replace(/&(amp|lt|gt|quot|#39);/g, (_, entity) => ({ amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" }[entity]));
-  const search = [entry.title, entry.subtitle, entry.kicker, entry.dateLabel, entry.search || '', plainBody].join(' ').replace(/\s+/g, ' ');
-  const visual = cvVisual(entry.id).replace(/<figure class="([^"]+)">/, '<span class="$1 cv-preview">').replace('<figcaption>', '<span class="cv-visual-caption">').replace('</figcaption>', '</span>').replace('</figure>', '</span>');
-  return `<details class="cv-entry${featured ? ' cv-entry-featured' : ''}" id="${entry.id}" data-cv-entry data-featured="${featured}" data-side="${index % 2 ? 'right' : 'left'}" data-category="${entry.category}" data-date="${esc(entry.date || '')}" data-year="${esc(entry.date?.slice(0, 4) || 'undated')}" data-search="${esc(search.toLocaleLowerCase())}" style="view-transition-name:${entry.id}">
+  return `<details class="cv-entry" id="${entry.id}" data-cv-entry data-order="${index}" data-category="${entry.category}" data-date="${esc(entry.date || '')}" data-year="${esc(entry.date?.slice(0, 4) || 'undated')}">
     <summary class="cv-summary">
+      ${entryMark(entry)}
+      <span class="cv-summary-main"><strong class="cv-entry-title">${esc(entry.title)}</strong><span class="cv-entry-subtitle">${esc(entry.subtitle)}</span></span>
       <span class="cv-date">${esc(entry.dateLabel)}</span>
-      <span class="cv-summary-main"><span class="cv-kicker"><span class="cv-category-dot" aria-hidden="true"></span>${esc(categoryNames[entry.category])}${entry.kicker ? ` <span aria-hidden="true">/</span> ${esc(entry.kicker)}` : ''}</span><strong class="cv-entry-title">${esc(entry.title)}</strong><span class="cv-entry-subtitle">${esc(entry.subtitle)}</span>${story ? `<span class="cv-entry-deck">${esc(story[1])}</span>` : ''}</span>
-      ${visual}<span class="cv-disclosure"><span class="cv-disclosure-label"><span class="cv-closed-label">Explore</span><span class="cv-open-label">Close</span></span><span class="cv-expand" aria-hidden="true">+</span><span class="sr-only">Details</span></span>
+      <span class="cv-expand" aria-hidden="true">+</span>
     </summary>
-    <div class="cv-entry-body">${story ? `<p class="cv-detail-lead">${esc(story[0])}</p>` : ''}${entry.body}<a class="cv-entry-permalink" href="#${entry.id}" aria-label="Link to ${esc(entry.title)}">Link to this entry <span aria-hidden="true">↗</span></a></div>
+    <div class="cv-entry-body"><p class="cv-detail-role">${esc(categoryNames[entry.category])}${entry.kicker ? ` <span aria-hidden="true">/</span> ${esc(entry.kicker)}` : ''}</p>${entry.body}${cvVisual(entry.id)}</div>
+  </details>`;
+}
+
+function futureEducation() {
+  return `<details class="cv-entry" id="cv-phd-future" data-cv-future data-category="education">
+    <summary class="cv-summary">
+      <span class="cv-entry-mark cv-organization cv-future-mark" aria-hidden="true">?</span>
+      <span class="cv-summary-main"><strong class="cv-entry-title">Looking for a PhD position</strong><span class="cv-entry-subtitle">Next academic chapter</span></span>
+      <span class="cv-date">Start in 2027</span><span class="cv-expand" aria-hidden="true">+</span>
+    </summary>
+    <div class="cv-entry-body"><p>I’m seeking a PhD position starting in 2027, focused on language agents, human behavior modeling, and human–AI interaction.</p><a class="cv-future-link" href="${url('/phd/')}">Research interests &amp; PhD plans ${icon('arrow')}</a></div>
   </details>`;
 }
 
@@ -81,14 +84,13 @@ function buildEntries(profile, researchEntries, projectEntries) {
   const entries = [];
   for (const [index, item] of profile.publications.entries()) {
     const research = researchEntries.find(entry => entry.paper === item.url || entry.title === item.name);
-    const statusLabel = item.status?.toLowerCase().includes('under review') ? 'Under review' : item.status;
     const id = research?.shortTitle ? slug(research.shortTitle) : ['psycidra', 'schemagraphsql', 'emotion-recognition'][index] || slug(item.name);
     const title = research?.shortTitle || item.name.split(':')[0];
     entries.push({
-      id: `cv-${id}`, category: 'research', date: item.releaseDate,
+      id: `cv-${id}`, category: 'publications', date: item.releaseDate,
       dateLabel: date(item.releaseDate), title,
       kicker: item.role || 'Publication',
-      subtitle: `${item.publisher}${statusLabel ? ` · ${statusLabel}` : ''}`,
+      subtitle: `${item.publisher.includes('EACL') ? 'Findings of EACL 2026' : item.publisher.includes('arXiv') ? 'Preprint' : item.publisher}${item.status?.includes('under review') ? ' · under review' : ''} · ${item.role?.replace(' · equal contribution', '') || 'Publication'}`,
       search: research?.tags?.join(' '),
       body: `<div class="cv-detail-section"><h3>${esc(item.name)}</h3>${researchContext(id) || paragraph(research?.description)}<p class="cv-authors">${esc(item.summary)}</p>${item.status ? paragraph(item.status) : ''}</div>${links([{ href: item.url, label: item.publisher.includes('arXiv') ? 'Read preprint' : 'Publisher record' }, ...(research ? [{ href: url(research.route), label: 'Research overview' }] : []), ...(research?.code ? [{ href: research.code, label: 'Code & materials' }] : [])])}`
     });
@@ -97,7 +99,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
     entries.push({
       id: `cv-${index === 0 ? 'nlp-lab' : 'cognitive-psychology-lab'}`, category: 'research', date: item.startDate,
       dateLabel: range(item.startDate, item.endDate), title: item.name.replace(', University of Tehran', ''),
-      kicker: item.position, subtitle: `University of Tehran · ${item.advisor.name}`,
+      kicker: item.position, subtitle: `University of Tehran · ${item.position}`,
       body: `${paragraph(item.summary)}${list(item.highlights)}${links([{ href: item.advisor.url, label: item.advisor.name }, { href: url(index === 0 ? '/research/' : '/research/psycidra/'), label: index === 0 ? 'Related research' : 'PsyCIDRA · research overview' }])}`
     });
   }
@@ -106,7 +108,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
       id: `cv-${index === 0 ? 'masters' : 'bachelors'}`, category: 'education', date: item.endDate,
       dateLabel: range(item.startDate, item.endDate), title: `${item.studyType} · ${item.area}`,
       kicker: index === 0 ? 'Completed · Thesis: Excellent' : 'Completed',
-      subtitle: `${item.institution} · ${item.score}`,
+      subtitle: `${item.institution} · ${item.score}${index === 0 ? ' · Thesis: Excellent' : ''}`,
       body: `<div class="cv-evidence"><strong>${esc(item.score)}</strong><span>${index === 0 ? 'Thesis graded Excellent, the highest qualitative grade.' : 'Major GPA, on a 20-point scale.'}</span></div>${list(item.courses)}${links([...(index === 0 ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
     });
   }
@@ -124,7 +126,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
     entries.push({
       id: `cv-teaching-${slug(item.name)}-${item.startDate.slice(0, 4)}-${index + 1}`, category: 'teaching', date: item.startDate,
       dateLabel: semester, title: item.name,
-      kicker: item.position, subtitle: item.institution,
+      kicker: item.position, subtitle: `${item.institution} · ${item.position}`,
       search: item.instructors?.join(' '),
       body: `${paragraph(item.summary)}${item.links?.some(link => link.name === 'YouTube') ? `<a class="cv-recording" href="${esc(item.links.find(link => link.name === 'YouTube').url)}"><span class="cv-recording-play" aria-hidden="true">▷</span><span><strong>Watch the workshop</strong><span>${esc(item.name)} · University of Tehran</span></span><span aria-hidden="true">↗</span></a>` : ''}${item.instructors?.length ? `<p class="cv-note">Course instructor${item.instructors.length > 1 ? 's' : ''}: ${esc(item.instructors.join(' · '))}</p>` : ''}${list(item.highlights)}${links([...materials, ...(materials.some(link => link.href.includes('youtube.com')) ? [] : item.institution.includes('Tehran') ? [{ href: 'https://www.youtube.com/playlist?list=PLgUTlLy0Wg50do4_MiLyLP0GoDhcCb9uX', label: 'Selected workshop recordings' }] : [])])}`
     });
@@ -134,15 +136,15 @@ function buildEntries(profile, researchEntries, projectEntries) {
     entries.push({
       id: `cv-${item.name.startsWith('MedYar') ? 'medyar' : 'text-to-insight'}`, category: 'projects', date: item.startDate || '',
       dateLabel: item.startDate ? range(item.startDate, item.endDate) : 'Project', title: item.name,
-      kicker: 'Selected project', subtitle: item.description,
-      body: `${paragraph(item.summary)}${list(item.highlights)}<div class="tag-list">${(item.keywords || []).map(badge).join('')}</div>${links([...(item.url ? [{ href: item.url, label: 'Source code' }] : []), ...(project ? [{ href: url(project.route), label: 'Project overview' }] : [])])}`
+      kicker: 'Selected project', subtitle: item.name.startsWith('MedYar') ? 'Specialty matching & appointment booking' : 'Natural-language data analysis',
+      body: `${paragraph(item.description)}${paragraph(item.summary)}${list(item.highlights)}<div class="tag-list">${(item.keywords || []).map(badge).join('')}</div>${links([...(item.url ? [{ href: item.url, label: 'Source code' }] : []), ...(project ? [{ href: url(project.route), label: 'Project overview' }] : [])])}`
     });
   }
   for (const [index, item] of profile.volunteer.entries()) {
     entries.push({
       id: `cv-${index === 0 ? 'acm' : 'tedx'}`, category: 'service', date: item.startDate,
       dateLabel: item.dateLabel || range(item.startDate, item.endDate), title: item.organization,
-      kicker: item.position, subtitle: item.location,
+      kicker: item.position, subtitle: `${item.position} · ${item.location}`,
       body: `${paragraph(item.summary)}${list(item.highlights)}${links([...publicLinks(item)])}`
     });
   }
@@ -159,31 +161,27 @@ function buildEntries(profile, researchEntries, projectEntries) {
 
 export function renderCV(profile, researchEntries = [], projectEntries = []) {
   const entries = buildEntries(profile, researchEntries, projectEntries);
-  const years = [...new Set(entries.map(entry => entry.date.slice(0, 4) || 'undated'))];
   const categories = categoryOrder.filter(category => entries.some(entry => entry.category === category));
-  const featuredCount = entries.filter(entry => entryStories[entry.id]?.[2]).length;
+  const entryOrder = new Map(entries.map((entry, index) => [entry, index]));
+  const published = profile.publications.filter(item => !item.status?.toLowerCase().includes('preprint')).length;
   return `<header class="cv-heading">
-      <div class="cv-heading-top"><p class="cv-eyebrow">Curriculum vitae <span aria-hidden="true">/</span> Milad Mohammadi</p><a class="cv-download" href="${cvPDF()}" download="Milad-Mohammadi-CV.pdf">${icon('download')} Download CV <span>PDF</span></a></div>
-      <div class="cv-heading-grid"><div><h1>People, language <em>&amp; AI.</em></h1><p class="cv-introduction">I study how language agents can understand people—and build the systems to put those ideas into practice.</p></div><aside class="cv-heading-note"><span class="cv-note-rule" aria-hidden="true"></span><p>M.Sc., University of Tehran<br>Language agents × human behavior</p><a href="${url('/phd/')}"><span class="cv-status-dot" aria-hidden="true"></span> Seeking a PhD position ${icon('arrow')}</a></aside></div>
-      <div class="cv-credentials" aria-label="Academic highlights"><a href="#cv-masters"><strong>19.14<span>/20</span></strong><span>M.Sc. GPA · thesis Excellent</span></a><a href="#cv-national-rank"><strong>1<span>/4,696</span></strong><span>National master’s entrance rank</span></a><a href="#cv-psycidra"><strong>Research <em>in context</em></strong><span>NLP · cognitive psychology · engineering</span></a></div>
-    </header>
-    <section class="cv-workspace" data-cv data-view="timeline" data-scope="highlights" aria-labelledby="cv-explorer-title">
-      <div class="cv-explorer-heading"><div><h2 id="cv-explorer-title">One journey. Two perspectives.</h2></div><p data-cv-view-note>Follow the journey, most recent first.</p></div>
-      <div class="cv-control-deck" data-cv-controls hidden>
-        <div class="cv-toolbar">
-          <div class="cv-view-switch" role="group" aria-label="CV view"><button type="button" data-cv-view="timeline" aria-pressed="true">${icon('timeline')} Timeline</button><button type="button" data-cv-view="theme" aria-pressed="false">${icon('grid')} By theme</button></div>
-          <div class="cv-scope-switch" role="group" aria-label="Level of detail"><button type="button" data-cv-scope="highlights" aria-pressed="true">Key moments <span>${featuredCount}</span></button><button type="button" data-cv-scope="all" aria-pressed="false">Complete CV <span>${entries.length}</span></button></div>
-          <div class="cv-search">${icon('search')}<label class="sr-only" for="cv-search">Search all CV entries</label><input type="search" id="cv-search" data-cv-search placeholder="Find a topic or experience" autocomplete="off" aria-controls="cv-groups"></div>
-        </div>
-        <div class="cv-filters" role="group" aria-label="Filter CV by theme"><button type="button" class="cv-filter" data-cv-filter="all" aria-pressed="true">All <span class="cv-filter-count" data-count>${entries.length}</span></button>${categories.map(category => `<button type="button" class="cv-filter" data-cv-filter="${category}" aria-pressed="false"><span class="cv-category-dot" data-category="${category}" aria-hidden="true"></span>${esc(categoryNames[category])} <span class="cv-filter-count" data-count>${entries.filter(entry => entry.category === category).length}</span></button>`).join('')}</div>
+      <div class="cv-heading-top"><h1>Curriculum vitae</h1><span class="cv-edition">Milad Mohammadi</span></div>
+      <div class="cv-opening"><div><p class="cv-introduction">I’m an AI researcher and engineer working on language agents, human behavior, and the systems that connect them.</p><p class="cv-reading-note">I prepared this page as an in-depth CV, arranged <strong>by theme</strong> or <strong>as a timeline</strong>. Open an entry for the full story, supporting work, and links.</p></div><aside class="cv-pdf-note" aria-label="Compact conventional CV"><span class="cv-document-symbol" aria-hidden="true"><svg viewBox="0 0 44 52" fill="none"><path d="M8 1h20l11 11v39H8z" fill="var(--surface)" stroke="var(--outline)" stroke-width="1.2"/><path d="M28 1v12h11M15 20h17M15 25h12" stroke="var(--outline)" stroke-width="1.2"/><rect x="1" y="31" width="34" height="16" rx="2" fill="#B63732"/><text x="18" y="42.5" fill="white" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing=".7">PDF</text></svg></span><div><strong class="cv-pdf-title">Compact 2-page CV</strong><p>The conventional CV format.</p><div class="cv-pdf-actions"><a class="cv-download" href="${cvPDF()}" target="_blank" rel="noopener">Open PDF ${icon('arrow')}<span class="sr-only"> (opens in a new tab)</span></a></div></div></aside></div>
+      <div class="cv-highlights" aria-label="CV highlights">
+        <a href="#cv-masters"><span class="cv-highlight-label">M.Sc. graduate</span><strong>19.14<span>/20 GPA</span></strong><span>University of Tehran</span><span>Thesis graded <b>Excellent</b></span></a>
+        <a href="#cv-national-rank"><span class="cv-highlight-label">National entrance rank</span><strong>1st<span> of 4,696</span></strong><span>Ranked first nationwide</span><span class="cv-highlight-detail">IT Engineering · M.Sc. exam</span></a>
+        <a href="#cv-group-publications" data-cv-jump="publications"><span class="cv-highlight-label">Research output</span><strong>${profile.publications.length}<span> papers</span></strong><span>${published} published</span><span>${profile.publications.length - published} preprints (under review)</span></a>
+        <a href="#cv-group-industry" data-cv-jump="industry"><span class="cv-highlight-label">Industry experience</span><strong>3+<span> years</span></strong><span>Now <b>Senior AI Engineer</b></span></a>
       </div>
-      <div class="cv-actions"><p class="cv-results" data-cv-results role="status" aria-live="polite" aria-atomic="true">${entries.length} entries</p><div data-cv-controls hidden><button type="button" data-cv-expand>Expand all</button><span aria-hidden="true">/</span><button type="button" data-cv-collapse>Collapse all</button></div></div>
-      <p class="cv-date-key">Roles by start date · degrees by completion · papers by publication</p>
-      <noscript><p class="cv-note">The complete timeline is below. Open any entry to explore its details.</p></noscript>
-      <div class="cv-groups" id="cv-groups" data-cv-groups>${years.map(year => `<section class="cv-group" data-cv-group="${esc(year)}" aria-labelledby="cv-group-${esc(year)}"><header class="cv-group-header"><h2 class="cv-group-heading" id="cv-group-${esc(year)}">${year === 'undated' ? 'Selected projects' : year}</h2><p class="cv-group-note">${chapterNotes[year] || ''}</p></header><div class="cv-entries">${entries.filter(entry => (entry.date.slice(0, 4) || 'undated') === year).map(detailEntry).join('')}</div></section>`).join('')}</div>
-      <div class="cv-timeline-end"><span aria-hidden="true">◦</span><p>Built on curiosity. Still unfolding.</p><a href="${url('/phd/')}">The questions I want to explore next ${icon('arrow')}</a></div>
-      <div class="cv-empty" data-cv-empty hidden><h3>No entries found.</h3><p>Try another topic or clear the current filters.</p><button type="button" class="button button-secondary" data-cv-reset>Reset search & filters</button></div>
+    </header>
+    <section class="cv-workspace" data-cv data-view="theme" aria-label="CV experience">
+      <div class="cv-control-deck" data-cv-controls hidden>
+        <div class="cv-view-switch" role="group" aria-label="CV view"><button type="button" data-cv-view="theme" aria-pressed="true" aria-controls="cv-groups">${icon('grid')} Theme</button><button type="button" data-cv-view="timeline" aria-pressed="false" aria-controls="cv-groups">${icon('timeline')} Timeline</button></div>
+        <div class="cv-actions"><button type="button" data-cv-expand>Expand all</button><span aria-hidden="true">/</span><button type="button" data-cv-collapse>Collapse all</button></div>
+      </div>
+      <p class="sr-only" data-cv-view-status role="status" aria-live="polite"></p>
+      <div class="cv-opportunity" data-cv-opportunity hidden><div class="cv-next-label">Next chapter<span class="cv-status-dot" aria-hidden="true"></span></div><div><h2>Looking for a PhD position</h2><p>Language agents · human behavior modeling · human–AI interaction</p></div><a href="${url('/phd/')}">Research interests ${icon('arrow')}</a></div>
+      <div class="cv-groups" id="cv-groups" data-cv-groups>${categories.map((category, index) => `<section class="cv-group" data-cv-group="${category}" aria-labelledby="cv-group-${category}"><header class="cv-group-header"><span class="cv-chapter-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><h2 class="cv-group-heading" id="cv-group-${category}">${categoryNames[category]}</h2></header><div class="cv-entries">${cvSections[category].intro ? `<p class="cv-group-intro">${esc(cvSections[category].intro)}</p>` : ''}${category === 'education' ? futureEducation() : ''}${entries.filter(entry => entry.category === category).map(entry => detailEntry(entry, entryOrder.get(entry))).join('')}</div></section>`).join('')}</div>
     </section>
-    <details class="cv-appendix"><summary><span><span class="cv-eyebrow">Methods & tools</span><strong id="cv-toolkit-title">The toolkit behind the work</strong></span><span class="cv-appendix-plus" aria-hidden="true">+</span></summary><div class="cv-skills">${profile.skills.map(skill => `<div class="cv-skill-group"><h3>${esc(skill.name)}</h3><p>${skill.keywords.map(esc).join(' · ')}</p></div>`).join('')}</div></details>
-    <section class="cv-support-grid" aria-label="Languages, English proficiency, and academic references"><div class="cv-support-card"><h2>Languages</h2><dl>${profile.languages.map(language => `<div><dt>${esc(language.language)}</dt><dd>${esc(language.fluency)}</dd></div>`).join('')}</dl><h3>TOEFL iBT</h3><p><strong>5.5/6</strong> overall <span class="cv-note">· CEFR C1</span></p><p>ETS comparable score: <strong>110/120</strong></p><dl class="cv-score-list"><div><dt>Reading</dt><dd>6.0/6</dd></div><div><dt>Listening</dt><dd>6.0/6</dd></div><div><dt>Writing</dt><dd>5.5/6</dd></div><div><dt>Speaking</dt><dd>5.0/6</dd></div></dl><p class="cv-note">Test center · 25 July 2026</p></div><div class="cv-support-card"><h2>Academic references</h2>${profile.references.map(reference => `<div class="cv-reference"><h3>${esc(reference.name)}</h3><p>${esc(reference.position)}, ${esc(reference.institution)}<br>${esc(reference.department)}</p><a href="mailto:${esc(reference.email)}">${esc(reference.email)}</a></div>`).join('')}<p class="cv-note">Last updated ${date(profile.meta.lastModified, true)} · ${external(cvPDF(), 'Academic CV')}</p></div></section>`;
+    ${renderCVAppendix(profile)}`;
 }

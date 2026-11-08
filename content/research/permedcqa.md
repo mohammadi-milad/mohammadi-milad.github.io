@@ -5,7 +5,7 @@ description: "A Persian medical question-answering benchmark and rubric-based ev
 date: "2025-05-23"
 kind: "Research preprint"
 role: "Second author"
-status: "Preprint · arXiv 2025"
+status: "Preprint"
 tags: ["Persian NLP", "Medical QA", "Evaluation"]
 featured: false
 diagram: "medical"

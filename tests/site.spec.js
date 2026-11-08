@@ -12,7 +12,8 @@ async function routes(request) {
 
 async function loaded(page) {
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('main')).toBeVisible();
 }
 
 for (const colorScheme of ['light', 'dark']) {
@@ -40,6 +41,7 @@ for (const colorScheme of ['light', 'dark']) {
           await fs.mkdir(screenshotDirectory, { recursive: true });
           const name = route === '/' ? 'home' : route.replaceAll('/', '-').replace(/^-|-$/g, '');
           await page.screenshot({ path: `${screenshotDirectory}/${name}-${width}-${colorScheme}.png`, fullPage: true });
+          if (route === '/cv/') await page.screenshot({ path: `${screenshotDirectory}/cv-overview-${width}-${colorScheme}.png` });
         }
       }
       expect(errors).toEqual([]);
@@ -80,7 +82,7 @@ test('appearance follows the device, persists a choice, and restores system pref
   await expect(theme).toHaveValue('system');
 });
 
-test('the reading layout shares one type family with a distinct CV editorial heading', async ({ page, request }) => {
+test('the reading layout shares one type family and a restrained heading scale', async ({ page, request }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   for (const route of await routes(request)) {
     await page.goto(route);
@@ -92,7 +94,7 @@ test('the reading layout shares one type family with a distinct CV editorial hea
       return { families, headings };
     });
     expect(typography.families, `${route}: prose, navigation, headings, and controls should share a type family`).toHaveLength(1);
-    const maximumHeadingSize = route === '/cv/' ? 54 : 34;
+    const maximumHeadingSize = 34;
     for (const size of typography.headings) expect(size, `${route}: preserve the intended editorial or reading scale`).toBeLessThanOrEqual(maximumHeadingSize);
   }
 });
@@ -146,29 +148,125 @@ test('mobile navigation opens, closes, and supports keyboard dismissal', async (
   await expect(page.locator('#primary-nav a[href="/cv/"]')).toHaveAttribute('aria-current', 'page');
 });
 
-test('CV key moments offer an overview while complete view and search expose the full record', async ({ page }) => {
+test('CV opens with the complete record organized by theme and only essential controls', async ({ page }) => {
   await page.goto('/cv/');
   const workspace = page.locator('[data-cv]');
   const entries = page.locator('[data-cv-entry]');
-  const visibleEntries = page.locator('[data-cv-entry]:visible');
-  const total = await entries.count();
-  await expect(workspace).toHaveAttribute('data-scope', 'highlights');
-  const highlighted = await visibleEntries.count();
-  expect(highlighted).toBeGreaterThan(0);
-  expect(highlighted).toBeLessThan(total);
-  await expect(page.locator('#cv-permedcqa')).not.toBeVisible();
-  await expect(page.locator('[data-cv-group="2026"] #cv-masters')).toBeVisible();
+  await expect(workspace).toHaveAttribute('data-view', 'theme');
+  await expect(entries).toHaveCount(23);
+  await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  await expect(page.locator('[data-cv-group="education"] #cv-masters')).toBeVisible();
   await expect(page.locator('#cv-masters .cv-date')).toHaveText('Sept 2023 – Sept 2026');
-
-  await page.getByRole('button', { name: /^Complete CV/ }).click();
-  await expect(workspace).toHaveAttribute('data-scope', 'all');
-  await expect(visibleEntries).toHaveCount(total);
-  await page.getByRole('button', { name: /^Key moments/ }).click();
-  await expect(visibleEntries).toHaveCount(highlighted);
-  await page.getByRole('searchbox', { name: 'Search all CV entries' }).fill('PerMedCQA');
-  await expect(workspace).toHaveAttribute('data-scope', 'all');
   await expect(page.locator('#cv-permedcqa')).toBeVisible();
-  await expect(visibleEntries).toHaveCount(1);
+  await expect(page.locator('[data-cv-group="publications"] [data-cv-entry]')).toHaveCount(4);
+  await expect(page.locator('[data-cv-group="research"] [data-cv-entry]')).toHaveCount(2);
+  await expect(page.locator('#cv-group-publications')).toHaveText('Publications');
+  await expect(page.locator('#cv-group-research')).toHaveText('Research roles');
+  await expect(page.locator('#cv-group-service')).toHaveText('Volunteering service');
+  for (const id of ['cv-psycidra', 'cv-permedcqa']) {
+    await expect(page.locator(`#${id}`)).toHaveAttribute('data-category', 'publications');
+  }
+  await expect(page.locator('#cv-psycidra summary')).toContainText(/under review/i);
+  await expect(page.locator('#cv-permedcqa')).not.toContainText(/under review/i);
+  for (const id of ['cv-acm', 'cv-tedx']) {
+    const logo = page.locator(`#${id} summary img`);
+    await expect(logo).toBeVisible();
+    await expect(logo).toHaveAttribute('src', new RegExp(id.slice(3), 'i'));
+  }
+  await expect(page.locator('[data-cv-search], [data-cv-filter], [data-cv-scope], [data-cv-results]')).toHaveCount(0);
+  await expect(page.getByRole('searchbox')).toHaveCount(0);
+  await expect(page.getByText(/Showing \d+ of \d+ entries/)).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Expand all', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Collapse all', exact: true })).toBeVisible();
+  await expect(page.locator('[data-cv-opportunity]')).not.toBeVisible();
+
+  await page.locator('[data-cv-view="timeline"]').click();
+  await expect(workspace).toHaveAttribute('data-view', 'timeline');
+  await expect(page.locator('[data-cv-opportunity]')).toBeVisible();
+  await expect(page.locator('[data-cv-opportunity]')).toContainText(/PhD/);
+  await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  const opportunityBeforeEntries = await page.evaluate(() => {
+    const opportunity = document.querySelector('[data-cv-opportunity]');
+    const firstEntry = document.querySelector('[data-cv-entry]');
+    return Boolean(opportunity.compareDocumentPosition(firstEntry) & Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+  expect(opportunityBeforeEntries, 'PhD availability is the next step at the top of the timeline').toBe(true);
+});
+
+test('theme chapters retain their reading order, numbering, and introductions after view switches', async ({ page }) => {
+  await page.goto('/cv/');
+  const order = ['education', 'publications', 'awards', 'research', 'industry', 'teaching', 'projects', 'service'];
+  const checkTheme = async () => {
+    await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
+    expect(await page.locator('[data-cv-group]').evaluateAll(nodes => nodes.map(node => node.dataset.cvGroup))).toEqual(order);
+    await expect(page.locator('.cv-chapter-number')).toHaveText(['01', '02', '03', '04', '05', '06', '07', '08']);
+    await expect(page.locator('.cv-group-intro')).toHaveCount(5);
+    for (const category of order.slice(0, 3)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toHaveCount(0);
+    for (const category of order.slice(3)) await expect(page.locator(`[data-cv-group="${category}"] .cv-group-intro`)).toContainText(/\S/);
+  };
+  await checkTheme();
+  await page.locator('[data-cv-view="timeline"]').click();
+  await expect(page.locator('.cv-group-intro')).toHaveCount(0);
+  await expect(page.locator('.cv-chapter-number')).toHaveCount(0);
+  await page.locator('[data-cv-view="theme"]').click();
+  await checkTheme();
+});
+
+test('the future PhD row opens within Education and preserves its state through CV controls', async ({ page }) => {
+  await page.goto('/cv/');
+  const future = page.locator('#cv-phd-future');
+  await expect(future).toHaveAttribute('data-cv-future', '');
+  await expect(future).not.toHaveAttribute('data-cv-entry');
+  await expect(page.locator('[data-cv-group="education"] .cv-entry').first()).toHaveAttribute('id', 'cv-phd-future');
+  await expect(future.locator('.cv-entry-title')).toHaveText('Looking for a PhD position');
+  await expect(future.locator('.cv-date')).toHaveText('Start in 2027');
+  await expect(future.locator('summary')).toContainText('?');
+  await expect(future).not.toHaveAttribute('open', '');
+  await future.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await expect(future).toHaveAttribute('open', '');
+  await expect(future.locator('.cv-entry-body')).toBeVisible();
+  await expect(future.locator('.cv-entry-body a[href="/phd/"]')).toBeVisible();
+  await page.locator('[data-cv-view="timeline"]').click();
+  await expect(future).not.toBeVisible();
+  await page.locator('[data-cv-view="theme"]').click();
+  await expect(future).toBeVisible();
+  await expect(future).toHaveAttribute('open', '');
+  await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
+  await expect(future).not.toHaveAttribute('open', '');
+  await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+  await expect(future).toHaveAttribute('open', '');
+  await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
+  await page.evaluate(() => dispatchEvent(new Event('beforeprint')));
+  await expect(future).toHaveAttribute('open', '');
+  await page.evaluate(() => dispatchEvent(new Event('afterprint')));
+  await expect(future).not.toHaveAttribute('open', '');
+  await page.locator('[data-cv-view="timeline"]').click();
+  await page.evaluate(() => { location.hash = 'cv-phd-future'; });
+  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
+  await expect(future).toHaveAttribute('open', '');
+  await expect(future.locator('summary')).toBeInViewport();
+  await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+});
+
+test('CV summaries remain compact in both views and reveal figures only on expansion', async ({ page }) => {
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({ width, height: 960 });
+    await page.goto('/cv/');
+    await loaded(page);
+    for (const view of ['theme', 'timeline']) {
+      await page.locator(`[data-cv-view="${view}"]`).click();
+      await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', view);
+      const summaries = page.locator('[data-cv-entry] > summary, [data-cv-future]:visible > summary');
+      const rows = await summaries.evaluateAll(nodes => nodes.map(node => ({ id: node.parentElement.id, height: node.getBoundingClientRect().height })));
+      for (const row of rows) expect(row.height, `${view} ${row.id} at ${width}px`).toBeLessThanOrEqual(width > 700 ? 110 : 170);
+      await expect(summaries.locator('figure, .cv-preview')).toHaveCount(0);
+      await expect(page.locator('[data-cv-entry][open]')).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    }
+  }
+  await page.locator('#cv-psycidra summary').click();
+  await expect(page.locator('#cv-psycidra .cv-entry-body .cv-visual')).toBeVisible();
 });
 
 test('CV disclosures support the keyboard and keep reading context through rapid view changes', async ({ page }) => {
@@ -197,64 +295,255 @@ test('CV disclosures support the keyboard and keep reading context through rapid
     }
   });
   await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
-  await expect(page.locator('[data-cv-group="research"] #cv-psycidra')).toBeVisible();
+  await expect(page.locator('[data-cv-group="publications"] #cv-psycidra')).toBeVisible();
   await expect(entry).toHaveAttribute('open', '');
   await expect(summary).toBeFocused();
   await expect.poll(() => entry.evaluate(node => node.style.height)).toBe('');
   expect(errors).toEqual([]);
 });
 
-test('CV preserves expanded entries through animated reorganization and supports search and filters', async ({ page }) => {
+test('CV preserves expanded entries through reorganization, bulk controls, and direct links', async ({ page }) => {
   await page.goto('/cv/');
-  const entries = page.locator('[data-cv-entry]');
-  const first = entries.first();
-  const firstId = await first.getAttribute('id');
-  await first.locator('summary').click();
-  await expect(first).toHaveAttribute('open', '');
-  await page.getByRole('button', { name: 'By theme', exact: true }).click();
-  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
-  await expect(page.locator(`#${firstId}`)).toHaveAttribute('open', '');
-  await expect(page.getByRole('button', { name: 'By theme', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('button', { name: 'By theme', exact: true })).toBeFocused();
-  expect(await page.locator('.skip-link').evaluate(link => link.matches(':focus'))).toBe(false);
-  await page.locator('[data-cv-filter="industry"]').click();
-  await expect.poll(() => page.locator('[data-cv-entry]:visible').count()).toBe(2);
-  await page.getByRole('button', { name: 'Expand all', exact: true }).click();
-  expect(await page.locator('[data-cv-entry]:visible').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
-  await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
-  expect(await page.locator('[data-cv-entry]:visible').evaluateAll(nodes => nodes.every(node => !node.open))).toBe(true);
-  await page.locator('[data-cv-filter="all"]').click();
-  await page.getByRole('searchbox', { name: 'Search all CV entries' }).fill('PsyCIDRA');
-  await expect.poll(() => page.locator('[data-cv-entry]:visible').count()).toBeGreaterThan(0);
-  await expect.poll(() => page.locator('[data-cv-entry]:visible').count()).toBeLessThan(await entries.count());
-  await page.getByRole('searchbox', { name: 'Search all CV entries' }).fill('a-query-with-no-matching-experience');
-  await expect(page.locator('[data-cv-empty]')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Expand all', exact: true })).toBeDisabled();
-  await page.getByRole('button', { name: 'Reset search & filters', exact: true }).click();
-  await expect(page.locator('[data-cv-empty]')).not.toBeVisible();
-  await expect.poll(() => page.locator('[data-cv-entry]:visible').count()).toBe(await entries.count());
-  await page.getByRole('button', { name: 'Timeline', exact: true }).click();
+  const entry = page.locator('#cv-psycidra');
+  await entry.locator('summary').click();
+  await expect(entry).toHaveAttribute('open', '');
+  await page.locator('[data-cv-view="timeline"]').click();
   await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'timeline');
+  await expect(entry).toHaveAttribute('open', '');
+  await expect(page.locator('[data-cv-view="timeline"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-cv-view="timeline"]')).toBeFocused();
+  await expect(page.locator('[data-cv-view="theme"]')).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+  expect(await page.locator('[data-cv-entry]').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  await page.locator('[data-cv-view="theme"]').click();
+  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
+  expect(await page.locator('[data-cv-entry]').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  await expect(page.locator('#cv-phd-future')).toHaveAttribute('open', '');
+  await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
+  expect(await page.locator('[data-cv-entry]').evaluateAll(nodes => nodes.every(node => !node.open))).toBe(true);
   await page.goto('/cv/#cv-intrest');
   await expect(page.locator('#cv-intrest')).toHaveAttribute('open', '');
+  await expect(page.locator('#cv-intrest summary')).toBeInViewport();
+});
+
+test('CV highlights navigate to their evidence and the compact two-page PDF has one clear action', async ({ page, request }) => {
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/cv/');
+  await loaded(page);
+  await fs.mkdir(screenshotDirectory, { recursive: true });
+  await page.screenshot({ path: `${screenshotDirectory}/cv-overview-1440-light.png` });
+  await expect(page.locator('.cv-highlights > a')).toHaveCount(4);
+  await expect(page.locator('.cv-pdf-title')).toHaveText('Compact 2-page CV');
+  await expect(page.locator('.cv-pdf-note p')).toHaveText('The conventional CV format.');
+  await expect(page.locator('.cv-pdf-note a')).toHaveCount(1);
+  await expect(page.locator('.cv-pdf-note a[download]')).toHaveCount(0);
+  const publicationHighlight = page.locator('.cv-highlights [data-cv-jump="publications"]');
+  await expect(publicationHighlight.locator('strong')).toHaveText('4 papers');
+  await expect(publicationHighlight).toContainText('2 published');
+  await expect(publicationHighlight).toContainText('2 preprints (under review)');
+  await expect(publicationHighlight).not.toContainText(/EACL|SemEval/i);
+  const industryHighlight = page.locator('.cv-highlights [data-cv-jump="industry"]');
+  await expect(industryHighlight).toContainText(/3\+\s*years/i);
+  await expect(industryHighlight).toContainText(/Senior AI Engineer/i);
+  await expect(industryHighlight).not.toContainText(/Adan|IntRest/);
+  const openPDF = page.locator('.cv-pdf-note a[target="_blank"]');
+  await expect(openPDF).toHaveAccessibleName(/Open PDF/);
+  const href = await openPDF.getAttribute('href');
+  expect((await (await request.get(href)).body()).subarray(0, 5).toString()).toBe('%PDF-');
+  await page.locator('.cv-highlights a[href="#cv-masters"]').click();
+  await expect(page.locator('#cv-masters')).toHaveAttribute('open', '');
+  await expect(page.locator('#cv-masters summary')).toBeFocused();
+  await page.locator('[data-cv-view="timeline"]').click();
+  await page.locator('.cv-highlights [data-cv-jump="publications"]').click();
+  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
+  await expect(page.locator('#cv-group-publications')).toBeFocused();
+  await expect(page.locator('#cv-group-publications')).toBeInViewport();
+  await page.locator('.cv-highlights [data-cv-jump="industry"]').click();
+  await expect(page.locator('#cv-group-industry')).toBeFocused();
+  await expect(page.locator('#cv-group-industry')).toBeInViewport();
+});
+
+test('skills are organized by purpose, preserve the full toolkit, and join the reading controls', async ({ page }) => {
+  const profile = JSON.parse(await fs.readFile('src/data/profile.json', 'utf8'));
+  const normalize = text => text.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
+  await page.goto('/cv/');
+  const toolkit = page.locator('#cv-skills');
+  const cards = toolkit.locator('.cv-skill-card[data-cv-appendix]');
+  await expect(cards).toHaveCount(8);
+  for (const heading of ['Foundations', 'Applied AI', 'Engineering practice']) await expect(toolkit.getByRole('heading', { name: heading, exact: true })).toBeVisible();
+  const titles = ['Software engineering', 'Machine learning & data', 'Language agents', 'Retrieval & RAG', 'Model adaptation', 'Backend & integration', 'Evaluation & observability', 'Deployment & delivery'];
+  for (const [index, title] of titles.entries()) await expect(cards.nth(index).locator('summary')).toContainText(title);
+  expect(await cards.evaluateAll(nodes => nodes.every(node => node.tagName === 'DETAILS' && !node.open))).toBe(true);
+  await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+  expect(await cards.evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  const skills = normalize(await toolkit.innerText());
+  for (const keyword of profile.skills.flatMap(group => group.keywords)) expect(skills, `The reorganized toolkit should preserve ${keyword}`).toContain(normalize(keyword));
+  expect(skills).toContain('langgraph');
+  await page.locator('[data-cv-view="timeline"]').click();
+  expect(await cards.evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
+  expect(await cards.evaluateAll(nodes => nodes.every(node => !node.open))).toBe(true);
+  await cards.first().locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await expect(cards.first()).toHaveAttribute('open', '');
+  await expect(cards.first().locator('.cv-skill-content')).toBeVisible();
+  await expect(cards.first().locator('summary')).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(cards.first()).not.toHaveAttribute('open', '');
+});
+
+test('the skills overview and details stay readable and accessible at desktop and mobile sizes', async ({ page }) => {
+  await fs.mkdir(screenshotDirectory, { recursive: true });
+  for (const colorScheme of ['light', 'dark']) {
+    for (const width of [1440, 768, 640, 390, 320]) {
+      await page.setViewportSize({ width, height: 960 });
+      await page.emulateMedia({ colorScheme });
+      await page.goto('/cv/');
+      await loaded(page);
+      const toolkit = page.locator('#cv-skills');
+      for (const expanded of [false, true]) {
+        if (expanded) await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+        const dimensions = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
+        expect(dimensions.content, `Skills ${expanded ? 'expanded' : 'overview'} at ${width}px in ${colorScheme}`).toBeLessThanOrEqual(dimensions.width + 1);
+        const brokenImages = await toolkit.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src));
+        expect(brokenImages).toEqual([]);
+        if (width !== 320) {
+          // Let the whole section fit in the capture viewport. Element screenshots
+          // extending above a scrolled viewport can include offscreen fixed UI.
+          const sectionHeight = Math.ceil((await toolkit.boundingBox()).height);
+          await page.setViewportSize({ width, height: Math.max(960, sectionHeight + 100) });
+          await toolkit.screenshot({ path: `${screenshotDirectory}/cv-skills-${expanded ? 'expanded' : 'overview'}-${width}-${colorScheme}.png` });
+          await page.setViewportSize({ width, height: 960 });
+        }
+        const results = await new AxeBuilder({ page }).include('#cv-skills').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+        expect(results.violations, `Skills ${expanded ? 'expanded' : 'overview'} at ${width}px in ${colorScheme}`).toEqual([]);
+      }
+    }
+  }
+});
+
+test('TOEFL report distinguishes test-day and MyBest scores with the verified section labels', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/cv/');
+  await loaded(page);
+  // Values checked against the report’s visual tables. The PDF text layer swaps
+  // Writing and Speaking, so it must not silently become the score source.
+  const scores = {
+    'test-day': { overall: '5.5', comparable: '110', cefr: 'C1', sections: { Reading: '6.0', Listening: '6.0', Writing: '5.5', Speaking: '5.0' } },
+    mybest: { overall: '6.0', comparable: '118', cefr: 'C2', sections: { Reading: '6.0', Listening: '6.0', Writing: '5.5', Speaking: '5.5' } }
+  };
+  await expect(page.locator('[data-toefl-panel]')).toHaveCount(2);
+  for (const [type, expected] of Object.entries(scores)) {
+    const panel = page.locator(`[data-toefl-panel="${type}"]`);
+    await expect(panel.locator('.cv-total-score strong')).toHaveText(expected.overall);
+    await expect(panel.locator('.cv-score-comparable strong')).toHaveText(expected.comparable);
+    await expect(panel.locator('.cv-cefr')).toHaveText(`CEFR ${expected.cefr}`);
+    await expect(panel.locator('[data-toefl-section]')).toHaveCount(4);
+    await expect(panel.locator('.cv-toefl-panel-heading time')).toHaveAttribute('datetime', '2026-07-25');
+    for (const [section, value] of Object.entries(expected.sections)) {
+      const result = panel.locator(`[data-toefl-section="${section}"]`);
+      await expect(result.locator('dt')).toHaveText(section);
+      await expect(result.locator('[data-toefl-value]')).toHaveText(value);
+
+    }
+  }
+  await expect(page.locator('[data-toefl-panel="test-day"] h3')).toHaveText('Test-day scores');
+  await expect(page.locator('[data-toefl-panel="mybest"] h3')).toContainText('MyBest');
+  await expect(page.locator('.cv-score-footnote')).toContainText(/highest section scores across valid tests/i);
+  const dateNote = page.locator('.cv-score-date-note');
+  await expect(dateNote).toContainText('Speaking');
+  await expect(dateNote).toContainText(/other sections|Reading.*Listening.*Writing/i);
+  await expect(dateNote.locator('time')).toHaveCount(2);
+  await expect(dateNote.locator('time[datetime="2026-07-19"]')).toHaveCount(1);
+  await expect(dateNote.locator('time[datetime="2026-07-25"]')).toHaveCount(1);
+  await fs.mkdir(screenshotDirectory, { recursive: true });
+  await page.locator('.cv-toefl-report').screenshot({ path: `${screenshotDirectory}/cv-toefl-report-1440-light.png` });
+});
+
+test('language and reference details remain complete in the compact ending', async ({ page }) => {
+  const profile = JSON.parse(await fs.readFile('src/data/profile.json', 'utf8'));
+  await page.goto('/cv/');
+  const languages = page.locator('#cv-languages');
+  for (const language of profile.languages) {
+    await expect(languages).toContainText(language.language);
+    await expect(languages).toContainText(language.fluency);
+  }
+  const references = page.locator('#cv-references');
+  for (const reference of profile.references) {
+    const card = references.locator('.cv-academic-reference').filter({ has: page.getByRole('heading', { name: reference.name, exact: true }) });
+    await expect(card).toContainText(reference.position);
+    await expect(card).toContainText(`${reference.institution} · ${reference.department}`);
+    if (reference.relationship) await expect(card).toContainText(reference.relationship);
+    await expect(card.locator(`a[href="mailto:${reference.email}"]`)).toBeVisible();
+    await expect(card.getByRole('link', { name: `Google Scholar — ${reference.name}`, exact: true })).toHaveAttribute('href', reference.scholar);
+    if (reference.universityPage) await expect(card.getByRole('link', { name: `University page — ${reference.name}`, exact: true })).toHaveAttribute('href', reference.universityPage);
+    if (reference.personalPage) await expect(card.getByRole('link', { name: `Personal page — ${reference.name}`, exact: true })).toHaveAttribute('href', reference.personalPage);
+  }
+  await expect(references.locator('a[href$=".pdf"]')).toHaveCount(0);
+});
+
+test('the compact CV ending stays readable and accessible across screen sizes', async ({ page }) => {
+  await fs.mkdir(screenshotDirectory, { recursive: true });
+  for (const colorScheme of ['light', 'dark']) {
+    for (const width of [1440, 768, 640, 390, 320]) {
+      await page.setViewportSize({ width, height: 960 });
+      await page.emulateMedia({ colorScheme });
+      await page.goto('/cv/');
+      await loaded(page);
+      const dimensions = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
+      expect(dimensions.content, `CV ending at ${width}px in ${colorScheme}`).toBeLessThanOrEqual(dimensions.width + 1);
+      for (const selector of ['#cv-languages', '#cv-references']) {
+        await expect(page.locator(selector)).toBeVisible();
+        const brokenImages = await page.locator(selector).locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src));
+        expect(brokenImages).toEqual([]);
+      }
+      const results = await new AxeBuilder({ page }).include('#cv-languages').include('#cv-references').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+      expect(results.violations, `CV ending at ${width}px in ${colorScheme}`).toEqual([]);
+      if ([1440, 390].includes(width)) {
+        for (const [name, selector] of [['languages', '#cv-languages'], ['references', '#cv-references']]) {
+          const section = page.locator(selector);
+          const sectionHeight = Math.ceil((await section.boundingBox()).height);
+          await page.setViewportSize({ width, height: Math.max(960, sectionHeight + 100) });
+          await section.screenshot({ path: `${screenshotDirectory}/cv-${name}-compact-${width}-${colorScheme}.png` });
+          await page.setViewportSize({ width, height: 960 });
+        }
+      }
+    }
+  }
+});
+
+test('printing expands the complete CV and restores the reader’s view and disclosures', async ({ page }) => {
+  await page.goto('/cv/');
+  await page.locator('[data-cv-view="timeline"]').click();
+  await page.locator('#cv-masters summary').click();
+  await expect(page.locator('#cv-masters')).toHaveAttribute('open', '');
+  await expect.poll(() => page.locator('#cv-masters').evaluate(node => node.style.height)).toBe('');
+  const beforePrint = await page.locator('details').evaluateAll(nodes => nodes.map(node => node.open));
+  await page.evaluate(() => dispatchEvent(new Event('beforeprint')));
+  expect(await page.locator('details').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
+  await page.evaluate(() => dispatchEvent(new Event('afterprint')));
+  expect(await page.locator('details').evaluateAll(nodes => nodes.map(node => node.open))).toEqual(beforePrint);
+  await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'timeline');
 });
 
 test('CV works with reduced motion and without native view transitions', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/cv/');
   const total = await page.locator('[data-cv-entry]').count();
-  await page.getByRole('button', { name: /^Complete CV/ }).click();
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(total);
   const summary = page.locator('#cv-psycidra summary');
   await summary.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#cv-psycidra')).toHaveAttribute('open', '');
   await expect.poll(() => page.locator('#cv-psycidra').evaluate(node => node.getAnimations().length)).toBe(0);
-  await page.getByRole('button', { name: 'By theme', exact: true }).click();
+  await page.locator('[data-cv-view="theme"]').click();
   await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(total);
   await expect(page.locator('#cv-psycidra')).toHaveAttribute('open', '');
-  await expect(page.getByRole('button', { name: 'By theme', exact: true })).toBeFocused();
+  await expect(page.locator('[data-cv-view="theme"]')).toBeFocused();
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.evaluate(() => { document.startViewTransition = undefined; });
   await page.getByRole('button', { name: 'Timeline', exact: true }).click();
@@ -266,24 +555,62 @@ test('all content, mobile navigation, and expandable CV remain available without
   const context = await browser.newContext({ baseURL, javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto('/cv/');
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   await expect(page.locator('[data-cv-controls]').first()).not.toBeVisible();
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(await page.locator('[data-cv-entry]').count());
   await expect(page.locator('#cv-permedcqa')).toBeVisible();
+  const future = page.locator('#cv-phd-future');
+  await expect(future).toBeVisible();
+  await future.locator('summary').click();
+  await expect(future).toHaveAttribute('open', '');
+  await expect(future.locator('.cv-entry-body a[href="/phd/"]')).toBeVisible();
   const first = page.locator('[data-cv-entry]').first();
   await first.locator('summary').click();
   await expect(first).toHaveAttribute('open', '');
   await expect(first.locator('.cv-entry-body')).toBeVisible();
+  const skill = page.locator('#cv-skills .cv-skill-card').first();
+  await expect(skill).toBeVisible();
+  await skill.locator('summary').click();
+  await expect(skill).toHaveAttribute('open', '');
+  await expect(skill.locator('.cv-skill-content')).toBeVisible();
   await context.close();
 });
 
-test('research filters, blog navigation, article contents, and PDF download are usable', async ({ page, request }) => {
+test('publication list, blog navigation, article contents, and PDF download are usable', async ({ page, request }) => {
   await page.goto('/research/');
-  const firstFilter = page.locator('[data-filter]').nth(1);
-  const filter = await firstFilter.getAttribute('data-filter');
-  await firstFilter.click();
-  expect(await page.locator('[data-collection-item]:visible').evaluateAll((nodes, selected) => nodes.every(node => node.dataset.tags.split('|').includes(selected)), filter)).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Publication', exact: true })).toBeVisible();
+  await expect(page.locator('.publication-index-heading').getByRole('link', { name: 'Google Scholar' })).toHaveAttribute('href', 'https://scholar.google.com/citations?user=RltQFhwAAAAJ');
+  const publications = page.getByRole('region', { name: 'Publications', exact: true });
+  await expect(publications.locator('.research-list')).toHaveCount(1);
+  await expect(publications.locator('.research-row')).toHaveCount(4);
+  await expect(publications.locator('.research-row h3')).toHaveText([
+    /PsyCIDRA/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/
+  ]);
+  await expect(page.locator('main h2')).toHaveCount(0);
+  await expect(publications.locator('.publication-venue')).toContainText([
+    /Preprint/, /Findings of EACL/, /SemEval/, /Preprint/
+  ]);
+  await expect(page.locator('.publication-note, .research-description')).toHaveCount(0);
+  const filters = publications.getByRole('group', { name: 'Filter publications' });
+  for (const [label, titles] of [
+    ['Published', [/SchemaGraphSQL/, /SemEval-2025/]],
+    ['Preprints', [/PsyCIDRA/, /PerMedCQA/]],
+    ['All', [/PsyCIDRA/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/]]
+  ]) {
+    const button = filters.getByRole('button', { name: label, exact: true });
+    await button.click();
+    await expect(button).toHaveAttribute('aria-pressed', 'true');
+    await expect(publications.locator('[data-collection-item]:visible h3')).toHaveText(titles);
+  }
+  expect(await publications.evaluate(node => getComputedStyle(node).borderTopWidth)).toBe('0px');
+  await page.getByRole('link', { name: 'Milad Mohammadi, home' }).click();
+  await expect(page.locator('.home-research .research-feature')).toHaveCount(2);
+  await expect(page.locator('.research-feature-sketch svg')).toHaveCount(2);
+  await expect(page.locator('.research-feature h3')).toHaveText([/PsyCIDRA/, /SchemaGraphSQL/]);
+  await expect(page.locator('.research-feature').first().locator('.research-feature-meta')).toContainText('Under review');
+  await page.getByRole('link', { name: 'All publications', exact: false }).click();
+  await expect(page).toHaveURL(/\/research\/$/);
   await page.goto('/projects/');
   await expect(page).toHaveURL(/\/blog\/$/);
   await expect(page.getByRole('heading', { name: 'Blog', exact: true })).toBeVisible();
@@ -319,7 +646,7 @@ test('expanded CV and mobile navigation pass automated WCAG AA checks', async ({
     await page.emulateMedia({ colorScheme });
     await page.goto('/cv/');
     await page.getByRole('button', { name: 'Expand all', exact: true }).click();
-    await page.getByRole('button', { name: 'By theme', exact: true }).click();
+    await page.locator('[data-cv-view="theme"]').click();
     await expect(page.locator('[data-cv]')).toHaveAttribute('data-view', 'theme');
     await page.getByRole('button', { name: 'Navigation menu' }).click();
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();

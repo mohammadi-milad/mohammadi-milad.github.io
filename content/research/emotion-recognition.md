@@ -10,6 +10,7 @@ tags: ["Emotion recognition", "Multilingual NLP", "Zero-shot learning"]
 featured: false
 diagram: "emotion"
 paper: "https://aclanthology.org/2025.semeval-1.283/"
+code: "https://github.com/mohammadi-milad-mim/Emotion-Detection-using-LLM-RolePlay"
 authors: "Amirhossein Safdarian*, Milad Mohammadi*, and Heshaam Faili · * Equal contribution"
 ---
 

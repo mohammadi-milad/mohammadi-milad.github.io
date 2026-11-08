@@ -2,9 +2,11 @@
 
 A custom static website for research, PhD opportunities, projects, writing, and an interactive academic CV. The design uses Source Sans 3, a narrow reading column, a clear hierarchy of headings and publication metadata, and restrained forest-green links, with automatic light and dark appearance.
 
-The CV has its own wider layout, with a timeline that animates into thematic chapters. Readers can start with **Key moments**, switch to the **Complete CV**, and expand individual entries for context, conceptual evidence figures, media, and links to supporting work. Search and filters help locate specific experience; an expandable skills appendix keeps technical detail available without overwhelming the overview. CV figures are defined in `src/cv-visuals.js`.
+Every page shares the same outer width and responsive margins as the navigation and footer. The CV uses this shared layout. A brief introduction and four factual highlights lead into the full record, organized by **Theme** by default or by **Timeline**. Theme view begins with an expandable future PhD entry in Education; Timeline view places PhD availability at the top. The eight thematic chapters—education, publications, awards, research roles, industry, teaching, projects, and volunteering service—retain numbered headings; the final five also have brief introductions. Entries stay compact until opened; expanded entries include context, conceptual figures, media, and supporting links. **Expand all** and **Collapse all** provide a reading or scanning view. Technical skills are organized into three bands—Foundations, Applied AI, and Engineering practice—with eight expandable cards that distinguish named tools from methods, and the English-language section presents verified TOEFL test-day and MyBest results in two compact score cards. Academic references follow in a compact contact layout with each referee’s affiliation and profile links. The **Compact 2-page CV** card at the top opens the conventional PDF version. All CV content is available without JavaScript.
 
-The homepage has a wider editorial layout with a framed portrait, a CV download beneath the photo, PhD availability in the introduction, and two illustrated research features. Contact and profile icons sit in the footer. The layout adapts to small screens; articles retain their narrow reading column and the CV becomes a single-column timeline. Homepage research illustrations are inline SVGs in `featuredResearch()` in `src/components.js`.
+The homepage has an editorial layout with a framed portrait, a CV download beneath the photo, PhD availability in the introduction, and two illustrated publication features linked to the complete Publication page. Contact and profile icons sit in the footer. The layout adapts to small screens; articles retain their narrow reading column and the CV becomes a single-column timeline.
+
+The **Publication** page at `/research/` lists papers in date order with **All**, **Published**, and **Preprints** filters and a Google Scholar link next to the page title.
 
 The **Blog** at `/blog/` is a simple list of titles, short notes, and writing dates. Posts have a narrow reading layout and a table of contents generated from their section headings. It is a place for ideas across subjects, including topics beyond AI and technology. The former `/projects/` and `/ideas/` indexes redirect to the Blog; individual project pages remain available through CV links.
 
@@ -43,10 +45,12 @@ CI=1 npm test
 | `src/data/profile.json` | Education, research, work, teaching, projects, skills, and research positioning |
 | `src/pages.js` | Home, PhD, collection pages, article layout, and selected results charts |
 | `src/components.js` | Shared HTML layout, navigation, footer, formatting, and conceptual diagrams |
-| `src/cv.js` | CV entries, timeline and theme chapters, Key moments selection, evidence links, and skills appendix |
-| `src/cv-client.js` | Animated view changes, Key moments/Complete CV controls, search, filtering, and expansion |
+| `src/cv.js` | Introduction, highlights, compact CV entries, theme and timeline groups, and evidence links |
+| `src/cv-client.js` | View changes, disclosure animation, bulk expansion, direct links, and print state |
+| `src/cv-sections.js` | Shared theme chapter order, headings, and introductions |
 | `src/cv.css` | CV-specific timeline, thematic chapters, responsive layout, and visual styling |
-| `src/cv-visuals.js` | Conceptual evidence figures for research, engineering, and teaching entries |
+| `src/cv-visuals.js` | Conceptual evidence figures within expanded research and engineering entries |
+| `src/cv-appendix.js` / `src/cv-appendix.css` | Skills bands and expandable cards, language score visualization, and references |
 | `src/site.js` | Appearance controls, mobile navigation, collection filters, article navigation |
 | `src/site.css` | Light/dark palette, typography, responsive layout, motion, print styles |
 | `content/research/` | Research overviews and publication details in Markdown |
@@ -54,6 +58,8 @@ CI=1 npm test
 | `content/blog/` | Blog posts in Markdown, each with a title, short description, and writing date |
 | `public/` | Images, licensed self-hosted fonts, downloadable CV, and other copied assets |
 | `scripts/build.mjs` | Static generation, feeds, sitemap, and legacy redirects |
+
+The compact skills inventory is maintained in `src/data/profile.json`. The web-specific grouping, card descriptions, and tool/method relationships are authored in `skillBands` in `src/cv-appendix.js`. Keep both sources in sync when adding or changing skills; the browser checks verify that the web presentation retains every inventory keyword.
 
 Font attribution and redistribution terms are in `public/fonts/source-sans-3-OFL.txt`; the normal and italic Latin files are hosted locally. The site makes no font requests to Google or other third parties.
 

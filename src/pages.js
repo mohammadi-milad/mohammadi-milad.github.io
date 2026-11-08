@@ -27,13 +27,13 @@ export function home(profile, research) {
       </aside>
     </header>
 
-    <section class="section-block home-research" aria-labelledby="selected-research">
+    <section class="section-block home-research" aria-labelledby="home-publications">
       <div class="section-heading">
-        <h2 id="selected-research">Selected research</h2>
-        <a href="${url('/research/')}">All research <span aria-hidden="true">→</span></a>
+        <h2 id="home-publications">Publications</h2>
+        <a href="${url('/research/')}">All publications <span aria-hidden="true">→</span></a>
       </div>
       <div class="featured-research-grid">
-        ${research.filter(entry => entry.featured).map(featuredResearch).join('\n')}
+        ${research.filter(entry => entry.featured).map(entry => featuredResearch({ ...entry, status: entry.homeStatus || entry.status })).join('\n')}
       </div>
     </section>
 
@@ -78,27 +78,25 @@ export function phd(profile) {
 }
 
 export function researchIndex(profile, research) {
-  const filters = ['Published papers', 'Preprints'];
-  const publicationType = entry => entry.kind === 'Research preprint' ? 'Preprints' : 'Published papers';
-
   return `
-    ${pageHeading('', 'Research', 'Publications and preprints on language agents, human behavior, and natural language processing. Each overview describes the question, method, findings, and limitations.')}
-    <p>${link(site.links.scholar, 'Google Scholar')}</p>
-
-    <section class="section-block collection" data-collection aria-label="Publications and preprints">
-      <div class="filter-bar js-only" role="group" aria-label="Filter research">
-        <button class="filter-chip" data-filter="all" aria-pressed="true">All research</button>
-        ${filters.map(filter => `<button class="filter-chip" data-filter="${filter}" aria-pressed="false">${filter}</button>`).join('\n')}
+    <header class="page-heading publication-index-heading">
+      <h1>Publication</h1>
+      <a href="${esc(site.links.scholar)}">Google Scholar <span aria-hidden="true">↗</span></a>
+    </header>
+    <section class="collection" data-collection aria-label="Publications">
+      <div class="filter-bar js-only" role="group" aria-label="Filter publications">
+        <button class="filter-chip" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-chip" data-filter="published" aria-pressed="false">Published</button>
+        <button class="filter-chip" data-filter="preprints" aria-pressed="false">Preprints</button>
       </div>
       <div class="research-list">
-        ${research.map((entry, index) => `
-          <div data-collection-item data-tags="${publicationType(entry)}">
-            ${researchRow(entry, index)}
+        ${research.map(entry => `
+          <div data-collection-item data-tags="${entry.kind === 'Research preprint' ? 'preprints' : 'published'}">
+            ${researchRow(entry)}
           </div>
         `).join('\n')}
       </div>
       <p class="sr-only" data-collection-count aria-live="polite"></p>
-      <p class="publication-note">Preprints are labeled separately from published papers. The linked papers contain the complete methods and results.</p>
     </section>
   `;
 }
@@ -209,7 +207,7 @@ function appendToSection(html, heading, addition) {
 }
 
 export function article(entry) {
-  const back = entry.collection === 'research' ? ['Research', '/research/'] : ['CV', '/cv/'];
+  const back = entry.collection === 'research' ? ['Publication', '/research/'] : ['CV', '/cv/'];
   const methodSection = entry.toc.find(h => /approach|workflow|project structure|documents to ranked|benchmark/i.test(h.text));
   const resultSection = entry.toc.find(h => /observed|results|findings/i.test(h.text));
   let body = entry.html;
@@ -247,7 +245,7 @@ export function article(entry) {
       </div>
 
       <div class="article-navigation">
-        <a href="${url(back[1])}">${entry.collection === 'research' ? '← All research' : '← Back to CV'}</a>
+        <a href="${url(back[1])}">${entry.collection === 'research' ? '← All publications' : '← Back to CV'}</a>
         ${entry.collection === 'research' ? link(url('/cv/'), 'Curriculum vitae') : ''}
       </div>
     </article>

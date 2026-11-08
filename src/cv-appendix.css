@@ -1,0 +1,200 @@
+/* A capability map and a score report, each with its own reading hierarchy. */
+.cv-toolkit, .cv-language-section, .cv-ref-section { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
+.cv-appendix-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px 24px; margin-bottom: 22px; }
+.cv-appendix-heading h2 { margin: 0; font-size: var(--type-section); }
+.cv-appendix-heading p { margin: 0; color: var(--muted); font-size: var(--type-meta); }
+.cv-toolkit-heading { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 24px; align-items: start; margin-bottom: 26px; }
+.cv-toolkit-heading p { max-width: 660px; font-size: 14px; line-height: 1.65; }
+.cv-skill-map { display: grid; gap: 16px; }
+.cv-skill-band { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 24px; }
+.cv-skill-band-heading { padding-top: 17px; }
+.cv-skill-band-heading h3 { margin: 10px 0 4px; font-size: 15px; line-height: 1.3; text-wrap: initial; }
+.cv-skill-band-heading p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
+.cv-skill-band-symbol { display: flex; flex-direction: column; gap: 3px; width: 25px; }
+.cv-skill-band-symbol i { height: 4px; border: 1px solid var(--outline); border-radius: 1px; }
+.cv-skill-band-foundations .cv-skill-band-symbol i:last-child,
+.cv-skill-band-applied .cv-skill-band-symbol i:first-child,
+.cv-skill-band-practice .cv-skill-band-symbol i { background: var(--green); border-color: var(--green); }
+.cv-skill-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; align-items: start; }
+.cv-skill-band-foundations .cv-skill-cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.cv-skill-card { min-width: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); transition: border-color .18s, background .18s; }
+.cv-skill-band-applied .cv-skill-card { border-top: 2px solid var(--green); }
+.cv-skill-band-practice .cv-skill-card { background: color-mix(in srgb, var(--surface) 45%, var(--bg)); }
+.cv-skill-card:hover, .cv-skill-card[open] { border-color: var(--outline); }
+.cv-skill-band-applied .cv-skill-card:hover, .cv-skill-band-applied .cv-skill-card[open] { border-top-color: var(--green); }
+.cv-skill-card summary { display: grid; grid-template-columns: minmax(0,1fr) 15px; align-items: start; gap: 6px 8px; padding: 16px; cursor: pointer; list-style: none; border-radius: 5px; }
+.cv-skill-card summary::-webkit-details-marker { display: none; }
+.cv-skill-card summary::marker { content: ''; }
+.cv-skill-card summary:focus-visible { outline-offset: 3px; }
+.cv-skill-title { font-weight: 600; font-size: 15px; line-height: 1.4; }
+.cv-skill-disclosure { font-size: 20px; line-height: 20px; text-align: center; color: var(--green); transition: transform .18s; }
+.cv-skill-card[open] .cv-skill-disclosure { transform: rotate(45deg); }
+.cv-skill-description { grid-column: 1 / -1; color: var(--muted); font-size: 13px; line-height: 1.5; min-height: 39px; }
+.cv-skill-tools { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; margin-top: 8px; }
+.cv-skill-tool { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; line-height: 1.35; min-height: 32px; }
+.cv-skill-tool > span:last-child { min-width: 0; }
+.cv-tool-logo { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 32px; height: 32px; padding: 3px; background: #fff; border-radius: 5px; }
+.cv-tool-logo img { width: 25px; height: 25px; object-fit: contain; }
+.cv-tool-logo-scikitlearn img { width: 29px; height: 29px; }
+.cv-tool-logo-openai { background: #171717; padding: 0; }
+.cv-tool-logo-openai img { width: 32px; height: 32px; }
+.cv-skill-content { margin: 0 16px; padding: 15px 0 17px; border-top: 1px solid var(--line); }
+.cv-supporting-tools { margin: 0 0 14px; }
+.cv-skill-methods { display: grid; gap: 14px; margin: 0; }
+.cv-skill-methods dt { font-size: 12px; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+.cv-skill-methods dd { margin: 0; }
+.cv-skill-terms { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.cv-skill-terms > li { margin: 0; }
+.cv-skill-terms > li:not(:last-child)::after { content: '·'; margin: 0 7px; color: var(--outline); }
+.cv-skill-terms .cv-skill-terms { border-left: 1px solid var(--outline); padding-left: 12px; margin-top: 5px; margin-left: 3px; }
+.cv-closing-section { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 24px; margin-top: 30px; padding-top: 24px; }
+.cv-closing-heading h2 { margin: 0; font-size: var(--type-section); }
+.cv-spoken-languages { display: grid; gap: 7px; margin: 16px 0 0; font-size: 13px; }
+.cv-spoken-languages > div { display: flex; align-items: baseline; gap: 8px; }
+.cv-spoken-languages dd { margin: 0; color: var(--muted); }
+/* Two small score cards retain the report's colours, arcs and score hierarchy. */
+.cv-toefl-report { min-width: 0; }
+.cv-toefl-report-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.cv-toefl-report-heading > strong { font-size: 15px; }
+.cv-toefl-report-heading > span { color: var(--muted); font-size: 12px; }
+.cv-toefl-panels { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.cv-toefl-panel { --report-accent: #7765C1; --report-ink: #5C499E; min-width: 0; border: 1px solid var(--line); border-top: 2px solid var(--report-accent); border-radius: 5px; background: var(--surface); padding: 12px 14px 13px; }
+.cv-toefl-mybest { --report-accent: #E28B62; --report-ink: #984B27; }
+.cv-toefl-panel-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 3px 10px; }
+.cv-toefl-panel-heading h3 { font-size: 14px; margin: 0; white-space: nowrap; }
+.cv-toefl-panel-heading h3 sup { font-size: 8px; margin-left: 1px; }
+.cv-toefl-panel-heading p { color: var(--muted); font-size: 11px; margin: 0; }
+.cv-toefl-results { margin-top: 11px; }
+.cv-toefl-overall { display: flex; align-items: center; justify-content: center; gap: 24px; min-width: 0; margin-bottom: 12px; }
+.cv-overall-gauge { position: relative; width: 110px; height: 72px; flex-shrink: 0; }
+.cv-overall-gauge > svg { width: 110px; height: 65px; display: block; }
+.cv-gauge-track { stroke: var(--surface-2); }
+.cv-gauge-value { stroke: var(--report-accent); }
+.cv-overall-readout { position: absolute; top: 26px; left: 0; right: 0; text-align: center; }
+.cv-total-score { display: flex; align-items: baseline; justify-content: center; gap: 2px; line-height: 1; }
+.cv-total-score > strong { font-size: 25px; letter-spacing: -.03em; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.cv-total-score > span { color: var(--muted); font-size: 12px; }
+.cv-overall-label { display: block; font-size: 10px; line-height: 1.4; margin-top: 4px; color: var(--muted); }
+.cv-score-context { border-left: 1px solid var(--line); padding-left: 22px; }
+.cv-score-comparable { display: flex; align-items: baseline; gap: 4px; margin: 0 0 2px; line-height: 1.4; }
+.cv-score-comparable strong { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.cv-score-comparable > span { font-size: 11px; color: var(--muted); }
+.cv-cefr { color: var(--report-ink); font-size: 11px; font-weight: 600; }
+.cv-toefl-section-scores { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; margin: 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.cv-toefl-section-scores > div { min-width: 0; text-align: center; }
+.cv-toefl-section-scores dt { display: flex; justify-content: center; align-items: center; gap: 4px; font-size: 11px; line-height: 1.4; margin-bottom: 5px; color: var(--muted); }
+.cv-toefl-section-scores dt svg { width: 13px; height: 13px; }
+.cv-toefl-section-scores dd { margin: 0; border-radius: 3px; padding: 3px 4px; background: color-mix(in srgb, var(--report-accent) 9%, var(--surface)); }
+.cv-toefl-section-scores dd > strong { font-size: 17px; font-variant-numeric: tabular-nums; font-weight: 600; line-height: 1.3; }
+.cv-toefl-section-scores dd > strong > span + span { font-size: 10px; font-weight: 400; margin-left: 3px; color: var(--muted); }
+.cv-toefl-notes { display: flex; justify-content: space-between; gap: 8px 24px; margin-top: 9px; }
+.cv-score-footnote, .cv-score-date-note { margin: 0; font-size: 11px; line-height: 1.55; color: var(--muted); }
+.cv-score-footnote a { white-space: nowrap; margin-left: 3px; }
+.cv-score-date-note { flex-shrink: 0; }
+.cv-score-date-note > span { margin-inline: 3px; }
+:root[data-theme=dark] .cv-toefl-test-day { --report-accent: #AE9FE9; --report-ink: #C4B6F1; }
+:root[data-theme=dark] .cv-toefl-mybest { --report-accent: #ECA985; --report-ink: #EDB795; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) .cv-toefl-test-day { --report-accent: #AE9FE9; --report-ink: #C4B6F1; }
+  :root:not([data-theme=light]) .cv-toefl-mybest { --report-accent: #ECA985; --report-ink: #EDB795; }
+}
+.cv-reference-content { min-width: 0; }
+.cv-reference-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.cv-academic-reference + .cv-academic-reference { border-left: 1px solid var(--line); padding-left: 24px; }
+.cv-academic-reference h3 { font-size: 15px; margin: 0 0 3px; }
+.cv-academic-reference p { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 0 0 4px; }
+.cv-academic-reference a { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; text-decoration: none; min-height: 26px; overflow-wrap: anywhere; }
+.cv-academic-reference a:hover { text-decoration: underline; }
+.cv-academic-reference .icon { width: 13px; height: 13px; }
+.cv-reference-profiles { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+.cv-reference-profiles .profile-link { display: inline-flex; justify-content: center; min-height: 40px; }
+.cv-reference-profiles img { object-fit: contain; }
+.cv-reference-profiles .profile-link .icon { width: 18px; height: 18px; }
+.cv-last-updated { margin: 24px 0 0 174px; font-size: 11px; color: var(--muted); }
+
+@media (min-width: 701px) {
+  .cv-skill-cards:not(:has(> [open])) { align-items: stretch; }
+  .cv-skill-cards:not(:has(> [open])) .cv-skill-card summary { height: 100%; grid-template-rows: auto 1fr auto; }
+}
+
+@media (max-width: 1000px) {
+  .cv-toolkit-heading { grid-template-columns: minmax(0,1fr); gap: 8px; margin-bottom: 24px; }
+  .cv-skill-map { gap: 25px; }
+  .cv-skill-band { grid-template-columns: minmax(0,1fr); gap: 11px; }
+  .cv-skill-band-heading { display: grid; grid-template-columns: 25px auto 1fr; align-items: center; gap: 10px; padding-top: 0; }
+  .cv-skill-band-heading h3 { margin: 0; }
+  .cv-skill-band-heading p { text-align: right; }
+  .cv-closing-section { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .cv-closing-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px; }
+  .cv-spoken-languages { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0; }
+  .cv-toefl-notes { flex-direction: column; gap: 2px; }
+  .cv-last-updated { margin-left: 0; }
+}
+
+@media (max-width: 760px) {
+  .cv-appendix-heading { flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .cv-appendix-heading > p { width: 100%; }
+  .cv-skill-cards { gap: 10px; }
+  .cv-skill-card summary { padding: 13px; }
+  .cv-skill-title { font-size: 14px; }
+  .cv-skill-content { margin-inline: 13px; }
+}
+
+@media (max-width: 650px) {
+  .cv-toefl-panels { grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .cv-reference-grid { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .cv-academic-reference + .cv-academic-reference { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; padding-top: 14px; }
+}
+
+@media (min-width: 561px) and (max-width: 700px) {
+  .cv-skill-cards, .cv-skill-band-foundations .cv-skill-cards { grid-template-columns: minmax(0,1fr); }
+  .cv-skill-card summary { grid-template-columns: minmax(0,1fr) 190px 15px; gap: 4px 16px; }
+  .cv-skill-title { grid-column: 1; grid-row: 1; }
+  .cv-skill-disclosure { grid-column: 3; grid-row: 1 / 3; align-self: center; }
+  .cv-skill-description { grid-column: 1; grid-row: 2; min-height: 0; }
+  .cv-skill-card summary > .cv-skill-tools { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; }
+}
+
+@media (max-width: 560px) {
+  .cv-toolkit, .cv-language-section, .cv-ref-section { margin-top: 30px; padding-top: 22px; }
+  .cv-toolkit-heading p { font-size: 13px; }
+  .cv-skill-band-heading { grid-template-columns: 25px minmax(0,1fr); gap: 3px 10px; }
+  .cv-skill-band-symbol { grid-row: 1 / 3; }
+  .cv-skill-band-heading p { grid-column: 2; text-align: left; }
+  .cv-skill-cards, .cv-skill-band-foundations .cv-skill-cards { grid-template-columns: minmax(0,1fr); gap: 8px; }
+  .cv-skill-card summary { padding: 13px 15px; gap: 4px 8px; }
+  .cv-skill-title { font-size: 15px; }
+  .cv-skill-description { min-height: 0; }
+  .cv-skill-tools { margin-top: 6px; }
+  .cv-skill-content { margin-inline: 15px; }
+  .cv-closing-section { margin-top: 26px; padding-top: 20px; }
+  .cv-toefl-overall { gap: 18px; }
+  .cv-score-context { padding-left: 18px; }
+  .cv-score-date-note { flex-shrink: 1; }
+  .cv-last-updated { margin-top: 20px; }
+}
+
+@media (max-width: 380px) {
+  .cv-toefl-panel-heading p { font-size: 10px; }
+  .cv-toefl-section-scores dt { flex-direction: column; gap: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-skill-card, .cv-skill-disclosure { transition: none; }
+}
+
+@media print {
+  .cv-toolkit, .cv-language-section, .cv-ref-section { margin-top: 22px; }
+  .cv-closing-section { display: block; }
+  .cv-closing-heading { margin-bottom: 12px; }
+  .cv-skill-band { display: block; }
+  .cv-skill-band-heading { margin-bottom: 10px; padding-top: 0; }
+  .cv-skill-band-symbol, .cv-skill-band-heading p { display: none; }
+  .cv-skill-card { break-inside: avoid; background: none; }
+  .cv-skill-card summary { padding-block: 10px; }
+  .cv-skill-disclosure { display: none; }
+  .cv-skill-content { display: block !important; }
+  .cv-toefl-panel, .cv-academic-reference { break-inside: avoid; }
+  .cv-toefl-panel { print-color-adjust: exact; }
+  .cv-score-footnote a { display: none; }
+}

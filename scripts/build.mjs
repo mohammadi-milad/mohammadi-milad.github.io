@@ -46,7 +46,7 @@ entries.projects.sort((a,b) => Number(b.kind === 'Teaching project') - Number(a.
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });
 await fs.cp(path.join(root, 'public'), dist, { recursive: true });
-for (const filename of ['site.css', 'cv.css', 'site.js', 'cv-client.js']) await fs.copyFile(path.join(root, 'src', filename), path.join(dist, filename));
+for (const filename of ['site.css', 'cv.css', 'cv-appendix.css', 'site.js', 'cv-client.js', 'cv-sections.js']) await fs.copyFile(path.join(root, 'src', filename), path.join(dist, filename));
 const routes = [];
 async function writePage(route, title, description, body, options = {}) {
   const filename = route.endsWith('.html') ? route : `${route}index.html`;
@@ -57,12 +57,12 @@ async function writePage(route, title, description, body, options = {}) {
 }
 await writePage('/', null, site.description, home(profile, entries.research), { schema: { '@context': 'https://schema.org', '@type': 'Person', name: site.name, url: site.origin, email: `mailto:${site.email}`, jobTitle: 'AI Researcher and Senior AI Engineer', alumniOf: [{ '@type': 'CollegeOrUniversity', name: 'University of Tehran' }, { '@type': 'CollegeOrUniversity', name: 'University of Isfahan' }], sameAs: [site.links.scholar, site.links.github, site.links.linkedin] } });
 await writePage('/phd/', 'PhD opportunities', 'Seeking PhD opportunities in language agents, human behavior modeling, behavioral simulation, and human–AI interaction.', phd(profile));
-await writePage('/research/', 'Research', 'Research overviews, publications, methods, and evidence in language agents, human behavior, and NLP.', researchIndex(profile, entries.research));
+await writePage('/research/', 'Publication', 'Published papers and preprints by Milad Mohammadi.', researchIndex(profile, entries.research));
 await writePage('/cv/', 'Interactive CV', 'Explore Milad Mohammadi’s academic CV by timeline or theme, with expandable research, education, engineering, and teaching experience.', renderCV(profile, entries.research, entries.projects));
 await writePage('/blog/', 'Blog', 'Ideas, questions, and notes on AI, technology, life, and the world beyond them.', blogIndex(entries.blog));
 await writePage('/colophon/', 'About this site', 'Design, accessibility, privacy, and how this personal website is built.', colophon());
 for (const entry of Object.values(entries).flat()) await writePage(entry.route, entry.shortTitle || entry.title, entry.description, entry.collection === 'blog' ? blogArticle(entry) : article(entry), { article: true, schema: { '@context': 'https://schema.org', '@type': entry.collection === 'research' ? 'ScholarlyArticle' : 'Article', headline: entry.title, description: entry.description, ...(entry.date ? { datePublished: entry.date } : {}), url: `${site.origin}${url(entry.route)}`, ...(entry.paper ? { sameAs: entry.paper } : {}) } });
-await writePage('/404.html', 'Page not found', 'This page could not be found.', pageHeading('404 / An uncharted branch', 'This path ends here.', 'The page may have moved, or the address may be incomplete.', `<div class="page-actions">${button('Return home →', url('/'))}${button('Explore research →', url('/research/'), true)}</div>`), { noindex: true });
+await writePage('/404.html', 'Page not found', 'This page could not be found.', pageHeading('404 / An uncharted branch', 'This path ends here.', 'The page may have moved, or the address may be incomplete.', `<div class="page-actions">${button('Return home →', url('/'))}${button('All publications →', url('/research/'), true)}</div>`), { noindex: true });
 for (const [old, next] of [['/publications/', '/research/'], ['/about/', '/'], ['/projects/', '/blog/'], ['/ideas/', '/blog/'], ['/repositories/', '/cv/']]) {
   const file = path.join(dist, old, 'index.html');
   await fs.mkdir(path.dirname(file), { recursive: true });

@@ -13,40 +13,16 @@ diagram: "psycidra"
 paper: "https://arxiv.org/abs/2610.07473"
 code: "https://github.com/PsyCIDRA/PsyCIDRA"
 authors: "Milad Mohammadi, Fatemeh Akrami Shamsabadi, Zahra Mohseni, Amirhossein Safdarian, Malekfarhad Malek, Hadi Moradi, and Hesham Faili"
+abstractSource: "https://arxiv.org/html/2610.07473v1"
+mainFigure:
+  src: "/images/research/psycidra.svg"
+  caption: "Figure 1: PsyCIDRA and its evaluation. Simulated patients use PsyCPG-generated profiles. PsyDARA analyzes only PsyCIRA’s visible transcript. Case diagnoses and expert judgments provide simulation and human references, respectively; neither agent sees these references."
+  alt: "PsyCIDRA workflow: simulated patients and human participants interact with the PsyCIRA interviewer, supported by working notes, skills, ICD-11 lookup, and safety tools. The transcript passes to PsyDARA for diagnostic reasoning, and experts assess interview quality and compare diagnostic reports."
+  width: 452
+  height: 295
+  source: "https://arxiv.org/html/2610.07473v1/workflow.svg"
 ---
 
-## The question
+## Abstract
 
-Can language agents gather useful psychiatric evidence through conversation and organize it for expert review? This first-author work grew out of my M.Sc. thesis at the University of Tehran.
-
-## The approach
-
-PsyCIDRA separates two jobs. An interviewer maintains notes, consults expert-written skills, and retrieves ICD-11 references. A second agent reviews the completed transcript, distinguishing evidence that supports, contradicts, or leaves gaps in a diagnostic hypothesis. It can withhold a hypothesis when evidence is insufficient.
-
-PsyCPG generates configurable patient profiles for controlled experiments. Evaluation then moves from simulation to a blinded feasibility study with human volunteers.
-
-## What we observed
-
-On **81 held-out simulated profiles**, exact-code rank-1 accuracy was **60.5%**, compared with **51.9%** for direct prompting.
-
-In a separate study of **101 adult volunteers**, agreement with psychologists on whether the transcript supported proposing a diagnostic hypothesis was **79.6%** versus **65.4%**. The arms contained 49 and 52 volunteers, respectively.
-
-These measure different outcomes and should be read separately. [Methods and results](https://arxiv.org/html/2610.07473v1).
-
-## How to interpret it
-
-This is a **preprint and feasibility study**, not evidence of clinical benefit. Volunteers were not a representative patient cohort; simulated profiles do not establish fidelity to real individuals. The system is intended for expert review.
-
-## Citation
-
-```bibtex
-@misc{mohammadi2026psycidra,
-  title={PsyCIDRA: A Dual-Agent Framework for Psychiatric Interviewing and Diagnostic Reasoning},
-  author={Mohammadi, Milad and Akrami Shamsabadi, Fatemeh and Mohseni, Zahra and Safdarian, Amirhossein and Malek, Malekfarhad and Moradi, Hadi and Faili, Hesham},
-  year={2026},
-  eprint={2610.07473},
-  archivePrefix={arXiv},
-  primaryClass={cs.AI},
-  url={https://arxiv.org/abs/2610.07473}
-}
-```
+Large language models show promise in clinical reasoning, but psychiatric interviewing requires guiding an evolving conversation. Their ability to carry out this interactive assessment remains less studied. We present PsyCIDRA, a dual-agent framework linking free-form psychiatric interviewing with diagnostic reasoning for expert review. Its interviewer agent uses tools to maintain working notes, load expert-written skills, and retrieve ICD-11 references to guide inquiry. Its diagnostic reasoning agent then receives the completed interview transcript and reports hypotheses alongside supporting, conflicting, and missing evidence, withholding a final hypothesis when none is sufficiently supported. Using patient profiles generated with PsyCPG, we first evaluate PsyCIDRA in simulation. Across four models on 53 evaluation cases, it achieves higher diagnostic agreement than direct prompting. On 81 held-out simulated cases, rank-1 accuracy is 60.5% versus 51.9%. In a blinded study of 101 human participants in separate arms, PsyCIDRA agrees with psychologists on whether to propose a diagnostic hypothesis in 79.6% of cases, compared with 65.4% for direct prompting. Together, these findings support the potential of LLM agents to assist psychiatric assessment through free-form dialogue. By examining diagnostic reasoning, interview quality, and safety together, this study contributes to understanding the capabilities and limitations of psychiatric interview agents.

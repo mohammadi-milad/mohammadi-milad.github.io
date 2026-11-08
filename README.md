@@ -6,7 +6,7 @@ Every page shares the same outer width and responsive margins as the navigation 
 
 The homepage has an editorial layout with a framed portrait, a CV download beneath the photo, PhD availability in the introduction, and two illustrated publication features linked to the complete Publication page. Contact and profile icons sit in the footer. The layout adapts to small screens; articles retain their narrow reading column and the CV becomes a single-column timeline.
 
-The **Publication** page at `/research/` lists papers in date order with **All**, **Published**, and **Preprints** filters and a Google Scholar link next to the page title.
+The **Publication** page at `/research/` lists papers in date order with **All**, **Published**, and **Preprints** filters and a Google Scholar link next to the page title. Each individual paper page shows its title, authors with Milad’s name in bold, publication status, authorship role, date, and paper/code links where available. The body contains the original abstract and one original main figure with its caption; the image opens at full size when clicked. It has no additional summaries, contents navigation, result charts, or citation sections. Homepage publication briefs, the publication list, and CV entries retain their own content.
 
 The **Blog** at `/blog/` is a simple list of titles, short notes, and writing dates. Posts have a narrow reading layout and a table of contents generated from their section headings. It is a place for ideas across subjects, including topics beyond AI and technology. The former `/projects/` and `/ideas/` indexes redirect to the Blog; individual project pages remain available through CV links.
 
@@ -43,7 +43,7 @@ CI=1 npm test
 | --- | --- |
 | `src/config.js` | Site identity, contact links, PhD availability, canonical origin, review date |
 | `src/data/profile.json` | Education, research, work, teaching, projects, skills, and research positioning |
-| `src/pages.js` | Home, PhD, collection pages, article layout, and selected results charts |
+| `src/pages.js` | Home, PhD, collection pages, minimal paper pages, and project/blog article layouts |
 | `src/components.js` | Shared HTML layout, navigation, footer, formatting, and conceptual diagrams |
 | `src/cv.js` | Introduction, highlights, compact CV entries, theme and timeline groups, and evidence links |
 | `src/cv-client.js` | View changes, disclosure animation, bulk expansion, direct links, and print state |
@@ -55,7 +55,7 @@ CI=1 npm test
 | `src/cv-skills.css` | Aligned Technical Skills Map, compact vertical layer labels, responsive presentation, and print styling |
 | `src/site.js` | Appearance controls, mobile navigation, collection filters, article navigation |
 | `src/site.css` | Light/dark palette, typography, responsive layout, motion, print styles |
-| `content/research/` | Research overviews and publication details in Markdown |
+| `content/research/` | Original abstracts and main-figure references, with metadata retained for publication summaries |
 | `content/projects/` | Project and teaching-resource write-ups linked from the CV |
 | `content/blog/` | Blog posts in Markdown, each with a title, short description, and writing date |
 | `public/` | Images, licensed self-hosted fonts, downloadable CV, and other copied assets |
@@ -67,7 +67,7 @@ Font attribution and redistribution terms are in `public/fonts/source-sans-3-OFL
 
 See **[Authoring content](docs/AUTHORING.md)** for Markdown templates, images, diagrams, and updating the CV.
 
-The Blog includes **“A place for unfinished thoughts”** (`content/blog/a-place-for-unfinished-thoughts.md`), a placeholder for reviewing the layout. Edit or remove it before publishing your own writing. Its `sample: true` frontmatter adds a small **Sample post** label inside the article, while the index stays minimal. The old `content/ideas/` folder is no longer built. Research overviews link to their primary sources and distinguish published papers from preprints.
+The Blog includes **“A place for unfinished thoughts”** (`content/blog/a-place-for-unfinished-thoughts.md`), a placeholder for reviewing the layout. Edit or remove it before publishing your own writing. Its `sample: true` frontmatter adds a small **Sample post** label inside the article, while the index stays minimal. The old `content/ideas/` folder is no longer built. Publication-list entries link to primary sources and distinguish published papers from preprints.
 
 ## GitHub Pages
 

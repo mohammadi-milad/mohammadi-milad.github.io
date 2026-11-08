@@ -1022,7 +1022,7 @@ test('all content, mobile navigation, and expandable CV remain available without
   await context.close();
 });
 
-test('publication list, blog navigation, article contents, and PDF download are usable', async ({ page, request }) => {
+test('publication list, blog navigation, minimal paper pages, and PDF download are usable', async ({ page, request }) => {
   await page.goto('/research/');
   await expect(page.getByRole('heading', { name: 'Publication', exact: true })).toBeVisible();
   await expect(page.locator('.publication-index-heading').getByRole('link', { name: 'Google Scholar' })).toHaveAttribute('href', 'https://scholar.google.com/citations?user=RltQFhwAAAAJ');
@@ -1070,10 +1070,31 @@ test('publication list, blog navigation, article contents, and PDF download are 
   await expect(page.getByRole('heading', { name: 'Beyond the technical world', exact: true })).toBeInViewport();
   await page.getByRole('link', { name: '← All posts', exact: true }).click();
   await expect(page).toHaveURL(/\/blog\/$/);
-  await page.goto('/research/psycidra/');
-  const tocLinks = await page.getByRole('navigation', { name: 'Article contents' }).locator('a').evaluateAll(nodes => nodes.map(node => node.hash));
-  expect(tocLinks.length).toBeGreaterThan(2);
-  for (const hash of tocLinks) await expect(page.locator(hash)).toHaveCount(1);
+  for (const slug of ['psycidra', 'schemagraphsql', 'emotion-recognition', 'permedcqa']) {
+    await page.goto(`/research/${slug}/`);
+    const paper = page.locator('main article');
+    const author = paper.locator('.article-authors strong.self-author');
+    await expect(author).toHaveText('Milad Mohammadi');
+    expect(await author.evaluate(element => Number(getComputedStyle(element).fontWeight)), `${slug}: owner name is bold`).toBeGreaterThanOrEqual(600);
+    await expect(paper.locator('.entry-meta')).toBeVisible();
+    await expect(paper.locator('.entry-meta > span')).toHaveCount(3);
+    await expect(paper.getByRole('link', { name: 'Paper', exact: true })).toHaveAttribute('href', /^https:\/\/(arxiv\.org|aclanthology\.org)\//);
+    const code = paper.getByRole('link', { name: 'Code & materials', exact: true });
+    if (['psycidra', 'emotion-recognition'].includes(slug)) await expect(code).toHaveAttribute('href', /^https:\/\/github\.com\//);
+    else await expect(code).toHaveCount(0);
+    await expect(paper.getByRole('heading', { level: 2 })).toHaveText(['Abstract']);
+    await expect(paper.locator('figure')).toHaveCount(1);
+    await expect(paper.locator('figure figcaption')).toBeVisible();
+    expect((await paper.locator('figure figcaption').innerText()).trim().length, `${slug}: figure caption`).toBeGreaterThan(30);
+    const figure = paper.locator('figure img');
+    await expect(figure).toHaveCount(1);
+    expect((await figure.getAttribute('alt')).trim().length, `${slug}: descriptive figure alternative`).toBeGreaterThan(20);
+    const source = await figure.getAttribute('src');
+    expect(new URL(source, page.url()).origin, `${slug}: self-hosted figure`).toBe(new URL(page.url()).origin);
+    await expect.poll(() => figure.evaluate(image => image.complete && image.naturalWidth > 0), { message: `${slug}: figure loaded` }).toBe(true);
+    await expect(paper.locator('.page-intro, .article-toc, .article-navigation, .findings-chart, .process-figure, pre, [data-copy-link]')).toHaveCount(0);
+    await expect(paper.getByRole('heading', { name: /citation|results|findings/i })).toHaveCount(0);
+  }
   const pdf = await request.get('/documents/milad-mohammadi-cv.pdf');
   expect(pdf.status()).toBe(200);
   expect(pdf.headers()['content-type']).toContain('application/pdf');

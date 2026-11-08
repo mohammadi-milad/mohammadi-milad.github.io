@@ -11,38 +11,16 @@ featured: false
 diagram: "medical"
 paper: "https://arxiv.org/abs/2505.18331"
 authors: "Naghmeh Jamali, Milad Mohammadi, Danial Baledi, Zahra Rezvani, and Hesham Faili"
+abstractSource: "https://arxiv.org/html/2505.18331v1"
+mainFigure:
+  src: "/images/research/permedcqa.png"
+  caption: "Figure 1: Overview of PerMedCQA"
+  alt: "PerMedCQA overview: source selection, preprocessing, privacy filtering, and annotation create 68,138 Persian medical question-answer pairs. Language models generate answers using translation, few-shot, or role-based prompting; MedJudge and human evaluation assess correctness, coverage, and clinical impact."
+  width: 2044
+  height: 596
+  source: "https://arxiv.org/html/2505.18331v1/Overview.png"
 ---
 
-## The question
+## Abstract
 
-Medical question-answering systems need evaluation that reflects the language and questions of their users. Persian consumer questions provide a different setting from English medical examination benchmarks.
-
-## The benchmark
-
-PerMedCQA curates **68,138 question–answer pairs** from a medical question-answering forum, following cleaning of **87,780 raw entries**. The questions originate from consumers rather than standardized examinations.
-
-The work evaluates multilingual and instruction-tuned language models. It introduces **MedJudge**, a rubric-based LLM evaluation framework checked against expert human annotations. I am the paper's second author.
-
-## Why this evaluation matters
-
-Consumer questions combine medical information needs with everyday language and context. Evaluating responses in Persian helps expose gaps that an English-only benchmark can miss.
-
-The [preprint and linked dataset](https://arxiv.org/abs/2505.18331) provide the full benchmark description and experimental findings.
-
-## Scope and status
-
-This is a **2025 arXiv preprint**. Benchmark performance concerns the quality of generated answers; it does not demonstrate clinical effectiveness or authorize autonomous medical advice. An automated judge also needs scrutiny for agreement and disagreement with human experts.
-
-## Citation
-
-```bibtex
-@misc{jamali2025permedcqa,
-  title={PerMedCQA: Benchmarking Large Language Models on Medical Consumer Question Answering in Persian Language},
-  author={Jamali, Naghmeh and Mohammadi, Milad and Baledi, Danial and Rezvani, Zahra and Faili, Hesham},
-  year={2025},
-  eprint={2505.18331},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL},
-  url={https://arxiv.org/abs/2505.18331}
-}
-```
+Medical consumer question answering (CQA) is crucial for empowering patients by providing personalized and reliable health information. Despite recent advances in large language models (LLMs) for medical QA, consumer-oriented and multilingual resources—particularly in low-resource languages like Persian—remain sparse. To bridge this gap, we present PerMedCQA, the first Persian-language benchmark for evaluating LLMs on real-world, consumer-generated medical questions. Curated from a large medical QA forum, PerMedCQA contains 68,138 question-answer pairs, refined through careful data cleaning from an initial set of 87,780 raw entries. We evaluate several state-of-the-art multilingual and instruction-tuned LLMs, utilizing MedJudge, a novel rubric-based evaluation framework driven by an LLM grader, validated against expert human annotators. Our results highlight key challenges in multilingual medical QA and provide valuable insights for developing more accurate and context-aware medical assistance systems. The data is publicly available on https://huggingface.co/datasets/NaghmehAI/PerMedCQA

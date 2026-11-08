@@ -6,7 +6,7 @@ Pages are plain Markdown files with YAML frontmatter. There is no publishing das
 
 | Folder | Public route | Use |
 | --- | --- | --- |
-| `content/research/` | `/research/filename/` | Research questions, methods, findings, and publication records |
+| `content/research/` | `/research/filename/` | Paper abstracts and main research figures |
 | `content/projects/` | `/projects/filename/` | Software projects, prototypes, and teaching resources linked from the CV |
 | `content/blog/` | `/blog/filename/` | Essays, ideas, and notes on any subject |
 
@@ -16,7 +16,7 @@ The Blog index lives at `/blog/`. The old `/projects/` and `/ideas/` indexes red
 
 **Drafts stay out of the output.** Either add `draft: true` to the frontmatter or start the filename with an underscore. Remove the draft flag and use a filename without an initial underscore when ready to include the post in the generated site.
 
-## A research overview
+## A paper page
 
 ```yaml
 ---
@@ -33,19 +33,22 @@ diagram: "agent"
 paper: "https://example.org/paper"
 code: "https://github.com/owner/repository"
 authors: "Author One, Author Two, and Author Three"
+mainFigure:
+  src: "/images/research/paper-main.png"
+  caption: "Figure 1: The original figure caption."
+  alt: "Describe the main workflow, components, and relationships shown in the figure."
+  width: 1600
+  height: 900
 ---
+
+## Abstract
+
+The original paper abstract.
 ```
 
-After the frontmatter, write the body in Markdown. A useful research structure is:
+The paper page displays its title, authors with Milad’s name in bold, status, authorship role, date, and paper/code links where available. Its body contains the abstract in Markdown and one original main figure from `mainFigure`, followed by its original caption. Keep the body to `## Abstract` and the paper's original abstract. Place the figure in `public/images/research/`, use its actual dimensions, and provide descriptive alternative text. The image opens at full size when clicked.
 
-1. The question and why it matters.
-2. The approach, with enough context to understand the system.
-3. Your contribution, stated as precisely as the available evidence permits.
-4. Findings, with the metric, model, dataset, cohort, or experimental condition attached to each number.
-5. Limitations and the work's current publication status.
-6. Links and a BibTeX citation.
-
-Keep accepted publications, preprints, and work under review distinct. Link to the publisher or preprint record. A diagram explains the method; a chart needs actual reported results and its source. Selected charts for existing papers live in `src/pages.js` and are not automatically generated from frontmatter.
+Homepage features, publication-list entries, and CV summaries still use the existing frontmatter. Preserve their descriptions, authors, roles, status, links, tags, and `diagram` values when changing only a paper's inside page. Paper pages retain author metadata and paper/code links. They do not render extra summary text, contents navigation, added method diagrams, result charts, or citation sections.
 
 ## A blog post
 
@@ -94,13 +97,14 @@ Every entry requires `title` and `description`. Blog posts also require a quoted
 | `sample` | Set `true` to show a small Sample post label inside a blog article, without adding it to the index |
 | `kind` | Research or project content type, such as `Research paper`, `Research preprint`, `Teaching project`, or `Project`; not needed for blog posts |
 | `role` | Your verified authorship or project role |
-| `status` | Specific venue, preprint label, or project context; shown in the article header |
+| `status` | Specific venue, preprint label, or project context; research status appears in paper headers, collection entries, and homepage entries |
 | `tags` | YAML array of topic labels; the research index filters by published or preprint status |
 | `featured` | Set `true` to make research eligible for the home page's selected research |
-| `diagram` | One of the conceptual diagram keys listed below; not used for blog posts |
-| `paper` | Optional primary paper URL; adds a paper button |
-| `code` | Optional public source repository URL; adds a code button |
-| `authors` | Optional author line |
+| `diagram` | Conceptual diagram key for project pages and homepage research sketches; not used inside paper pages or blog posts |
+| `mainFigure` | Required for research pages: root-relative `src`, original `caption`, descriptive `alt`, and actual pixel `width` and `height`; optional `source` records the figure’s origin |
+| `paper` | Optional primary paper URL; used in paper headers, publication-list and homepage links, and structured metadata |
+| `code` | Optional public repository URL; used in paper headers, collection, homepage, CV, and project links |
+| `authors` | Optional author line for paper headers, publication-list and CV entries |
 | `draft` | Set `true` to omit the file completely from generated pages and feeds |
 
 Omit an unknown date for research or project records rather than guessing. For blog posts, choose the writing date and quote it so YAML reads it as a string. Research and blog posts are sorted newest first. Drafts and underscore filenames are excluded from the collections, sitemap, and feed.
@@ -118,13 +122,13 @@ The `diagram` field selects a small conceptual illustration, rendered from HTML 
 | `retrieval` | Documents, index, and retrieval |
 | `agent` | Question, tools, and response |
 
-For research and project articles, method diagrams appear after the approach or workflow section. Existing result charts appear after the findings section. These are explanatory diagrams, not measured results. Blog posts receive no automatic diagrams. Choose one whose labels fit the research or project article. To add or customize a diagram, edit `diagram()` in `src/components.js` and its styles in `src/site.css`.
+For project articles, method diagrams appear after the approach or workflow section. These are explanatory diagrams, not measured results. Paper pages use their original `mainFigure` instead; blog posts receive no automatic diagrams. Choose a diagram whose labels fit the project article. To add or customize a diagram, edit `diagram()` in `src/components.js` and its styles in `src/site.css`.
 
-The homepage uses separate, compact SVG sketches for the selected PsyCIDRA and SchemaGraphSQL features. Their illustrations and feature layout are in `researchSketch()` and `featuredResearch()` in `src/components.js`; the full publication details remain on the research index and article pages.
+The homepage uses separate, compact SVG sketches for the selected PsyCIDRA and SchemaGraphSQL features. Their illustrations and feature layout are in `researchSketch()` and `featuredResearch()` in `src/components.js`; publication metadata appears on the research index and paper headers, while paper bodies contain only the abstract and main figure with its caption.
 
 ## Body formatting, links, and media
 
-Use `##` for article sections. Their headings automatically become links in the article contents navigation. The article title is already rendered from frontmatter, so a second `#` title in the body is unnecessary.
+Use `##` for article sections. Project and blog headings automatically become links in the article contents navigation; paper pages have no contents navigation. The article title is already rendered from frontmatter, so a second `#` title in the body is unnecessary.
 
 Markdown supports lists, blockquotes, tables, links, images, and fenced code blocks. Trusted author-written HTML is also rendered directly; use semantic HTML and useful alternative text for media.
 

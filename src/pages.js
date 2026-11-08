@@ -148,55 +148,6 @@ export function blogArticle(entry) {
   `;
 }
 
-function findings(slug) {
-  let chart;
-  if (slug === 'schemagraphsql') {
-    chart = {
-      title: 'Schema linking on BIRD-Dev',
-      label: 'Execution accuracy on BIRD-Dev · Gemini 2.5 Flash',
-      rows: [['No schema linking', 51.50], ['Retriever baseline', 58.41], ['SchemaGraphSQL · force-union', 62.91]],
-      source: 'https://aclanthology.org/2026.findings-eacl.134/',
-      note: 'Reported in Table 2 of the paper. Same benchmark and model; higher is better. This is a subset of the reported conditions.'
-    };
-  }
-  if (slug === 'psycidra') {
-    chart = {
-      title: 'Simulated-profile evaluation',
-      label: 'Rank-1 exact-code accuracy · 81 held-out simulated profiles',
-      rows: [['Direct baseline', 51.9], ['PsyCIDRA', 60.5]],
-      source: 'https://arxiv.org/html/2610.07473v1',
-      note: 'Results from the preprint’s simulated-profile evaluation. These figures do not establish clinical diagnostic accuracy or clinical benefit.'
-    };
-  }
-  if (!chart) return '';
-
-  return `
-    <figure class="findings-chart">
-      <div class="chart-heading">
-        <h2>${chart.title}</h2>
-        <p>${chart.label}</p>
-      </div>
-      <div class="chart-bars" aria-hidden="true">
-        ${chart.rows.map(([label, value], index) => `
-          <div class="chart-row">
-            <span>${label}</span>
-            <div class="chart-track"><span style="width:${value}%;" class="${index === chart.rows.length - 1 ? 'bar-highlight' : ''}"></span></div>
-            <strong>${value.toFixed(slug === 'psycidra' ? 1 : 2)}%</strong>
-          </div>
-        `).join('\n')}
-      </div>
-      <div class="sr-only">
-        <table>
-          <caption>${chart.label}</caption>
-          <thead><tr><th>Condition</th><th>Accuracy</th></tr></thead>
-          <tbody>${chart.rows.map(([label, value]) => `<tr><th scope="row">${label}</th><td>${value}%</td></tr>`).join('')}</tbody>
-        </table>
-      </div>
-      <figcaption>${chart.note} ${link(chart.source, 'Source paper')}.</figcaption>
-    </figure>
-  `;
-}
-
 function appendToSection(html, heading, addition) {
   if (!addition) return html;
   if (!heading) return html + addition;
@@ -207,12 +158,38 @@ function appendToSection(html, heading, addition) {
 }
 
 export function article(entry) {
-  const back = entry.collection === 'research' ? ['Publication', '/research/'] : ['CV', '/cv/'];
+  if (entry.collection === 'research') {
+    const figure = entry.mainFigure;
+    return `
+      <article class="article-page publication-page">
+        <header class="article-heading">
+          <a class="back-link" href="${url('/research/')}">← Publication</a>
+          <h1>${esc(entry.title)}</h1>
+          ${entry.authors ? `<p class="article-authors">${authorLine(entry.authors)}</p>` : ''}
+          <p class="entry-meta">
+            <span>${esc(entry.status || entry.kind)}</span>
+            ${entry.role ? `<span>${esc(entry.role)}</span>` : ''}
+            ${entry.date ? `<span>${date(entry.date, true)}</span>` : ''}
+          </p>
+          <div class="page-actions inline-links">
+            ${entry.paper ? link(entry.paper, 'Paper') : ''}
+            ${entry.code ? link(entry.code, 'Code & materials') : ''}
+          </div>
+        </header>
+        <div class="prose publication-abstract">${entry.html}</div>
+        <figure class="publication-figure">
+          <a href="${url(figure.src)}" aria-label="View full-size research figure">
+            <img src="${url(figure.src)}" width="${figure.width}" height="${figure.height}" alt="${esc(figure.alt)}">
+          </a>
+          <figcaption>${esc(figure.caption)}</figcaption>
+        </figure>
+      </article>
+    `;
+  }
+  const back = ['CV', '/cv/'];
   const methodSection = entry.toc.find(h => /approach|workflow|project structure|documents to ranked|benchmark/i.test(h.text));
-  const resultSection = entry.toc.find(h => /observed|results|findings/i.test(h.text));
   let body = entry.html;
   if (entry.collection !== 'ideas') body = appendToSection(body, methodSection, diagram(entry.diagram));
-  body = appendToSection(body, resultSection, findings(entry.slug));
 
   return `
     <article class="article-page">
@@ -245,8 +222,7 @@ export function article(entry) {
       </div>
 
       <div class="article-navigation">
-        <a href="${url(back[1])}">${entry.collection === 'research' ? '← All publications' : '← Back to CV'}</a>
-        ${entry.collection === 'research' ? link(url('/cv/'), 'Curriculum vitae') : ''}
+        <a href="${url(back[1])}">← Back to CV</a>
       </div>
     </article>
   `;

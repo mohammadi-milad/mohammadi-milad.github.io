@@ -296,6 +296,11 @@ li { margin-bottom: 7px; }
 .article-authors { font-size: var(--type-meta); color: var(--muted); line-height: 1.6; }
 .article-heading .page-actions { margin-top: 18px; }
 .article-heading .page-actions > .text-button { font-size: var(--type-meta); }
+.publication-abstract { max-width: 72ch; }
+.publication-figure { margin: 30px 0 0; }
+.publication-figure a { display: block; background: #fff; padding: 16px; border-radius: 3px; }
+.publication-figure img { width: 100%; }
+.publication-figure figcaption { margin-top: 12px; color: var(--muted); font-size: var(--type-meta); line-height: 1.6; }
 .process-figure { margin: 27px 0 32px; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .process-diagram { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 0 0 15px; }
 .process-diagram > div { border: 1px solid var(--line); border-top: 2px solid var(--outline); border-radius: 2px; background: var(--surface); flex: 1; padding: 19px 10px; max-width: 205px; text-align: center; }

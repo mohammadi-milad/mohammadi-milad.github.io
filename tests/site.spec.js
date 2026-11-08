@@ -364,16 +364,25 @@ test('CV highlights navigate to their evidence and the compact two-page PDF has 
   await expect(page.locator('#cv-group-industry')).toBeInViewport();
 });
 
-test('skills are organized by purpose, preserve the full toolkit, and join the reading controls', async ({ page }) => {
+test('skills show both engineering disciplines from foundations to delivery and retain the full toolkit', async ({ page }) => {
   const profile = JSON.parse(await fs.readFile('src/data/profile.json', 'utf8'));
   const normalize = text => text.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
   await page.goto('/cv/');
   const toolkit = page.locator('#cv-skills');
   const cards = toolkit.locator('.cv-skill-card[data-cv-appendix]');
-  await expect(cards).toHaveCount(8);
-  for (const heading of ['Foundations', 'Applied AI', 'Engineering practice']) await expect(toolkit.getByRole('heading', { name: heading, exact: true })).toBeVisible();
-  const titles = ['Software engineering', 'Machine learning & data', 'Language agents', 'Retrieval & RAG', 'Model adaptation', 'Backend & integration', 'Evaluation & observability', 'Deployment & delivery'];
+  await expect(cards).toHaveCount(6);
+  for (const heading of ['Foundations', 'Systems & applications', 'Production & delivery']) await expect(toolkit.getByRole('heading', { name: heading, exact: true })).toBeVisible();
+  await expect(toolkit.locator('.cv-skills-domain-heads strong')).toHaveText(['AI / ML engineering', 'Software engineering']);
+  await expect(toolkit.locator('#cv-skills-options, [data-skills-customize]')).toHaveCount(0);
+  const titles = ['Machine learning & deep learning', 'Software & product design', 'Foundation-model systems', 'Full-stack development', 'Model serving & evaluation', 'Software delivery & quality'];
   for (const [index, title] of titles.entries()) await expect(cards.nth(index).locator('summary')).toContainText(title);
+  for (const layer of ['foundations', 'systems', 'delivery']) {
+    await expect(toolkit.locator(`.cv-skill-layer[data-layer="${layer}"] .cv-skill-card`)).toHaveCount(2);
+    await expect(toolkit.locator(`.cv-skill-layer[data-layer="${layer}"] .cv-skill-card[data-domain="software"]`)).toHaveCount(1);
+    await expect(toolkit.locator(`.cv-skill-layer[data-layer="${layer}"] .cv-skill-card[data-domain="ai"]`)).toHaveCount(1);
+  }
+  await expect(cards.locator('summary .cv-skill-concepts .cv-skill-label')).toHaveText(Array(6).fill('Concepts & methods'));
+  await expect(cards.locator('summary .cv-skill-tools-wrap > .cv-skill-label')).toHaveText(Array(6).fill('Tools & frameworks'));
   expect(await cards.evaluateAll(nodes => nodes.every(node => node.tagName === 'DETAILS' && !node.open))).toBe(true);
   await page.getByRole('button', { name: 'Expand all', exact: true }).click();
   expect(await cards.evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
@@ -393,7 +402,92 @@ test('skills are organized by purpose, preserve the full toolkit, and join the r
   await expect(cards.first()).not.toHaveAttribute('open', '');
 });
 
-test('the skills overview and details stay readable and accessible at desktop and mobile sizes', async ({ page }) => {
+test('the finalized skills map ignores retired display settings and keeps its native disclosures', async ({ page }) => {
+  const errors = [];
+  const requests = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('request', request => requests.push(request.url()));
+  await page.goto('/cv/');
+  await page.evaluate(() => localStorage.setItem('cv-skills-design-v1', JSON.stringify({ layout: 'stacks', copy: 'narrative', detail: 'expanded', logos: 'text', lead: 'software', open: ['cv-skill-software'] })));
+  await page.goto('/cv/?skills-layout=stacks&skills-copy=narrative&skills-detail=expanded&skills-logos=text&skills-lead=software&skills-open=software#cv-skills');
+  const toolkit = page.locator('#cv-skills');
+  await expect(toolkit.getByRole('heading', { name: 'Technical Skills Map', exact: true })).toBeVisible();
+  await expect(toolkit.locator('#cv-skills-options, [data-skills-customize], [data-skills-setting], [data-skills-preset]')).toHaveCount(0);
+  await expect(toolkit.getByText('Display options', { exact: true })).toHaveCount(0);
+  await expect(toolkit.locator('.cv-skills-domain-heads strong')).toHaveText(['AI / ML engineering', 'Software engineering']);
+  await expect(toolkit.locator('.cv-skill-card')).toHaveCount(6);
+  await expect(toolkit.locator('.cv-skill-card[open]')).toHaveCount(0);
+  const introduction = await toolkit.locator('.cv-skills-intro').innerText();
+  expect(introduction.split(/[.!?](?:\s|$)/).filter(sentence => sentence.trim())).toHaveLength(2);
+  for (const term of [/agentic coding/i, /Codex/, /research/i, /industry/i, /design/i, /architect/i, /deliver/i, /deploy/i]) expect(introduction).toMatch(term);
+  await page.locator('#cv-skill-ai-systems summary').click();
+  await expect(page.locator('#cv-skill-ai-systems')).toHaveAttribute('open', '');
+  await page.locator('[data-cv-view="timeline"]').click();
+  await expect(page.locator('#cv-skill-ai-systems')).toHaveAttribute('open', '');
+  await expect(page.locator('#cv-skill-ai-systems .cv-skill-content')).toBeVisible();
+  expect(requests.some(address => /\/cv-skills-client\.js(?:[?#]|$)/.test(address))).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test('the final AI-first skills map aligns closed cards and keeps the overview minimal', async ({ page }) => {
+  await fs.mkdir(screenshotDirectory, { recursive: true });
+  for (const width of [1440, 768, 640, 390, 320]) {
+    await page.setViewportSize({ width, height: 960 });
+    await page.goto('/cv/#cv-skills');
+    await loaded(page);
+    const toolkit = page.locator('#cv-skills');
+    await expect(toolkit.locator('#cv-skills-options, [data-skills-customize]')).toHaveCount(0);
+    await expect(toolkit.locator('.cv-skill-layer-heading h3')).toHaveText(['Foundations', 'Systems & applications', 'Production & delivery']);
+    await expect(toolkit.locator('.cv-skill-layer-heading p, .cv-skill-description, .cv-skill-evidence')).toHaveCount(0);
+    await expect(toolkit.locator('.cv-skill-card[open]')).toHaveCount(0);
+    if (width > 560) await expect(toolkit.locator('.cv-skill-card-kicker:visible')).toHaveCount(0);
+    const labels = await toolkit.locator('.cv-skill-layer-heading').evaluateAll(headings => headings.map(heading => ({ rail: heading.getBoundingClientRect().toJSON(), number: heading.querySelector('.cv-skill-layer-number').getBoundingClientRect().toJSON(), title: heading.querySelector('h3').getBoundingClientRect().toJSON(), cardsHeight: heading.parentElement.querySelector('.cv-skill-cards').getBoundingClientRect().height })));
+    for (const label of labels) {
+      expect(label.title.top + 1, `Layer heading below its number at ${width}px`).toBeGreaterThanOrEqual(label.number.bottom);
+      if (width > 700) {
+        expect(label.rail.width, `Compact vertical layer rail at ${width}px`).toBeLessThanOrEqual(40);
+        expect(label.rail.height, `Layer rail fits its cards at ${width}px`).toBeLessThanOrEqual(label.cardsHeight + 1);
+      } else expect(Math.abs(label.number.left - label.title.left), `Stacked layer label alignment at ${width}px`).toBeLessThanOrEqual(1);
+    }
+    const rows = await toolkit.locator('.cv-skill-layer').evaluateAll(layers => layers.map(layer => [...layer.querySelectorAll('.cv-skill-card')].map(card => {
+      const rect = card.getBoundingClientRect();
+      const position = selector => card.querySelector(selector).getBoundingClientRect().top;
+      return { id: card.id, domain: card.dataset.domain, top: rect.top, bottom: rect.bottom, title: position('.cv-skill-title'), concepts: position('.cv-skill-concepts'), tools: position('.cv-skill-tools-wrap') };
+    })));
+    for (const row of rows) {
+      expect(row.map(card => card.domain)).toEqual(['ai', 'software']);
+      if (width > 560) for (const edge of ['top', 'bottom', 'title', 'concepts', 'tools']) {
+        expect(Math.abs(row[0][edge] - row[1][edge]), `${row[0].id} / ${row[1].id} ${edge} alignment at ${width}px`).toBeLessThanOrEqual(1);
+      }
+    }
+    const overflow = await toolkit.locator('.cv-skill-card').evaluateAll(cards => cards.flatMap(card => {
+      const bounds = card.getBoundingClientRect();
+      return [...card.querySelectorAll('summary .cv-skill-title, summary .cv-skill-concepts, summary .cv-skill-tools-wrap, summary .cv-skill-tool')].filter(element => {
+        const rect = element.getBoundingClientRect();
+        return rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1 || element.scrollWidth > element.clientWidth + 1;
+      }).map(element => `${card.id}: ${element.className}`);
+    }));
+    expect(overflow, `Card contents at ${width}px`).toEqual([]);
+    const dimensions = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.width + 1);
+    const tools = toolkit.locator('summary .cv-skill-tool');
+    expect(await tools.count()).toBeGreaterThan(0);
+    await expect(tools.locator('.cv-tool-logo img')).toHaveCount(await tools.count());
+    await expect(page.locator('#cv-skill-model-ops summary img[src$="/vllm.svg"]')).toHaveCount(1);
+    await expect(page.locator('#cv-skill-ai-systems summary .cv-skill-tool')).toHaveCount(4);
+    await expect(page.locator('#cv-skill-ai-systems summary img[src$="/langgraph.svg"]')).toHaveCount(1);
+    await expect(page.locator('#cv-skill-ai-systems summary img[src$="/milvus.svg"]')).toHaveCount(1);
+    // Fit the section to verify lazy local marks and capture the selected design.
+    const sectionHeight = Math.ceil((await toolkit.boundingBox()).height);
+    await page.setViewportSize({ width, height: Math.max(960, sectionHeight + 100) });
+    await toolkit.scrollIntoViewIfNeeded();
+    await expect.poll(() => tools.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src))).toEqual([]);
+    if ([1440, 390].includes(width)) await toolkit.screenshot({ path: `${screenshotDirectory}/cv-skills-final-${width}-light.png` });
+  }
+});
+
+test('the technical skills map stays readable and accessible at desktop, tablet and mobile sizes', async ({ page }) => {
+  test.setTimeout(120_000);
   await fs.mkdir(screenshotDirectory, { recursive: true });
   for (const colorScheme of ['light', 'dark']) {
     for (const width of [1440, 768, 640, 390, 320]) {
@@ -403,21 +497,19 @@ test('the skills overview and details stay readable and accessible at desktop an
       await loaded(page);
       const toolkit = page.locator('#cv-skills');
       for (const expanded of [false, true]) {
-        if (expanded) await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+        await page.getByRole('button', { name: expanded ? 'Expand all' : 'Collapse all', exact: true }).click();
+        // Fit the section so its local marks load before checking/capturing.
+        const sectionHeight = Math.ceil((await toolkit.boundingBox()).height);
+        await page.setViewportSize({ width, height: Math.max(960, sectionHeight + 100) });
+        await toolkit.scrollIntoViewIfNeeded();
         const dimensions = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
-        expect(dimensions.content, `Skills ${expanded ? 'expanded' : 'overview'} at ${width}px in ${colorScheme}`).toBeLessThanOrEqual(dimensions.width + 1);
-        const brokenImages = await toolkit.locator('img').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src));
-        expect(brokenImages).toEqual([]);
-        if (width !== 320) {
-          // Let the whole section fit in the capture viewport. Element screenshots
-          // extending above a scrolled viewport can include offscreen fixed UI.
-          const sectionHeight = Math.ceil((await toolkit.boundingBox()).height);
-          await page.setViewportSize({ width, height: Math.max(960, sectionHeight + 100) });
-          await toolkit.screenshot({ path: `${screenshotDirectory}/cv-skills-${expanded ? 'expanded' : 'overview'}-${width}-${colorScheme}.png` });
-          await page.setViewportSize({ width, height: 960 });
-        }
+        const scenario = `${expanded ? 'expanded' : 'overview'} at ${width}px in ${colorScheme}`;
+        expect(dimensions.content, `Technical Skills Map ${scenario}`).toBeLessThanOrEqual(dimensions.width + 1);
+        await expect.poll(() => toolkit.locator('img:visible').evaluateAll(images => images.filter(image => !image.complete || image.naturalWidth === 0).map(image => image.src))).toEqual([]);
+        if ((width === 1440 && !expanded) || (width === 390 && expanded)) await toolkit.screenshot({ path: `${screenshotDirectory}/technical-skills-map-${expanded ? 'expanded' : 'overview'}-${width}-${colorScheme}.png` });
         const results = await new AxeBuilder({ page }).include('#cv-skills').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
-        expect(results.violations, `Skills ${expanded ? 'expanded' : 'overview'} at ${width}px in ${colorScheme}`).toEqual([]);
+        expect(results.violations, `Technical Skills Map ${scenario}`).toEqual([]);
+        await page.setViewportSize({ width, height: 960 });
       }
     }
   }
@@ -522,7 +614,8 @@ test('printing expands the complete CV and restores the reader’s view and disc
   await expect.poll(() => page.locator('#cv-masters').evaluate(node => node.style.height)).toBe('');
   const beforePrint = await page.locator('details').evaluateAll(nodes => nodes.map(node => node.open));
   await page.evaluate(() => dispatchEvent(new Event('beforeprint')));
-  expect(await page.locator('details').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  expect(await page.locator('[data-cv-entry], [data-cv-future], [data-cv-appendix]').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
+  await expect(page.locator('#cv-skills-options, [data-skills-customize]')).toHaveCount(0);
   await expect(page.locator('[data-cv-entry]:visible')).toHaveCount(23);
   await page.evaluate(() => dispatchEvent(new Event('afterprint')));
   expect(await page.locator('details').evaluateAll(nodes => nodes.map(node => node.open))).toEqual(beforePrint);
@@ -570,6 +663,10 @@ test('all content, mobile navigation, and expandable CV remain available without
   await expect(first).toHaveAttribute('open', '');
   await expect(first.locator('.cv-entry-body')).toBeVisible();
   const skill = page.locator('#cv-skills .cv-skill-card').first();
+  await expect(page.locator('#cv-skills .cv-skill-card')).toHaveCount(6);
+  await expect(page.locator('#cv-skills .cv-skill-layer')).toHaveCount(3);
+  await expect(page.locator('#cv-skills-options, [data-skills-customize]')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Technical Skills Map', exact: true })).toBeVisible();
   await expect(skill).toBeVisible();
   await skill.locator('summary').click();
   await expect(skill).toHaveAttribute('open', '');

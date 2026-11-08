@@ -1,5 +1,6 @@
 /* A compact academic record, with detail revealed at the reader's pace. */
 @import url('./cv-appendix.css');
+@import url('./cv-skills.css');
 
 .cv-shell #main { padding-top: 34px; }
 .cv-heading { margin: 0 0 25px; }

@@ -2,7 +2,7 @@
 
 A custom static website for research, PhD opportunities, projects, writing, and an interactive academic CV. The design uses Source Sans 3, a narrow reading column, a clear hierarchy of headings and publication metadata, and restrained forest-green links, with automatic light and dark appearance.
 
-Every page shares the same outer width and responsive margins as the navigation and footer. The CV uses this shared layout. A brief introduction and four factual highlights lead into the full record, organized by **Theme** by default or by **Timeline**. Theme view begins with an expandable future PhD entry in Education; Timeline view places PhD availability at the top. The eight thematic chapters—education, publications, awards, research roles, industry, teaching, projects, and volunteering service—retain numbered headings; the final five also have brief introductions. Entries stay compact until opened; expanded entries include context, conceptual figures, media, and supporting links. **Expand all** and **Collapse all** provide a reading or scanning view. Technical skills are organized into three bands—Foundations, Applied AI, and Engineering practice—with eight expandable cards that distinguish named tools from methods, and the English-language section presents verified TOEFL test-day and MyBest results in two compact score cards. Academic references follow in a compact contact layout with each referee’s affiliation and profile links. The **Compact 2-page CV** card at the top opens the conventional PDF version. All CV content is available without JavaScript.
+Every page shares the same outer width and responsive margins as the navigation and footer. The CV uses this shared layout. A brief introduction and four factual highlights lead into the full record, organized by **Theme** by default or by **Timeline**. Theme view begins with an expandable future PhD entry in Education; Timeline view places PhD availability at the top. The eight thematic chapters—education, publications, awards, research roles, industry, teaching, projects, and volunteering service—retain numbered headings; the final five also have brief introductions. Entries stay compact until opened; expanded entries include context, conceptual figures, media, and supporting links. **Expand all** and **Collapse all** provide a reading or scanning view. The **Technical Skills Map** uses a fixed AI-first layout: three layers—Foundations, Systems & applications, and Production & delivery—across AI/ML engineering and Software engineering. Paired closed cards align their titles, concepts, tool rows, and outer edges. The overview separates concepts and methods from logo-led tools and frameworks, without repeated layer labels, descriptive filler, or evidence links inside the cards. Compact vertical layer labels accompany six native expandable cards; there are no display controls. A two-sentence introduction connects agentic coding tools such as Codex with the owner’s research and industry experience and ability to design, architect, deliver, and deploy AI applications. The English-language section presents verified TOEFL test-day and MyBest results in two compact score cards. Academic references follow in a compact contact layout with each referee’s affiliation and profile links. The **Compact 2-page CV** card at the top opens the conventional PDF version. All CV content is available without JavaScript.
 
 The homepage has an editorial layout with a framed portrait, a CV download beneath the photo, PhD availability in the introduction, and two illustrated publication features linked to the complete Publication page. Contact and profile icons sit in the footer. The layout adapts to small screens; articles retain their narrow reading column and the CV becomes a single-column timeline.
 
@@ -21,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Open [localhost:4321](http://localhost:4321). Changes to `src/`, `content/`, and `public/` rebuild the site; refresh the browser to see them.
+Open [localhost:4321](http://localhost:4321), or go directly to [the CV skills section](http://localhost:4321/cv/#cv-skills). The Technical Skills Map has a fixed AI-first presentation with native expandable cards; retired display-setting URLs and saved browser preferences do not alter it. Changes to `src/`, `content/`, and `public/` rebuild the site; refresh the browser to see them.
 
 ```sh
 npm run build   # Generate the static site in dist/
@@ -50,7 +50,9 @@ CI=1 npm test
 | `src/cv-sections.js` | Shared theme chapter order, headings, and introductions |
 | `src/cv.css` | CV-specific timeline, thematic chapters, responsive layout, and visual styling |
 | `src/cv-visuals.js` | Conceptual evidence figures within expanded research and engineering entries |
-| `src/cv-appendix.js` / `src/cv-appendix.css` | Skills bands and expandable cards, language score visualization, and references |
+| `src/cv-appendix.js` / `src/cv-appendix.css` | Skills integration, language score visualization, and references |
+| `src/cv-skills.js` | Technical Skills Map introduction, six capability areas, concepts, and tools |
+| `src/cv-skills.css` | Aligned Technical Skills Map, compact vertical layer labels, responsive presentation, and print styling |
 | `src/site.js` | Appearance controls, mobile navigation, collection filters, article navigation |
 | `src/site.css` | Light/dark palette, typography, responsive layout, motion, print styles |
 | `content/research/` | Research overviews and publication details in Markdown |
@@ -59,7 +61,7 @@ CI=1 npm test
 | `public/` | Images, licensed self-hosted fonts, downloadable CV, and other copied assets |
 | `scripts/build.mjs` | Static generation, feeds, sitemap, and legacy redirects |
 
-The compact skills inventory is maintained in `src/data/profile.json`. The web-specific grouping, card descriptions, and tool/method relationships are authored in `skillBands` in `src/cv-appendix.js`. Keep both sources in sync when adding or changing skills; the browser checks verify that the web presentation retains every inventory keyword.
+The compact skills inventory is maintained in `src/data/profile.json`. The web-specific layers, card headings, and tool/method relationships are authored in `src/cv-skills.js`. The six native cards work without a skills-specific client script and join the CV’s global expansion and print controls. Keep both sources in sync when adding or changing skills; the browser checks verify that the expanded web presentation retains every inventory keyword. The inventory includes the owner-confirmed foundations and capabilities plus named technologies evidenced in the PsyCIDRA, EmoNoria, and IntRest AI-service source. Android tools are labeled separately from web development. The AI systems overview includes OpenAI Agents SDK, Hugging Face Transformers, LangGraph, and Milvus logos; additional methods and tools remain available in the expanded cards. Layer names appear in the sidebar rather than repeating inside each card. The compact presentation is the default even without JavaScript.
 
 Font attribution and redistribution terms are in `public/fonts/source-sans-3-OFL.txt`; the normal and italic Latin files are hosted locally. The site makes no font requests to Google or other third parties.
 

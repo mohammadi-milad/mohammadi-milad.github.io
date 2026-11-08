@@ -383,124 +383,151 @@
   ],
   "skills": [
     {
-      "name": "Software Engineering",
+      "name": "Software & Product Design",
       "level": "",
       "icon": "",
       "keywords": [
         "Python",
+        "Algorithm Design",
         "Modular Design",
-        "Automated Testing (pytest)",
-        "Packaging (uv, pip-tools)"
+        "System Design",
+        "Software Architecture",
+        "Product Management",
+        "Requirements Analysis",
+        "Product Scoping",
+        "User Stories"
       ]
     },
     {
-      "name": "Agent Engineering",
+      "name": "Machine Learning & Deep Learning",
+      "level": "",
+      "icon": "",
+      "keywords": [
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Feature Engineering",
+        "Data Preparation",
+        "Data Analysis",
+        "Tokenization",
+        "PyTorch",
+        "scikit-learn",
+        "NumPy",
+        "pandas",
+        "Matplotlib"
+      ]
+    },
+    {
+      "name": "Full-stack Development",
+      "level": "",
+      "icon": "",
+      "keywords": [
+        "Full-stack Development",
+        "Frontend Development",
+        "Backend Development",
+        "React",
+        "TypeScript",
+        "Next.js",
+        "Vite",
+        "Tailwind CSS",
+        "React Router",
+        "FastAPI",
+        "Pydantic",
+        "Async I/O",
+        "PostgreSQL",
+        "SQLite",
+        "SQLAlchemy",
+        "Alembic",
+        "Redis",
+        "Typed APIs & Schemas",
+        "REST",
+        "gRPC",
+        "WebSockets",
+        "Server-sent Events (SSE)",
+        "OAuth2/OpenID Connect",
+        "JWT",
+        "Session Management",
+        "Responsive Interfaces",
+        "RTL & Localization",
+        "Database Migrations",
+        "Caching & Cache Invalidation",
+        "Kotlin",
+        "Jetpack Compose"
+      ]
+    },
+    {
+      "name": "Foundation-model Systems",
       "level": "",
       "icon": "",
       "keywords": [
         "OpenAI Agents SDK",
+        "LangGraph",
+        "n8n",
+        "Chainlit",
         "Tool Use",
         "Planning",
         "Multi-Agent Systems",
-        "Agent Memory"
-      ]
-    },
-    {
-      "name": "Retrieval & RAG",
-      "level": "",
-      "icon": "",
-      "keywords": [
+        "Agent Memory",
+        "Workflow Orchestration",
+        "Structured Outputs & Validation",
+        "ReAct",
+        "Reflexion",
+        "Retrieval & RAG",
         "Milvus",
         "LanceDB",
-        "Hybrid Search",
-        "Reranking",
         "Document Parsing",
-        "Chunking"
-      ]
-    },
-    {
-      "name": "LLM Fine-tuning",
-      "level": "",
-      "icon": "",
-      "keywords": [
+        "Chunking",
+        "Sparse & Dense Retrieval",
+        "Hybrid Search",
+        "BM25",
+        "Reranking",
         "Hugging Face Transformers",
         "PEFT",
+        "TRL",
+        "Parameter-efficient Fine-tuning",
         "LoRA",
         "QLoRA",
-        "TRL",
-        "Tokenization"
+        "Prefix-tuning"
       ]
     },
     {
-      "name": "Evaluation & Monitoring",
+      "name": "Software Delivery & Quality",
       "level": "",
       "icon": "",
       "keywords": [
+        "Automated Testing (pytest)",
+        "Packaging (uv, pip-tools)",
+        "Git",
+        "Docker",
+        "Docker Compose",
+        "Playwright",
+        "Vitest",
+        "Ruff",
+        "mypy",
+        "Code Review",
+        "Technical Documentation",
+        "Containerization",
+        "CI/CD",
+        "Async Concurrency & Backpressure",
+        "Timeouts & Retries",
+        "Background Jobs",
+        "Resilient Error Handling"
+      ]
+    },
+    {
+      "name": "Model Serving & Evaluation",
+      "level": "",
+      "icon": "",
+      "keywords": [
+        "Foundation-model Serving",
+        "Model Serving (vLLM)",
+        "Service Integration",
         "Retrieval Evaluation",
         "LLM-as-Judge",
         "Langfuse",
         "Metrics",
         "Logs",
         "Traces"
-      ]
-    },
-    {
-      "name": "Backend & Databases",
-      "level": "",
-      "icon": "",
-      "keywords": [
-        "FastAPI",
-        "Pydantic",
-        "Async I/O",
-        "PostgreSQL",
-        "SQLite"
-      ]
-    },
-    {
-      "name": "Machine Learning",
-      "level": "",
-      "icon": "",
-      "keywords": [
-        "PyTorch",
-        "scikit-learn",
-        "NumPy",
-        "pandas",
-        "Matplotlib",
-        "Feature Engineering"
-      ]
-    },
-    {
-      "name": "APIs & Authentication",
-      "level": "",
-      "icon": "",
-      "keywords": [
-        "REST",
-        "gRPC",
-        "WebSockets",
-        "OAuth2/OpenID Connect",
-        "JWT"
-      ]
-    },
-    {
-      "name": "Deployment & MLOps",
-      "level": "",
-      "icon": "",
-      "keywords": [
-        "Model Serving (vLLM)",
-        "Docker",
-        "Docker Compose",
-        "CI/CD"
-      ]
-    },
-    {
-      "name": "Systems & Delivery",
-      "level": "",
-      "icon": "",
-      "keywords": [
-        "Requirements Analysis",
-        "Software Architecture",
-        "Code Review",
-        "Technical Documentation"
       ]
     }
   ],

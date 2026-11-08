@@ -3,8 +3,8 @@ export const site = {
   origin: 'https://mohammadi-milad.github.io',
   base: (process.env.BASE_PATH || '').replace(/\/$/, ''),
   description: 'Language agents, human behavior, and AI systems. Research, projects, and an interactive academic CV by Milad Mohammadi.',
-  email: 'miladmohammadi@ut.ac.ir',
-  alternateEmail: 'mohammadi.milad.mim@gmail.com',
+  email: 'mohammadi.milad.mim@gmail.com',
+  alternateEmail: 'miladmohammadi@ut.ac.ir',
   updated: '2026-11-07',
   phd: { open: true, label: 'Seeking PhD opportunities' },
   links: {

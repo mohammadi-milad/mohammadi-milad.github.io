@@ -8,7 +8,7 @@ The homepage has an editorial layout with a framed portrait, a CV download benea
 
 The **Publication** page at `/research/` lists papers in date order with **All**, **Published**, and **Preprints** filters and a Google Scholar link next to the page title. Each individual paper page shows its title, authors with Milad’s name in bold, publication status, authorship role, date, and paper/code links where available. The body contains the original abstract and one original main figure with its caption; the image opens at full size when clicked. It has no additional summaries, contents navigation, result charts, or citation sections. Homepage publication briefs, the publication list, and CV entries retain their own content.
 
-The **Blog** at `/blog/` is a simple list of titles, short notes, and writing dates. Posts have a narrow reading layout and a table of contents generated from their section headings. It is a place for ideas across subjects, including topics beyond AI and technology. The former `/projects/` and `/ideas/` indexes redirect to the Blog; individual project pages remain available through CV links.
+The **Blog** is temporarily disabled with `site.blog.enabled: false` in `src/config.js`. Its navigation link, index, posts, and feed/sitemap entries are omitted from the generated site; all blog code, styling, and Markdown content remain available. Set `site.blog.enabled` to `true` and rebuild when ready to publish writing. The Blog then provides a simple list of titles, short notes, and writing dates, with a narrow reading layout and section contents inside posts. The former `/projects/` and `/ideas/` indexes redirect to `/cv/` while the Blog is disabled, and to `/blog/` when enabled; individual project pages remain available through CV links.
 
 Every route is generated as a complete HTML page for GitHub Pages. There is no CMS, server application, database, or analytics service. The reading font is self-hosted under the SIL Open Font License; the visitor's appearance preference is stored only in their browser.
 
@@ -67,7 +67,7 @@ Font attribution and redistribution terms are in `public/fonts/source-sans-3-OFL
 
 See **[Authoring content](docs/AUTHORING.md)** for Markdown templates, images, diagrams, and updating the CV.
 
-The Blog includes **“A place for unfinished thoughts”** (`content/blog/a-place-for-unfinished-thoughts.md`), a placeholder for reviewing the layout. Edit or remove it before publishing your own writing. Its `sample: true` frontmatter adds a small **Sample post** label inside the article, while the index stays minimal. The old `content/ideas/` folder is no longer built. Publication-list entries link to primary sources and distinguish published papers from preprints.
+The retained Blog content includes **“A place for unfinished thoughts”** (`content/blog/a-place-for-unfinished-thoughts.md`), a placeholder for reviewing the layout. It is not published while the Blog is disabled. Replace it with your writing or mark it `draft: true` before re-enabling the Blog. Its `sample: true` frontmatter adds a small **Sample post** label inside the article, while the index stays minimal. The old `content/ideas/` folder is no longer built. Publication-list entries link to primary sources and distinguish published papers from preprints.
 
 ## GitHub Pages
 

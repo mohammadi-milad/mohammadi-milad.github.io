@@ -7,6 +7,7 @@ export const site = {
   alternateEmail: 'miladmohammadi@ut.ac.ir',
   updated: '2026-11-07',
   phd: { open: true, label: 'Seeking PhD opportunities' },
+  blog: { enabled: false }, // Enable when real posts are ready to publish.
   links: {
     github: 'https://github.com/mohammadi-milad-mim',
     scholar: 'https://scholar.google.com/citations?user=RltQFhwAAAAJ',

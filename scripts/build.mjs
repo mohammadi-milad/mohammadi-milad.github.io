@@ -15,6 +15,7 @@ const profile = JSON.parse(await fs.readFile(path.join(root, 'src/data/profile.j
 const entries = {};
 for (const collection of ['research', 'projects', 'blog']) {
   entries[collection] = [];
+  if (collection === 'blog' && !site.blog.enabled) continue;
   const files = (await fs.readdir(path.join(root, 'content', collection)).catch(error => { if (error.code === 'ENOENT') return []; throw error; })).filter(f => f.endsWith('.md') && !f.startsWith('_'));
   for (const file of files) {
     const { data, content } = matter(await fs.readFile(path.join(root, 'content', collection, file), 'utf8'));
@@ -59,11 +60,12 @@ await writePage('/', null, site.description, home(profile, entries.research), { 
 await writePage('/phd/', 'PhD opportunities', 'Seeking PhD opportunities in language agents, human behavior modeling, behavioral simulation, and human–AI interaction.', phd(profile));
 await writePage('/research/', 'Publication', 'Published papers and preprints by Milad Mohammadi.', researchIndex(profile, entries.research));
 await writePage('/cv/', 'Interactive CV', 'Explore Milad Mohammadi’s academic CV by timeline or theme, with expandable research, education, engineering, and teaching experience.', renderCV(profile, entries.research, entries.projects));
-await writePage('/blog/', 'Blog', 'Ideas, questions, and notes on AI, technology, life, and the world beyond them.', blogIndex(entries.blog));
+if (site.blog.enabled) await writePage('/blog/', 'Blog', 'Ideas, questions, and notes on AI, technology, life, and the world beyond them.', blogIndex(entries.blog));
 await writePage('/colophon/', 'About this site', 'Design, accessibility, privacy, and how this personal website is built.', colophon());
 for (const entry of Object.values(entries).flat()) await writePage(entry.route, entry.shortTitle || entry.title, entry.description, entry.collection === 'blog' ? blogArticle(entry) : article(entry), { article: true, schema: { '@context': 'https://schema.org', '@type': entry.collection === 'research' ? 'ScholarlyArticle' : 'Article', headline: entry.title, description: entry.description, ...(entry.date ? { datePublished: entry.date } : {}), url: `${site.origin}${url(entry.route)}`, ...(entry.paper ? { sameAs: entry.paper } : {}) } });
 await writePage('/404.html', 'Page not found', 'This page could not be found.', pageHeading('404 / An uncharted branch', 'This path ends here.', 'The page may have moved, or the address may be incomplete.', `<div class="page-actions">${button('Return home →', url('/'))}${button('All publications →', url('/research/'), true)}</div>`), { noindex: true });
-for (const [old, next] of [['/publications/', '/research/'], ['/about/', '/'], ['/projects/', '/blog/'], ['/ideas/', '/blog/'], ['/repositories/', '/cv/']]) {
+const writingRedirect = site.blog.enabled ? '/blog/' : '/cv/';
+for (const [old, next] of [['/publications/', '/research/'], ['/about/', '/'], ['/projects/', writingRedirect], ['/ideas/', writingRedirect], ['/repositories/', '/cv/']]) {
   const file = path.join(dist, old, 'index.html');
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page moved — Milad Mohammadi</title><link rel="canonical" href="${site.origin}${url(next)}"><meta http-equiv="refresh" content="0;url=${url(next)}"></head><body><p>This page has moved to <a href="${url(next)}">${url(next)}</a>.</p></body></html>`);

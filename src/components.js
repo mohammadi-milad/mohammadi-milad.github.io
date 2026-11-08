@@ -40,7 +40,7 @@ export function contact(showCopyright = false) {
   return `<div class="footer-contact" id="contact">${showCopyright ? '<small class="footer-copyright">© 2026 Milad Mohammadi, All Rights Reserved</small>' : ''}<nav class="footer-profiles" aria-label="Contact and profiles"><a class="profile-link" href="mailto:${site.email}" aria-label="Email Milad Mohammadi" title="${esc(site.email)}">${icon('mail')}</a>${profiles.map(([key, label]) => `<a class="profile-link" href="${esc(site.links[key])}" aria-label="${label}" title="${label}">${profileIcon(key)}</a>`).join('')}</nav></div>`;
 }
 export function layout({ title, description = site.description, route = '/', body, article = false, image = '/images/milad-mohammadi.jpg', noindex = false, schema }) {
-  const nav = [['/', 'Home'], ['/research/', 'Publication'], ['/cv/', 'CV'], ['/blog/', 'Blog'], ['/phd/', site.phd.open ? 'I’m looking for a PhD position' : 'PhD research']];
+  const nav = [['/', 'Home'], ['/research/', 'Publication'], ['/cv/', 'CV'], ...(site.blog.enabled ? [['/blog/', 'Blog']] : []), ['/phd/', site.phd.open ? 'I’m looking for a PhD position' : 'PhD research']];
   const active = path => path === '/' ? route === '/' : route.startsWith(path);
   const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — Language agents & human behavior`;
   const canonical = `${site.origin}${url(route)}`;

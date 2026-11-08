@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs/promises';
+import { site } from '../src/config.js';
 
 const screenshotDirectory = 'artifacts/qa';
 
@@ -141,6 +142,7 @@ test('mobile navigation opens, closes, and supports keyboard dismissal', async (
   await toggle.click();
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   await expect(navigation).toBeVisible();
+  await expect(navigation.getByRole('link', { name: 'Blog', exact: true })).toHaveCount(site.blog.enabled ? 1 : 0);
   await page.keyboard.press('Escape');
   await expect(navigation).not.toBeVisible();
   await expect(toggle).toBeFocused();
@@ -1022,7 +1024,7 @@ test('all content, mobile navigation, and expandable CV remain available without
   await context.close();
 });
 
-test('publication list, blog navigation, minimal paper pages, and PDF download are usable', async ({ page, request }) => {
+test('publication list, blog availability, minimal paper pages, and PDF download are usable', async ({ page, request }) => {
   await page.goto('/research/');
   await expect(page.getByRole('heading', { name: 'Publication', exact: true })).toBeVisible();
   await expect(page.locator('.publication-index-heading').getByRole('link', { name: 'Google Scholar' })).toHaveAttribute('href', 'https://scholar.google.com/citations?user=RltQFhwAAAAJ');
@@ -1056,20 +1058,40 @@ test('publication list, blog navigation, minimal paper pages, and PDF download a
   await expect(page.locator('.research-feature').first().locator('.research-feature-meta')).toContainText('Under review');
   await page.getByRole('link', { name: 'All publications', exact: false }).click();
   await expect(page).toHaveURL(/\/research\/$/);
-  await page.goto('/projects/');
-  await expect(page).toHaveURL(/\/blog\/$/);
-  await expect(page.getByRole('heading', { name: 'Blog', exact: true })).toBeVisible();
-  await expect(page.locator('.blog-post')).toHaveCount(1);
-  await expect(page.locator('.blog-post time')).toHaveAttribute('datetime', '2026-11-07');
-  await expect(page.getByText('Projects & ideas', { exact: true })).toHaveCount(0);
-  await page.getByRole('link', { name: 'A place for unfinished thoughts', exact: true }).click();
-  await expect(page.getByText('Sample post', { exact: true })).toBeVisible();
-  const blogContents = page.getByRole('navigation', { name: 'Contents', exact: true });
-  await blogContents.getByRole('link', { name: 'Beyond the technical world', exact: true }).click();
-  await expect(page).toHaveURL(/#beyond-the-technical-world$/);
-  await expect(page.getByRole('heading', { name: 'Beyond the technical world', exact: true })).toBeInViewport();
-  await page.getByRole('link', { name: '← All posts', exact: true }).click();
-  await expect(page).toHaveURL(/\/blog\/$/);
+  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Blog', exact: true })).toHaveCount(site.blog.enabled ? 1 : 0);
+  if (site.blog.enabled) {
+    await page.goto('/projects/');
+    await expect(page).toHaveURL(/\/blog\/$/);
+    await expect(page.getByRole('heading', { name: 'Blog', exact: true })).toBeVisible();
+    await expect(page.locator('.blog-post')).toHaveCount(1);
+    await expect(page.locator('.blog-post time')).toHaveAttribute('datetime', '2026-11-07');
+    await expect(page.getByText('Projects & ideas', { exact: true })).toHaveCount(0);
+    await page.getByRole('link', { name: 'A place for unfinished thoughts', exact: true }).click();
+    await expect(page.getByText('Sample post', { exact: true })).toBeVisible();
+    const blogContents = page.getByRole('navigation', { name: 'Contents', exact: true });
+    await blogContents.getByRole('link', { name: 'Beyond the technical world', exact: true }).click();
+    await expect(page).toHaveURL(/#beyond-the-technical-world$/);
+    await expect(page.getByRole('heading', { name: 'Beyond the technical world', exact: true })).toBeInViewport();
+    await page.getByRole('link', { name: '← All posts', exact: true }).click();
+    await expect(page).toHaveURL(/\/blog\/$/);
+  } else {
+    await expect(page.locator('a[href*="/blog/"]')).toHaveCount(0);
+    for (const route of ['/projects/', '/ideas/']) {
+      await page.goto(route);
+      await expect(page).toHaveURL(/\/cv\/$/);
+    }
+    for (const route of ['/blog/', '/blog/a-place-for-unfinished-thoughts/']) {
+      const response = await request.get(route);
+      expect(response.status(), `${route}: disabled blog is not published`).toBe(404);
+      expect(await response.text()).not.toContain('A place for unfinished thoughts');
+    }
+    expect(await routes(request)).not.toEqual(expect.arrayContaining([expect.stringMatching(/^\/blog\//)]));
+    for (const route of ['/sitemap.xml', '/feed.xml']) {
+      const response = await request.get(route);
+      expect(response.ok()).toBeTruthy();
+      expect(await response.text(), `${route}: disabled blog is not advertised`).not.toContain('/blog/');
+    }
+  }
   for (const slug of ['psycidra', 'schemagraphsql', 'emotion-recognition', 'permedcqa']) {
     await page.goto(`/research/${slug}/`);
     const paper = page.locator('main article');

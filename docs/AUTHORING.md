@@ -12,7 +12,7 @@ Pages are plain Markdown files with YAML frontmatter. There is no publishing das
 
 Use lowercase letters, numbers, and hyphens: `modeling-individual-differences.md`. The filename determines the URL; changing it changes the public address. Choose a lasting name and add a redirect in the build script when moving an already published page.
 
-The Blog index lives at `/blog/`. The old `/projects/` and `/ideas/` indexes redirect there, while individual project pages remain available for CV links. The old `content/ideas/` folder is no longer built; place new writing in `content/blog/`.
+The Blog is temporarily disabled by `site.blog.enabled: false` in `src/config.js`. Its navigation link, `/blog/` index, posts, and feed/sitemap entries are omitted from the build, while the source remains intact. Set `site.blog.enabled` to `true` and rebuild to enable it. The old `/projects/` and `/ideas/` indexes redirect to `/cv/` while disabled and `/blog/` when enabled; individual project pages remain available for CV links. The old `content/ideas/` folder is no longer built; place new writing in `content/blog/`.
 
 **Drafts stay out of the output.** Either add `draft: true` to the frontmatter or start the filename with an underscore. Remove the draft flag and use a filename without an initial underscore when ready to include the post in the generated site.
 
@@ -66,7 +66,7 @@ Use a short description for the note below the title in the Blog index. The writ
 
 Write the body in Markdown and use `##` headings for sections. These headings automatically become links in the post's simple table of contents. Blog posts do not receive automatic method diagrams.
 
-The included `content/blog/a-place-for-unfinished-thoughts.md` is a placeholder for layout review at `/blog/a-place-for-unfinished-thoughts/`. Edit or remove it when adding your own writing. Its `sample: true` field adds a small **Sample post** label inside the article; that label does not appear in the index. Remove `sample: true` when replacing the placeholder with a finished post.
+The retained `content/blog/a-place-for-unfinished-thoughts.md` is a placeholder for layout review at `/blog/a-place-for-unfinished-thoughts/`, available only when the Blog is enabled. Replace it with your writing or mark it `draft: true` before re-enabling the Blog. Its `sample: true` field adds a small **Sample post** label inside the article; that label does not appear in the index. Remove `sample: true` when replacing the placeholder with a finished post.
 
 ## A project
 

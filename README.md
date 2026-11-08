@@ -8,6 +8,8 @@ The homepage has an editorial layout with a framed portrait, a CV download benea
 
 The **Publication** page at `/research/` lists papers in date order with **All**, **Published**, and **Preprints** filters and a Google Scholar link next to the page title. Each individual paper page shows its title, authors with Milad’s name in bold, publication status, authorship role, date, and paper/code links where available. The body contains the original abstract and one original main figure with its caption; the image opens at full size when clicked. It has no additional summaries, contents navigation, result charts, or citation sections. Homepage publication briefs, the publication list, and CV entries retain their own content.
 
+The **PhD** page at `/phd/` introduces six research themes, including psychology and other human sciences. Compact numbered links lead to the themes and their short personal introductions. Native **Explore topics** disclosures hold 18 concise subject descriptions, keeping the overview readable; each control is named for its theme for assistive technology. Navigation links and direct theme URLs open the relevant topics. The personal sections explain why Milad wants to pursue a PhD and what prepares him for the work, followed by CV and publication links. **Let’s talk** welcomes PhD opportunities and introductions, research collaborations, and conversations, with an email link at the end. All text and disclosures work without JavaScript; printing opens every topic and restores the reader’s choices afterward. This page’s copy is maintained separately from the homepage research summary.
+
 The **Blog** is temporarily disabled with `site.blog.enabled: false` in `src/config.js`. Its navigation link, index, posts, and feed/sitemap entries are omitted from the generated site; all blog code, styling, and Markdown content remain available. Set `site.blog.enabled` to `true` and rebuild when ready to publish writing. The Blog then provides a simple list of titles, short notes, and writing dates, with a narrow reading layout and section contents inside posts. The former `/projects/` and `/ideas/` indexes redirect to `/cv/` while the Blog is disabled, and to `/blog/` when enabled; individual project pages remain available through CV links.
 
 Every route is generated as a complete HTML page for GitHub Pages. There is no CMS, server application, database, or analytics service. The reading font is self-hosted under the SIL Open Font License; the visitor's appearance preference is stored only in their browser.
@@ -44,6 +46,8 @@ CI=1 npm test
 | `src/config.js` | Site identity, contact links, PhD availability, canonical origin, review date |
 | `src/data/profile.json` | Education, research, work, teaching, projects, skills, and research positioning |
 | `src/pages.js` | Home, PhD, collection pages, minimal paper pages, and project/blog article layouts |
+| `src/phd-content.js` | PhD research themes, subjects, motivation, and personal background copy |
+| `src/phd.js` / `src/phd.css` / `src/phd-client.js` | PhD page, linked research map, native topic disclosures, and direct-link/print behavior |
 | `src/components.js` | Shared HTML layout, navigation, footer, formatting, and conceptual diagrams |
 | `src/cv.js` | Introduction, highlights, compact CV entries, theme and timeline groups, and evidence links |
 | `src/cv-client.js` | View changes, disclosure animation, bulk expansion, direct links, and print state |

@@ -678,7 +678,7 @@
   "positioning": {
     "headline": "Understanding people through language agents.",
     "intro": "I’m Milad Mohammadi, an AI researcher and Senior AI Engineer. I recently completed my M.Sc. at the University of Tehran, working across natural language processing and computational cognitive psychology.",
-    "researchSummary": "I want to understand how foundation models can represent an individual’s personality, preferences, and changing psychological states. My research connects language-agent engineering with psychological theory and evaluation against human evidence.",
+    "researchSummary": "I enjoy studying and building AI systems with large language and vision–language models. The questions I keep coming back to have a human dimension: understanding behavior and cognition, studying human–AI interaction, and connecting this work with psychology and other human sciences.",
     "interests": [
       {
         "title": "Modeling individuals",

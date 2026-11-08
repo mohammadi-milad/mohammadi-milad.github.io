@@ -40,42 +40,7 @@ export function home(profile, research) {
   `;
 }
 
-export function phd(profile) {
-  return `
-    ${pageHeading('', 'PhD opportunities', profile.positioning.phdIntro)}
-
-    <section class="section-block" id="research-directions" aria-labelledby="research-interests">
-      <h2 id="research-interests">Research interests</h2>
-      <p>${esc(profile.positioning.researchSummary)}</p>
-      <div class="research-directions">
-        ${profile.positioning.interests.map(interest => `
-          <section>
-            <h3>${esc(interest.title)}</h3>
-            <p>${esc(interest.description)}</p>
-          </section>
-        `).join('\n')}
-      </div>
-    </section>
-
-    <section class="section-block" aria-labelledby="phd-background">
-      <h2 id="phd-background">Background</h2>
-      <p>I completed my M.Sc. in IT Engineering at the University of Tehran in September 2026, with a GPA of 19.14/20 and a thesis graded Excellent. I worked with the NLP Lab and the Computational Cognitive Psychology Lab on language agents and digital mental health.</p>
-      <p>My research includes ${link(url('/research/psycidra/'), 'PsyCIDRA')} (first-author preprint), ${link(url('/research/schemagraphsql/'), 'SchemaGraphSQL')} (second author, Findings of EACL 2026), and ${link(url('/research/emotion-recognition/'), 'multilingual emotion recognition')} (co-first author, SemEval 2025). Alongside research, I have experience in production AI engineering and graduate teaching.</p>
-      <p>In 2023, I ranked first among 4,696 candidates in Iran's IT Engineering master's entrance examination. My English qualification is TOEFL iBT 5.5/6, with an ETS comparable score of 110/120 (CEFR C1).</p>
-      <p class="inline-links">
-        ${link(url('/cv/'), 'Interactive CV')}
-        ${link(cvPDF(), 'Academic CV PDF', 'download')}
-        ${link(site.links.scholar, 'Google Scholar')}
-      </p>
-    </section>
-
-    <section class="section-block" aria-labelledby="phd-contact">
-      <h2 id="phd-contact">Contact</h2>
-      <p>I would welcome a conversation with prospective supervisors whose work overlaps with these interests.</p>
-      <p>${link(`mailto:${site.email}?subject=PhD%20research%20opportunity`, site.email)}</p>
-    </section>
-  `;
-}
+export { renderPhD as phd } from './phd.js';
 
 export function researchIndex(profile, research) {
   return `

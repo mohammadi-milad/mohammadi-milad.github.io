@@ -1,0 +1,62 @@
+/* The PhD page: a small map of interests, with space for personal notes. */
+.phd-page { --phd-reading-width: 72ch; }
+.phd-heading .page-intro { max-width: 65ch; }
+.phd-page-nav { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; }
+.phd-page-nav a { font-size: var(--type-meta); text-decoration: none; border-bottom: 1px solid var(--line); }
+.phd-page-nav a:hover { border-color: var(--green); }
+.phd-intro, .phd-note-prose, .phd-contact > p { max-width: var(--phd-reading-width); }
+.phd-intro p:last-child { margin-bottom: 0; }
+.phd-intro strong { color: var(--green); }
+
+.phd-map { margin: 26px 0 24px; }
+.phd-map ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
+.phd-map li { margin: 0; display: flex; align-items: center; min-width: 0; }
+.phd-map a { position: relative; z-index: 1; display: grid; grid-template-columns: 22px minmax(0, 1fr) 15px; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 12px; background: var(--bg); color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); line-height: 1.35; }
+.phd-map a > span:first-child { color: var(--green); font-size: var(--type-meta); font-variant-numeric: tabular-nums; }
+.phd-map a .icon { color: var(--muted); width: 14px; height: 14px; }
+.phd-map a:hover { color: var(--green); border-color: var(--green); }
+.phd-map a:hover .icon { color: var(--green); }
+
+.phd-theme { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; padding: 26px 0; border-top: 1px solid var(--line); scroll-margin-top: 28px; }
+.phd-theme-number { padding-top: 3px; color: var(--green); font-size: var(--type-meta); font-variant-numeric: tabular-nums; }
+.phd-theme-content { max-width: var(--phd-reading-width); }
+.phd-theme h3 { margin: 0 0 9px; text-wrap: pretty; }
+.phd-theme-overview { margin-bottom: 10px; }
+.phd-topics > summary { display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; color: var(--green); font-size: var(--type-meta); cursor: pointer; list-style: none; }
+.phd-topics > summary::-webkit-details-marker { display: none; }
+.phd-topics > summary::marker { content: ''; }
+.phd-topics > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.phd-topics > summary svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.4; transition: transform .15s; }
+.phd-topics-open, .phd-topics[open] .phd-topics-closed { display: none; }
+.phd-topics[open] .phd-topics-open { display: inline; }
+.phd-topics[open] > summary svg { transform: rotate(180deg); }
+.phd-subjects { margin-top: 18px; padding-left: 21px; border-left: 1px solid var(--line); }
+.phd-subject + .phd-subject { margin-top: 22px; }
+.phd-subject h4 { margin: 0 0 6px; font-size: var(--type-body); line-height: 1.45; text-wrap: pretty; }
+.phd-subject p { margin-bottom: 0; }
+.phd-note { margin-top: 18px; padding-top: 29px; }
+.phd-note h2 { margin-bottom: 18px; text-wrap: pretty; }
+.phd-note-prose p { margin-bottom: 17px; }
+.phd-note-prose p:last-child { margin-bottom: 0; }
+.phd-background-links { margin-top: 22px; }
+.phd-contact { margin-top: 32px; }
+
+@media (max-width: 600px) {
+  .phd-page-nav { gap: 10px 20px; }
+  .phd-map ol { gap: 0 16px; }
+  .phd-map a { grid-template-columns: 20px minmax(0, 1fr); gap: 6px; min-height: 64px; padding: 10px 0; }
+  .phd-map a .icon { display: none; }
+  .phd-theme { grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding-block: 23px; }
+  .phd-subjects { padding-left: 14px; }
+  .phd-page .phd-note { margin-top: 15px; padding-top: 25px; }
+}
+@media print {
+  .phd-page-nav, .phd-map, .phd-topics > summary { display: none; }
+  .phd-theme { padding-block: 15px; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; }
+  .phd-theme-content, .phd-note-prose, .phd-intro { max-width: none; }
+  .phd-theme h3 { break-after: avoid; }
+  .phd-subject { break-inside: avoid; }
+  .phd-subjects { margin-top: 14px; }
+  .phd-subject + .phd-subject { margin-top: 14px; }
+  .phd-note-prose p { orphans: 3; widows: 3; }
+}

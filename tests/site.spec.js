@@ -263,11 +263,13 @@ test('the complete CV includes school, the youth award, and the corrected TEDx r
     await page.locator(`[data-cv-view="${view}"]`).click();
     const school = page.locator('#cv-high-school');
     await expect(school).toBeVisible();
-    await expect(school).toContainText(/National Organization for Development of Exceptional Talents/);
-    await expect(school.locator('.cv-entry-subtitle')).toContainText('SAMPAD — Schools for Gifted Students');
-    await expect(school).toContainText(/Mathematics/);
-    await expect(school).toContainText(/19\.63\s*\/\s*20/);
+    await expect(school.locator('.cv-entry-title')).toHaveText('Secondary Education');
+    await expect(school.locator('.cv-entry-subtitle')).toHaveText('SAMPAD (سمپاد) · Grade 19.63/20');
     await expect(school.locator('.cv-date')).toHaveText(/2011\s*–\s*2018/);
+    await school.locator('summary').click();
+    await expect(school.getByText('National Organization for Development of Exceptional Talents (NODET)')).toBeVisible();
+    await expect(school.getByText('Lower and upper secondary education · Diploma in Mathematics and Physics')).toBeVisible();
+    await school.locator('summary').click();
     const schoolLogo = school.locator('summary img');
     await expect(schoolLogo).toBeVisible();
     await expect(schoolLogo).toHaveAttribute('src', /\/images\/organizations\/sampad\.(?:svg|png)$/);

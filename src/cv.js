@@ -122,10 +122,10 @@ function buildEntries(profile, researchEntries, projectEntries) {
     const masters = item.id === 'masters';
     entries.push({
       id: `cv-${item.id}`, category: 'education', date: item.endDate, timelineDate: item.startDate,
-      dateLabel: range(item.startDate, item.endDate), title: `${item.studyType} · ${item.area}`,
+      dateLabel: range(item.startDate, item.endDate), title: [item.studyType, item.area].filter(Boolean).join(' · '),
       kicker: masters ? 'Completed · Thesis: Excellent' : 'Completed',
       subtitle: `${item.institution} · ${item.score}${masters ? ' · Thesis: Excellent' : ''}`,
-      body: `${item.officialName ? paragraph(item.officialName) : ''}<p class="cv-academic-score"><strong>${esc(item.score)}</strong>${masters ? ' · Thesis graded Excellent, the highest qualitative grade.' : ''}</p>${list(masters ? item.courses.filter(course => !course.startsWith('Thesis grade:')) : item.courses)}${transcriptPreview(item.id)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
+      body: `${paragraph(item.officialName)}${paragraph(item.summary)}<p class="cv-academic-score"><strong>${esc(item.score)}</strong>${masters ? ' · Thesis graded Excellent, the highest qualitative grade.' : ''}</p>${list(masters ? item.courses.filter(course => !course.startsWith('Thesis grade:')) : item.courses)}${transcriptPreview(item.id)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
     });
   }
   for (const item of profile.work) {

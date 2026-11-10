@@ -484,7 +484,7 @@ test('expanded publications show full titles, authors, descriptions, and persona
       id: 'cv-psycidra',
       title: 'From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment',
       authors: 'Milad Mohammadi, Fatemeh Akrami Shamsabadi, Zahra Mohseni, Amirhossein Safdarian, Malekfarhad Malek, Hadi Moradi, and Hesham Faili',
-      overview: /PsyCIDRA separates psychiatric interviewing from diagnostic reasoning/,
+      overview: /evaluates interview quality and diagnostic hypotheses/,
       contribution: 'I conceived the research idea, developed the framework, led the project, coordinated the team, and wrote the paper.'
     },
     {
@@ -1056,7 +1056,10 @@ test('publication list, blog availability, minimal paper pages, and PDF download
   await page.getByRole('link', { name: 'Milad Mohammadi, home' }).click();
   await expect(page.locator('.home-research .research-feature')).toHaveCount(2);
   await expect(page.locator('.research-feature-sketch svg')).toHaveCount(2);
-  await expect(page.locator('.research-feature h3')).toHaveText([/From Dialogue to Diagnostic Hypotheses/, /SchemaGraphSQL/]);
+  const featuredPaper = page.locator('.research-feature').first();
+  await expect(featuredPaper.getByRole('heading', { level: 3 })).toHaveAccessibleName('From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment');
+  await expect(featuredPaper.getByRole('link', { name: 'Paper', exact: true })).toHaveAttribute('href', 'https://arxiv.org/abs/2610.07473v2');
+  await expect(page.locator('.research-feature h3').nth(1)).toContainText('SchemaGraphSQL');
   await expect(page.locator('.research-feature').first().locator('.research-feature-meta')).toContainText('Under review');
   await page.getByRole('link', { name: 'All publications', exact: false }).click();
   await expect(page).toHaveURL(/\/research\/$/);

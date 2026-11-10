@@ -58,7 +58,7 @@ function futureEducation() {
 function publicationContext(id) {
   const notes = {
     psycidra: {
-      overview: 'PsyCIDRA separates psychiatric interviewing from diagnostic reasoning. One language agent gathers evidence through conversation, while a second reviews the transcript to identify supporting, contradicting, and missing evidence for expert review. The framework was evaluated through controlled simulations and a human feasibility study.',
+      overview: 'The study evaluates interview quality and diagnostic hypotheses using PsyCPG-simulated patients and 101 interviews with human participants. PsyCIDRA uses separate agents to conduct interviews and analyze transcripts, identifying supporting, conflicting, and missing evidence for expert review.',
       contribution: 'I conceived the research idea, developed the framework, led the project, coordinated the team, and wrote the paper.'
     },
     schemagraphsql: {
@@ -99,7 +99,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
   for (const [index, item] of profile.publications.entries()) {
     const research = researchEntries.find(entry => entry.paper === item.url || entry.title === item.name);
     const id = research?.cvId || (research?.shortTitle ? slug(research.shortTitle) : ['psycidra', 'schemagraphsql', 'emotion-recognition'][index] || slug(item.name));
-    const title = research?.shortTitle || item.name.split(':')[0];
+    const title = research?.shortTitle || research?.title || item.name.split(':')[0];
     entries.push({
       id: `cv-${id}`, category: 'publications', date: item.releaseDate,
       dateLabel: date(item.releaseDate), title,
@@ -125,7 +125,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
       dateLabel: range(item.startDate, item.endDate), title: [item.studyType, item.area].filter(Boolean).join(' · '),
       kicker: masters ? 'Completed · Thesis: Excellent' : 'Completed',
       subtitle: `${item.institution} · ${item.score}${masters ? ' · Thesis: Excellent' : ''}`,
-      body: `${paragraph(item.officialName)}${paragraph(item.summary)}<p class="cv-academic-score"><strong>${esc(item.score)}</strong>${masters ? ' · Thesis graded Excellent, the highest qualitative grade.' : ''}</p>${list(masters ? item.courses.filter(course => !course.startsWith('Thesis grade:')) : item.courses)}${transcriptPreview(item.id)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research · PsyCIDRA' }] : [])])}`
+      body: `${paragraph(item.officialName)}${paragraph(item.summary)}<p class="cv-academic-score"><strong>${esc(item.score)}</strong>${masters ? ' · Thesis graded Excellent, the highest qualitative grade.' : ''}</p>${list(masters ? item.courses.filter(course => !course.startsWith('Thesis grade:')) : item.courses)}${transcriptPreview(item.id)}${links([...(masters ? [{ href: url('/research/psycidra/'), label: 'Thesis research on psychiatric assessment' }] : [])])}`
     });
   }
   for (const item of profile.work) {

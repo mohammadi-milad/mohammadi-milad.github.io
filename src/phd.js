@@ -48,7 +48,7 @@ export function renderPhD() {
 
     <section class="section-block phd-note" id="phd-background" aria-labelledby="phd-readiness">
       <h2 id="phd-readiness">${esc(readiness.title)}</h2>
-      <div class="phd-note-prose">${paragraphs(readiness.paragraphs).replace('With PsyCIDRA,', `With <a href="${url('/research/psycidra/')}">PsyCIDRA</a>,`)}</div>
+      <div class="phd-note-prose">${paragraphs(readiness.paragraphs).replace('study on psychiatric assessment', `<a href="${url('/research/psycidra/')}">study on psychiatric assessment</a>`)}</div>
       <p class="inline-links phd-background-links"><a href="${url('/cv/')}">My CV ${icon('arrow')}</a><a href="${url('/research/')}">Publications ${icon('arrow')}</a></p>
     </section>
 

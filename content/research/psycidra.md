@@ -1,8 +1,7 @@
 ---
 title: "From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment"
-shortTitle: "From Dialogue to Diagnostic Hypotheses"
 cvId: "psycidra"
-description: "Separating clinical interviewing from diagnostic reasoning, with controlled simulation and a human feasibility study."
+description: "Evaluating how LLM agents conduct free-form psychiatric interviews and generate diagnostic hypotheses, using simulated patients and human participants."
 date: "2026-10-05"
 kind: "Research preprint"
 role: "First author"
@@ -17,11 +16,11 @@ authors: "Milad Mohammadi, Fatemeh Akrami Shamsabadi, Zahra Mohseni, Amirhossein
 abstractSource: "https://arxiv.org/html/2610.07473v2"
 mainFigure:
   src: "/images/research/psycidra.svg"
-  caption: "Figure 1: PsyCIDRA and its evaluation. Simulated patients use PsyCPG-generated profiles. PsyDARA analyzes only PsyCIRA’s visible transcript. Case diagnoses and expert judgments provide simulation and human references, respectively; neither agent sees these references."
+  caption: "Figure 1: PsyCIDRA and its evaluation. Simulated patients use PsyCPG-generated profiles. PsyDARA analyzes only PsyCIRA’s visible transcript. Case diagnoses and reconciled expert transcript judgments provide simulation and human references, respectively; neither agent sees these references."
   alt: "PsyCIDRA workflow: simulated patients and human participants interact with the PsyCIRA interviewer, supported by working notes, skills, ICD-11 lookup, and safety tools. The transcript passes to PsyDARA for diagnostic reasoning, and experts assess interview quality and compare diagnostic reports."
   width: 452
   height: 295
-  source: "https://arxiv.org/html/2610.07473v1/workflow.svg"
+  source: "https://arxiv.org/html/2610.07473v2/workflow.svg"
 ---
 
 ## Abstract

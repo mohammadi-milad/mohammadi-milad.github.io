@@ -1,5 +1,5 @@
 ---
-title: "From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment"
+title: "From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment (PsyCIDRA)"
 cvId: "psycidra"
 description: "Evaluating how LLM agents conduct free-form psychiatric interviews and generate diagnostic hypotheses, using simulated patients and human participants."
 date: "2026-10-05"

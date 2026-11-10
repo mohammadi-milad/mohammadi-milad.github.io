@@ -98,7 +98,7 @@ function buildEntries(profile, researchEntries, projectEntries) {
   const entries = [];
   for (const [index, item] of profile.publications.entries()) {
     const research = researchEntries.find(entry => entry.paper === item.url || entry.title === item.name);
-    const id = research?.shortTitle ? slug(research.shortTitle) : ['psycidra', 'schemagraphsql', 'emotion-recognition'][index] || slug(item.name);
+    const id = research?.cvId || (research?.shortTitle ? slug(research.shortTitle) : ['psycidra', 'schemagraphsql', 'emotion-recognition'][index] || slug(item.name));
     const title = research?.shortTitle || item.name.split(':')[0];
     entries.push({
       id: `cv-${id}`, category: 'publications', date: item.releaseDate,

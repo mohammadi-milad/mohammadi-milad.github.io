@@ -482,7 +482,7 @@ test('expanded publications show full titles, authors, descriptions, and persona
   const papers = [
     {
       id: 'cv-psycidra',
-      title: 'PsyCIDRA: A Dual-Agent Framework for Psychiatric Interviewing and Diagnostic Reasoning',
+      title: 'From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment',
       authors: 'Milad Mohammadi, Fatemeh Akrami Shamsabadi, Zahra Mohseni, Amirhossein Safdarian, Malekfarhad Malek, Hadi Moradi, and Hesham Faili',
       overview: /PsyCIDRA separates psychiatric interviewing from diagnostic reasoning/,
       contribution: 'I conceived the research idea, developed the framework, led the project, coordinated the team, and wrote the paper.'
@@ -1034,7 +1034,7 @@ test('publication list, blog availability, minimal paper pages, and PDF download
   await expect(publications.locator('.research-list')).toHaveCount(1);
   await expect(publications.locator('.research-row')).toHaveCount(4);
   await expect(publications.locator('.research-row h3')).toHaveText([
-    /PsyCIDRA/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/
+    /From Dialogue to Diagnostic Hypotheses/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/
   ]);
   await expect(page.locator('main h2')).toHaveCount(0);
   await expect(publications.locator('.publication-venue')).toContainText([
@@ -1044,8 +1044,8 @@ test('publication list, blog availability, minimal paper pages, and PDF download
   const filters = publications.getByRole('group', { name: 'Filter publications' });
   for (const [label, titles] of [
     ['Published', [/SchemaGraphSQL/, /SemEval-2025/]],
-    ['Preprints', [/PsyCIDRA/, /PerMedCQA/]],
-    ['All', [/PsyCIDRA/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/]]
+    ['Preprints', [/From Dialogue to Diagnostic Hypotheses/, /PerMedCQA/]],
+    ['All', [/From Dialogue to Diagnostic Hypotheses/, /SchemaGraphSQL/, /SemEval-2025/, /PerMedCQA/]]
   ]) {
     const button = filters.getByRole('button', { name: label, exact: true });
     await button.click();
@@ -1056,7 +1056,7 @@ test('publication list, blog availability, minimal paper pages, and PDF download
   await page.getByRole('link', { name: 'Milad Mohammadi, home' }).click();
   await expect(page.locator('.home-research .research-feature')).toHaveCount(2);
   await expect(page.locator('.research-feature-sketch svg')).toHaveCount(2);
-  await expect(page.locator('.research-feature h3')).toHaveText([/PsyCIDRA/, /SchemaGraphSQL/]);
+  await expect(page.locator('.research-feature h3')).toHaveText([/From Dialogue to Diagnostic Hypotheses/, /SchemaGraphSQL/]);
   await expect(page.locator('.research-feature').first().locator('.research-feature-meta')).toContainText('Under review');
   await page.getByRole('link', { name: 'All publications', exact: false }).click();
   await expect(page).toHaveURL(/\/research\/$/);

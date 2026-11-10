@@ -118,10 +118,10 @@
   ],
   "publications": [
     {
-      "name": "PsyCIDRA: A Dual-Agent Framework for Psychiatric Interviewing and Diagnostic Reasoning",
+      "name": "From Dialogue to Diagnostic Hypotheses: Evaluating LLM Agents for Psychiatric Assessment",
       "publisher": "arXiv preprint (2026)",
       "releaseDate": "2026-10-05",
-      "url": "https://arxiv.org/abs/2610.07473",
+      "url": "https://arxiv.org/abs/2610.07473v2",
       "summary": "Mohammadi, M., Akrami Shamsabadi, F., Mohseni, Z., Safdarian, A., Malek, M., Moradi, H., & Faili, H. (First author)",
       "status": "Preprint · under review",
       "role": "First author"

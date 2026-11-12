@@ -57,7 +57,7 @@ async function writePage(route, title, description, body, options = {}) {
   if (!options.noindex) routes.push(route);
 }
 await writePage('/', null, site.description, home(profile, entries.research), { schema: { '@context': 'https://schema.org', '@type': 'Person', name: site.name, url: site.origin, email: `mailto:${site.email}`, jobTitle: 'AI Researcher and Senior AI Engineer', alumniOf: [{ '@type': 'CollegeOrUniversity', name: 'University of Tehran' }, { '@type': 'CollegeOrUniversity', name: 'University of Isfahan' }], sameAs: [site.links.scholar, site.links.github, site.links.linkedin] } });
-await writePage('/phd/', 'PhD opportunities', 'My interests in AI foundation models and the study of people, why I want to pursue a PhD, and the research and engineering experience I would bring.', phd(profile));
+await writePage('/phd/', 'PhD opportunities', 'My research interests connect foundation models with psychology and the human sciences and extend to on-device personalization and agent learning.', phd(profile));
 await writePage('/research/', 'Publication', 'Published papers and preprints by Milad Mohammadi.', researchIndex(profile, entries.research));
 await writePage('/cv/', 'Interactive CV', 'Explore Milad Mohammadi’s academic CV by timeline or theme, with expandable research, education, engineering, and teaching experience.', renderCV(profile, entries.research, entries.projects));
 if (site.blog.enabled) await writePage('/blog/', 'Blog', 'Ideas, questions, and notes on AI, technology, life, and the world beyond them.', blogIndex(entries.blog));

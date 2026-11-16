@@ -3,127 +3,41 @@ export const phdContent = {
   focus: {
     title: 'Where foundation models meet psychology and the human sciences',
     paragraphs: [
-      'I want to use large language models (LLMs), vision–language models (VLMs), and other deep learning models to study how people think and behave, individually and in groups. I’m also interested in building AI systems around people’s needs and studying how those systems shape learning, decisions, and collaboration.',
-      'In turn, I want to draw on theories and evidence from psychology and the human sciences to improve how we design, train, and evaluate these models.'
+      'Foundation models, such as large language models (LLMs), vision–language models (VLMs), and large multimodal models, can be used across different domains of psychology and the human sciences. These uses range from clinical and therapeutic applications to building simulations and environments for reproducible studies of human behavior, at both the individual and group levels.',
+      'As these models and the agent harnesses built around them become more capable, we can also draw inspiration and insights from fields such as cognitive psychology to enhance both their capabilities and their integration with humans.'
     ]
   },
-  directionsIntro: 'Alongside this focus, I’m interested in how models adapt to individuals on personal devices and how agents learn from experience.',
+  directionsIntro: 'These are the main themes I’m interested in exploring, but my research interests are not limited to them.',
   themes: [
     {
       id: 'modeling-and-simulation',
-      title: 'Computational modeling and simulation of human behavior',
-      shortTitle: 'Behavioral modeling & simulation',
-      overview: 'I’m interested in how people make decisions over time and how their interactions give rise to group behavior. I want to use foundation models to study both scales, from predicting individual choices to testing agent-based simulations against data from real groups.',
-      subjects: [
-        {
-          title: 'Longitudinal modeling of individual preferences',
-          description: 'I’d like to infer how a person’s goals, preferences, and routines change from their choices and interactions. The test I care about is whether the model predicts what that person does later or in a new setting.'
-        },
-        {
-          title: 'Empirical validation of behavioral simulations',
-          description: 'I’m drawn to simulations for settings where experiments are difficult, such as psychiatric interviews or urban planning. I’d compare simulated and human interactions under comparable conditions to see whether simulations reproduce response distributions and effects observed in human studies.'
-        },
-        {
-          title: 'Emergent coordination and information diffusion',
-          description: 'I’d vary who interacts with whom and how individuals respond to the same information. Can the resulting simulations account for how real groups coordinate, how information spreads, and how those patterns change under interventions?'
-        }
-      ]
+      title: 'AI for modeling and simulation of human behavior',
+      overview: 'The capabilities of today’s models can be used to build models of individual and group behavior, using synthetic populations or real human data. I believe this is a path toward studying the human sciences in a more scalable and controllable way. Somewhat like the role of lab mice in biomedical research, these environments and simulations could support analysis, understanding, and planning before testing with real populations.'
     },
     {
       id: 'human-ai-interaction',
-      title: 'Human–AI interaction',
-      shortTitle: 'Human–AI interaction',
-      overview: 'I want to design and evaluate interfaces for human–agent collaboration. The questions I keep coming back to are when people delegate, how they catch mistakes, and what they learn in the process.',
-      subjects: [
-        {
-          title: 'Mixed-initiative interaction and human oversight',
-          description: 'I’d compare interfaces that vary when an agent can act on its own and when a user can inspect, revise, or stop its plan. I want to know which controls help people catch and recover from errors, and how much effort that oversight takes.'
-        },
-        {
-          title: 'Calibrating reliance in AI-assisted decisions',
-          description: 'I’d record people’s judgments before and after they see an AI recommendation, varying the evidence and uncertainty cues shown with it. When do people revise a mistaken judgment in light of good advice, and when do they stick with a sound judgment despite bad advice?'
-        },
-        {
-          title: 'Instructional scaffolding and skill transfer',
-          description: 'I want to know how the timing and form of assistance affect what people learn. I’d compare support such as graduated hints and direct answers, then test whether people can apply what they learned to new tasks without the assistant.'
-        }
-      ]
+      title: 'Human–Agent interaction',
+      overview: 'It is no longer difficult to imagine operating systems or devices built around an agent as their main interface, similar to Codex or Claude Code, given the range of tasks agents can now carry out. This opens up many questions about autonomy and delegation, safety, and design, each of which I’m interested in studying.'
     },
     {
       id: 'clinical-ai',
-      title: 'Foundation models for digital mental health',
-      shortTitle: 'Digital mental health',
-      overview: 'My thesis on psychiatric interviewing got me thinking about the quality of the evidence a model elicits and how a clinician might use it. I want to pursue those questions in clinical assessment and decision support, and study where conversational tools can help between visits.',
-      subjects: [
-        {
-          title: 'Privacy-preserving learning from clinical text',
-          description: 'I’d compare differentially private fine-tuning and training on synthetic clinical notes. I want to measure clinical utility on held-out cases alongside how much patient-specific information the resulting models retain or expose.'
-        },
-        {
-          title: 'Evidence elicitation and diagnostic reasoning',
-          description: 'In my thesis, I separated the psychiatric interview from the diagnostic analysis of its transcript. I want to study which follow-up questions elicit useful evidence and how clinicians review a differential diagnosis when they can trace the supporting and conflicting evidence and see what was missed.'
-        },
-        {
-          title: 'Evaluating conversational support between sessions',
-          description: 'I’d like to study tools for brief check-ins and follow-up on goals agreed with a clinician. I want to measure whether they help people stay engaged with care and understand when a conversation should be handed back to a clinician.'
-        },
-        {
-          title: 'Longitudinal clinical context and generalization',
-          description: 'I’m interested in how models combine interview transcripts, clinical notes, and other relevant data to track changes over time. I’d test how their performance and uncertainty calibration hold up across patient populations and care settings.'
-        }
-      ]
+      title: 'Multimodal models and agents for digital mental health',
+      overview: 'This is the topic most directly connected to my master’s thesis: building models, applications, evaluations, and benchmarks for the use of these models in psychology and psychiatry. I’m interested in both patient-facing and therapeutic applications, as well as tools for clinicians and other experts.'
     },
     {
       id: 'efficient-models',
       title: 'On-device personalization of foundation models',
-      shortTitle: 'On-device personalization',
-      overview: 'I want to build assistants that adapt to changing preferences and routines while keeping raw interaction histories on the user’s device. How much can the assistant learn locally, and when is it worth consulting a larger model?',
-      subjects: [
-        {
-          title: 'Local user modeling and selective cloud delegation',
-          description: 'I’d compare retrieval from local interaction histories with parameter-efficient adaptation. When a task benefits from a remote model, I want to find out how much context it actually needs and measure the trade-offs in personalization quality, information disclosure, and response time.'
-        }
-      ]
+      overview: 'I’m interested in privacy-aware LLMs and VLMs that, with the user’s permission, can access their device and files and become highly informed, personalized assistants. Through long-term use, they could develop a deeper understanding of the person they assist. They could also delegate tasks beyond their own knowledge or capabilities to larger models and manage that work while preserving the user’s privacy. Somewhat like the next generation of Siri, but much better!'
     },
     {
       id: 'learning-agents',
       title: 'Self-improving agents and long-term memory',
-      shortTitle: 'Self-improving agents',
-      overview: 'I’m interested in how coding agents and assistants learn from their own work. I want to know which lessons from tool use and task outcomes should persist across sessions, and whether those lessons help on unfamiliar tasks.',
-      subjects: [
-        {
-          title: 'Learning from execution feedback',
-          description: 'I’d compare pass/fail signals with richer feedback such as test failures and tool outputs. With the same number of attempts, which signals help an agent recover from a mistake and avoid repeating it on later tasks?'
-        },
-        {
-          title: 'Memory retrieval, revision, and forgetting',
-          description: 'I want to study what an agent should store, retrieve, revise, or discard as its context changes. A good test is whether it can use an earlier interaction and recognize when a fact or preference from that interaction is out of date.'
-        },
-        {
-          title: 'Acquisition and transfer of procedural skills',
-          description: 'Can an agent turn a successful sequence of actions into a reusable procedure and combine it with skills it already has? I’d test whether that reduces retries on held-out tasks and whether earlier skills still work after further updates.'
-        }
-      ]
+      overview: 'Coding and general-purpose agents are now much more capable, but they still lack the mechanisms and harnesses needed to learn from new tasks and maintain useful long-term memory. I believe that drawing inspiration from cognitive psychology could help us build agents that learn from experience, retain what they have learned, and use it in future tasks.'
     },
     {
       id: 'human-diversity',
-      title: 'Multilingual and cross-cultural model evaluation',
-      shortTitle: 'Multilingual & cultural evaluation',
-      overview: 'I want to understand where language and vision–language models struggle with local context. A model can produce fluent text while misreading a social convention, making a stereotyped assumption, or misunderstanding a dialect that rarely appears in benchmarks.',
-      subjects: [
-        {
-          title: 'Cultural grounding in text and images',
-          description: 'I’d test how models use local practices, norms, and visual cues to interpret a situation. I want evaluations to reflect variation within communities, including cases where people familiar with the same context disagree about the best answer.'
-        },
-        {
-          title: 'Counterfactual audits of stereotypes and disparities',
-          description: 'I’d compare matched prompts that vary a social cue, such as a name or dialect, while holding the task and intended meaning fixed. I’m interested in whether that changes the quality of assistance or the recommendations people receive.'
-        },
-        {
-          title: 'Benchmark design for underrepresented languages and dialects',
-          description: 'I want to build benchmarks with speakers around tasks that reflect everyday language use. Locally authored examples and matched examples across varieties could help distinguish failures of language comprehension from gaps in cultural knowledge.'
-        }
-      ]
+      title: 'Multilingual and cross-cultural model evaluation and improvement',
+      overview: 'This interest comes from my personal experience as a Persian speaker. I think analyzing and improving models in medium- and low-resource languages, along with studying their cultural understanding and assumptions, is crucial. Over time, I worry that we may become more similar in how we think and express ourselves as these models steer us toward the languages, cultures, and perspectives they represent most strongly.'
     }
   ],
   motivation: {

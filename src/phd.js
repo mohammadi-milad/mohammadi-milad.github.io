@@ -55,12 +55,6 @@ function researchFocus(focus) {
   </div>`;
 }
 
-function researchMap(themes) {
-  return `<nav class="phd-map" aria-label="Explore my research interests">
-    <ol role="list">${themes.map((theme, index) => `<li><a href="#${esc(theme.id)}"><span class="phd-index-number">${number(index)}</span><span>${esc(theme.shortTitle)}</span>${icon('arrow')}</a></li>`).join('')}</ol>
-  </nav>`;
-}
-
 function researchTheme(theme, index) {
   return `<section class="phd-theme" id="${esc(theme.id)}" aria-labelledby="${esc(theme.id)}-title">
     <div class="phd-theme-plate" aria-hidden="true">
@@ -70,10 +64,6 @@ function researchTheme(theme, index) {
     <h4 id="${esc(theme.id)}-title">${esc(theme.title)}</h4>
     <div class="phd-theme-content">
       <p class="phd-theme-overview">${esc(theme.overview)}</p>
-      <details class="phd-topics">
-        <summary><span>Research topics<span class="sr-only"> in ${esc(theme.title)}</span></span><span class="phd-topic-count" aria-hidden="true">${theme.subjects.length}</span><svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" fill="none"><path d="m4 6 4 4 4-4"/></svg></summary>
-        <div class="phd-subjects">${theme.subjects.map(subject => `<section class="phd-subject"><h5>${esc(subject.title)}</h5><p>${esc(subject.description)}</p></section>`).join('\n')}</div>
-      </details>
     </div>
   </section>`;
 }
@@ -94,7 +84,6 @@ export function renderPhD() {
       <section class="phd-directions" aria-labelledby="phd-directions-title">
         <h3 id="phd-directions-title">Research directions</h3>
         <p class="phd-directions-intro">${esc(directionsIntro)}</p>
-        ${researchMap(themes)}
         <div class="phd-themes">${themes.map(researchTheme).join('\n')}</div>
       </section>
     </section>

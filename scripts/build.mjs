@@ -47,7 +47,7 @@ entries.projects.sort((a,b) => Number(b.kind === 'Teaching project') - Number(a.
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });
 await fs.cp(path.join(root, 'public'), dist, { recursive: true });
-for (const filename of ['site.css', 'cv.css', 'cv-appendix.css', 'cv-skills.css', 'site.js', 'cv-client.js', 'cv-sections.js', 'cv-transcripts.js', 'phd.css', 'phd-client.js']) await fs.copyFile(path.join(root, 'src', filename), path.join(dist, filename));
+for (const filename of ['site.css', 'cv.css', 'cv-appendix.css', 'cv-skills.css', 'site.js', 'cv-client.js', 'cv-sections.js', 'cv-transcripts.js', 'phd.css']) await fs.copyFile(path.join(root, 'src', filename), path.join(dist, filename));
 const routes = [];
 async function writePage(route, title, description, body, options = {}) {
   const filename = route.endsWith('.html') ? route : `${route}index.html`;

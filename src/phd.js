@@ -25,36 +25,6 @@ const themeSketches = {
     <path class="phd-sketch-rule" d="M76 14h21v17h-7l-5 5v-5h-5M81 20h11m-9 5h7M24 45H13v16h6l5 5v-5h7v-4"/>`
 };
 
-function researchFocus(focus) {
-  return `<div class="phd-focus">
-    <div class="phd-focus-copy">
-      <p class="phd-focus-label">Primary research focus</p>
-      <h3>${esc(focus.title)}</h3>
-      <div class="phd-focus-description">${paragraphs(focus.paragraphs)}</div>
-    </div>
-    <figure class="phd-focus-figure">
-      <figcaption class="sr-only">How the two fields inform each other</figcaption>
-      <div class="phd-flow phd-flow-to-people"><span>Study people and design for them</span>${icon('arrow')}</div>
-      <div class="phd-focus-fields">
-        <div class="phd-focus-field phd-focus-models">
-          ${sketch(`<path class="phd-sketch-rule" d="M22 20 55 13l33 9-33 14-33-16M22 52l33-16 33 14-33 9-33-7M55 13l33 37m-33 9 33-37"/>
-            <circle cx="22" cy="20" r="5"/><circle cx="22" cy="52" r="5"/><circle cx="55" cy="13" r="5"/><circle cx="55" cy="36" r="6"/><circle cx="55" cy="59" r="5"/><circle cx="88" cy="22" r="5"/><circle cx="88" cy="50" r="5"/>`)}
-          <strong>Foundation models</strong>
-          <span>Language · vision</span>
-        </div>
-        <div class="phd-focus-field phd-focus-people">
-          ${sketch(`<path d="M45 61V49a21 21 0 1 1 30-19l5 9h-8v8a4 4 0 0 1-4 4h-8v10"/>
-            <path class="phd-sketch-rule" d="m41 26 11-7 11 7-11 11-11-11m11-7v18M24 23h7m-7 10h5m-1 10h6"/>
-            <circle cx="41" cy="26" r="3"/><circle cx="52" cy="19" r="3"/><circle cx="63" cy="26" r="3"/><circle cx="52" cy="37" r="3"/>`)}
-          <strong>Psychology &amp; human sciences</strong>
-          <span>Cognition · behavior</span>
-        </div>
-      </div>
-      <div class="phd-flow phd-flow-to-models"><span>Human insights guide model design</span>${icon('arrow')}</div>
-    </figure>
-  </div>`;
-}
-
 function researchTheme(theme, index) {
   return `<section class="phd-theme" id="${esc(theme.id)}" aria-labelledby="${esc(theme.id)}-title">
     <div class="phd-theme-plate" aria-hidden="true">
@@ -69,7 +39,7 @@ function researchTheme(theme, index) {
 }
 
 export function renderPhD() {
-  const { researchIntro, focus, directionsIntro, themes, motivation, readiness } = phdContent;
+  const { researchIntro, directionsIntro, themes, motivation, readiness } = phdContent;
   return `<div class="phd-page">
     <header class="page-heading phd-heading">
       <h1>I’m looking for a PhD position</h1>
@@ -80,7 +50,6 @@ export function renderPhD() {
     <section class="section-block phd-interests" id="research-directions" aria-labelledby="research-interests">
       <h2 id="research-interests">Research interests</h2>
       <p class="phd-research-intro">${esc(researchIntro)}</p>
-      ${researchFocus(focus)}
       <section class="phd-directions" aria-labelledby="phd-directions-title">
         <h3 id="phd-directions-title">Research directions</h3>
         <p class="phd-directions-intro">${esc(directionsIntro)}</p>

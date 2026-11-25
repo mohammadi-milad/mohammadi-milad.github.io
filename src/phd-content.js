@@ -1,5 +1,5 @@
 export const phdContent = {
-  researchIntro: 'During my M.Sc. in IT Engineering at the University of Tehran, my coursework focused on machine learning and deep learning. I conducted my master’s thesis research jointly in the Natural Language Processing Lab and the Computational Cognitive Psychology Lab, both in the Faculty of Electrical and Computer Engineering. My research interests span AI, especially natural language processing (NLP) and computer vision, and interdisciplinary work with psychology, the human sciences, and human–computer interaction (HCI).',
+  researchIntro: 'During my M.Sc. in IT Engineering at the University of Tehran, my coursework focused on machine learning and deep learning. I conducted my master’s thesis research jointly in the Natural Language Processing Lab and the Computational Cognitive Psychology Lab, both in the Faculty of Electrical and Computer Engineering. My research interests span AI, especially natural language processing (NLP) and computer vision.',
   directionsIntro: 'These are the main themes I’m interested in exploring, but my research interests are not limited to them.',
   themes: [
     {
